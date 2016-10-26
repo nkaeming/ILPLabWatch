@@ -43,7 +43,7 @@ def handlerClassFactory(portServiceParam):
                 portOverviewPage = portOverview(self.portService)
                 self.wfile.write(bytes(portOverviewPage.getDisplayString(), "utf-8"))
             elif rqPage[1] == "addPort":
-                addPortPage = addPort(self.portService)
+                addPortPage = addPort(self.portService, rqPage)
                 self.wfile.write(bytes(addPortPage.getDisplayString(), "utf-8"))
             else:
                 statuspage = StatusPage(self.portService)

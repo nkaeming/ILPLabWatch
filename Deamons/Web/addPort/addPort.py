@@ -10,31 +10,48 @@ class addPort:
         self.portService = portService
 
     def getDisplayString(self, opt):
-        #read all available Port types.
-        #TODO: load the place for the prot types from the config
-        #TODO: maybe its better to load the ports by the classnames and not by the file names
+        step = opt[2]
+
+        #load the template file
+        template = open("Deamons/Web/addPort/addPort.html", "r")
+        template = template.read()
+        bs = BeautifulSoup(template, "html.parser")
+        headerTag = bs.find("h1", {"id": "header"})
+
+        #decides which step is the actual step
+        if step == "portSelect":
+            self.portSelectStep(bs)
+            headerTag.append("Select PortType")
+        elif step == "portNumberSelect":
+            self.portNumberSelectStep(bs)
+            headerTag.append("Select PortNumber")
+        elif step == "portConf":
+            self.portConfStep(bs)
+
+        return str(bs.prettify())
+
+    #in this configuration step the port type is selected
+    def portSelectStep(self, bs):
+        # read all available Port types.
+        # TODO: load the place for the prot types from the config
+        # TODO: maybe its better to load the ports by the classnames and not by the file names
         availablePortTypes = []
         for item in os.listdir("Ports/portTypes"):
             if item.endswith(".py") and item != "__init__.py":
                 availablePortTypes.append(str(item).split(".")[0])
 
-
-
-        template = open("Deamons/Web/addPort/addPort.html", "r")
-        template = template.read()
-
-        bs = BeautifulSoup(template, "html.parser")
-
         portSelectTag = bs.find("select", {"id": "portTypeSelect"})
 
-        #adding each available PortType to the selection List.
+        # adding each available PortType to the selection List.
         for type in availablePortTypes:
             tag = bs.new_tag("option", value=type)
             tag.append(type)
             portSelectTag.append(tag)
 
-        return str(bs.prettify())
+    #in this configuration step the port number is selected
+    def portNumberSelectStep(self, bs):
+        ...
 
-    #in this configuration step the port type is selected
-    def portSelectStep(self):
+    #in this coniguration step the final configuration of the port is done
+    def portConfStep(self, bs):
         ...

@@ -28,9 +28,11 @@
                         var name = data[index].name;
                         var state = data[index].state;
                         if (state == 1){
-                            $("#" + name).attr("class", "input-status red")
+                            $("#" + name).attr("class", "input-status red");
+                            $("#" + name).text(state);
                         } else {
-                            $("#" + name).attr("class", "input-status green")
+                            $("#" + name).attr("class", "input-status green");
+                            $("#" + name).text(state);
                         }
                     });
                 });

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Port List</title>
+    <style>
+        .red {
+            background-color: red;
+        }
+        .green {
+            background-color: green;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+    </style>
+    <script src="jquery" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function(){
+			var intervalID;
+			var sec = 1;
+			intervalID = setInterval(refresh, sec * 1000);
+
+			function refresh() {
+                $.getJSON("../api", function (data) {
+                    $.each(data, function (index) {
+                        var name = data[index].name;
+                        var state = data[index].state;
+                        if (state == 1){
+                            $("#" + name).attr("class", "input-status red")
+                        } else {
+                            $("#" + name).attr("class", "input-status green")
+                        }
+                    });
+                });
+			}
+		});
+	</script>
+</head>
+<body>
+    <h1>All current active ports</h1>
+    <table border="1px">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Connector Number</td>
+                <td>Type</td>
+                <td>Logcycle (sec.)</td>
+                <td>State</td>
+                <td>Options</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <a href="../">back to mainpage</a>
+</body>
+</html>

@@ -11,9 +11,9 @@ def addPort(name, port, logged, loginterval):
 def getPortsConf():
     return confReader.readPortConf()["ports"]
 
-#gets the internal Number of an external Port.
-def getInternalPort(externalPort):
-    return confReader.readWiringConf()[str(externalPort)]
+#gets the internal Number of an external Port. nedds also the type of the port.
+def getInternalPort(type, externalPort):
+    return confReader.readWiringConf()[type][str(externalPort)]
 
 #returns the configuration of one port by the external Port number
 def getPortConf(externalPort):

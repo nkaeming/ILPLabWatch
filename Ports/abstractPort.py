@@ -20,7 +20,7 @@ class abstractPort():
     #initialise the Instance and Class Constants
     def __init__(self, externalNumber, settings):
         self.externalNumber = externalNumber
-        self.internalPort = confAdapter.getInternalPort(externalNumber)
+        self.internalPort = confAdapter.getInternalPort(self.getType(), externalNumber)
         self.name = settings["name"]
         self.logCycle = settings["logCycle"]
         self.logging = settings["logging"]

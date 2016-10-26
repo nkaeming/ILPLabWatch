@@ -1,7 +1,9 @@
 #The Port Service is a connector between the backend and all services that uses the port.
-import ConfModule.confAdapter as confAdapter
 import importlib
+
+import ConfModule.confAdapter as confAdapter
 import Ports.PortTypes.DigitalOutputPort as DigitalOutputPort
+
 
 class portService():
     portConfig = {}

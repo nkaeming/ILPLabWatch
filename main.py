@@ -3,7 +3,7 @@
 import multiprocessing as mp
 from multiprocessing.managers import BaseManager
 
-import Deamons.loggerDeamon, Deamons.webDeamon
+import Deamons.webDeamon, Deamons.loggerDeamon
 from Ports.portService import portService
 
 #This if function is to avoid conflicts n multiprocessing on windows systems

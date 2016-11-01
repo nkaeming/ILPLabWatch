@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from Deamons.Web.status.status import Status as StatusPage
-from Deamons.Web.portOverview.portOverview import portOverview as portOverview
-from Deamons.Web.addPort.addPort import addPort as addPort
+from UI.CDN.cdnProvider import cdnProvider
+import UI.Helper.URLStripper as URLStripper
+import importlib
 import json
 
 HOST_NAME = ""
@@ -26,28 +26,39 @@ def handlerClassFactory(portServiceParam):
         def do_GET(self):
             self.do_HEAD()
             rqPath = self.path
-            rqPage = rqPath.split("/")
 
-            #returns the states of the ports
-            if rqPage[1] == "api":
-                ports = self.portService.getPorts()
-                states = {}
-                for portNumber, port in ports.items():
-                    states[portNumber] = port.getCurrentInformation()
-                self.wfile.write(bytes(json.dumps(states), "utf-8"))
-            #returns the jquery framework
-            elif rqPage[1] == "jquery":
-                file = open("Deamons/Web/jquery.js", "r")
-                self.wfile.write(bytes(file.read(), "utf-8"))
-            elif rqPage[1] == "portOverview":
-                portOverviewPage = portOverview(self.portService)
-                self.wfile.write(bytes(portOverviewPage.getDisplayString(), "utf-8"))
-            elif rqPage[1] == "addPort":
-                addPortPage = addPort(self.portService, rqPage)
-                self.wfile.write(bytes(addPortPage.getDisplayString(), "utf-8"))
+            if URLStripper.getModule(rqPath) == "CDN":
+                provider = cdnProvider()
+                self.wfile.write(provider.getDisplayString(rqPath))
             else:
-                statuspage = StatusPage(self.portService)
-                self.wfile.write(bytes(statuspage.getDisplayString(), "utf-8"))
+                module = URLStripper.getModule(rqPath)
+                class_ = getattr(importlib.import_module("UI.Views." + module + "." + module), module)
+                instance = class_()
+                self.wfile.write(instance.getDisplayString(rqPath))
+
+
+            rqPage = rqPath.split("/")
+            if False:
+                #returns the states of the ports
+                if rqPage[1] == "api":
+                    ports = self.portService.getPorts()
+                    states = {}
+                    for portNumber, port in ports.items():
+                        states[portNumber] = port.getCurrentInformation()
+                    self.wfile.write(bytes(json.dumps(states), "utf-8"))
+                #returns the jquery framework
+                elif rqPage[1] == "jquery":
+                    file = open("Deamons/Web/jquery.js", "r")
+                    self.wfile.write(bytes(file.read(), "utf-8"))
+                elif rqPage[1] == "portOverview":
+                    portOverviewPage = portOverview(self.portService)
+                    self.wfile.write(bytes(portOverviewPage.getDisplayString(), "utf-8"))
+                elif rqPage[1] == "addPort":
+                    addPortPage = addPort(self.portService, rqPage)
+                    self.wfile.write(bytes(addPortPage.getDisplayString(), "utf-8"))
+                else:
+                    statuspage = StatusPage(self.portService)
+                    self.wfile.write(bytes(statuspage.getDisplayString(), "utf-8"))
     return responseToRequest
 
 def startWebDeamon(portService):

@@ -2,7 +2,6 @@
 #TODO: Deamons fork
 import multiprocessing as mp
 from multiprocessing.managers import BaseManager
-
 import Deamons.webDeamon, Deamons.loggerDeamon
 from Ports.portService import portService
 
@@ -11,7 +10,6 @@ if __name__ == "__main__":
     BaseManager.register('portService', portService)
     manager = BaseManager()
     manager.start()
-
     ports = manager.portService()
     loggerProcess = mp.Process(target=Deamons.loggerDeamon.loggerDeamon, args=(ports,))
     loggerProcess.start()

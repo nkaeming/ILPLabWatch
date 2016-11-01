@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from UI.CDN.cdnProvider import cdnProvider
 import UI.Helper.URLStripper as URLStripper
+from UI.Views.index.index import index as MainPage
 import importlib
 import json
 
@@ -12,53 +13,43 @@ def handlerClassFactory(portServiceParam):
 
     class responseToRequest(BaseHTTPRequestHandler):
 
-        portService = ""
+        portService = None
 
         def __init__(self, *args, **kwargs):
             self.portService = portServiceParam
             super(responseToRequest, self).__init__(*args, **kwargs)
 
-        def do_HEAD(self):
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
+        def do_HEAD(self, contentType, responseStatus):
+            self.send_response(responseStatus)
+            self.send_header("Content-type", contentType)
             self.end_headers()
 
         def do_GET(self):
-            self.do_HEAD()
             rqPath = self.path
 
+            #if the request is an CDN request it is directed to the CDN Class.
             if URLStripper.getModule(rqPath) == "CDN":
-                provider = cdnProvider()
-                self.wfile.write(provider.getDisplayString(rqPath))
+                provider = cdnProvider(rqPath)
+                contentType = provider.getContentType()
+                status = provider.getStatus()
+                self.do_HEAD(contentType, status)
+                self.wfile.write(provider.getDisplayString())
+            #if no module is given, redirect to index page
+            elif URLStripper.getModule(rqPath) == "":
+                instance = MainPage(rqPath, portServiceParam)
+                contentType = instance.getContentType()
+                status = instance.getStatus()
+                self.do_HEAD(contentType, status)
+                self.wfile.write(instance.getDisplayString())
+            #select the module and direct to the module
             else:
                 module = URLStripper.getModule(rqPath)
                 class_ = getattr(importlib.import_module("UI.Views." + module + "." + module), module)
-                instance = class_()
-                self.wfile.write(instance.getDisplayString(rqPath))
-
-
-            rqPage = rqPath.split("/")
-            if False:
-                #returns the states of the ports
-                if rqPage[1] == "api":
-                    ports = self.portService.getPorts()
-                    states = {}
-                    for portNumber, port in ports.items():
-                        states[portNumber] = port.getCurrentInformation()
-                    self.wfile.write(bytes(json.dumps(states), "utf-8"))
-                #returns the jquery framework
-                elif rqPage[1] == "jquery":
-                    file = open("Deamons/Web/jquery.js", "r")
-                    self.wfile.write(bytes(file.read(), "utf-8"))
-                elif rqPage[1] == "portOverview":
-                    portOverviewPage = portOverview(self.portService)
-                    self.wfile.write(bytes(portOverviewPage.getDisplayString(), "utf-8"))
-                elif rqPage[1] == "addPort":
-                    addPortPage = addPort(self.portService, rqPage)
-                    self.wfile.write(bytes(addPortPage.getDisplayString(), "utf-8"))
-                else:
-                    statuspage = StatusPage(self.portService)
-                    self.wfile.write(bytes(statuspage.getDisplayString(), "utf-8"))
+                instance = class_(rqPath, portServiceParam)
+                contentType = instance.getContentType()
+                status = instance.getStatus()
+                self.do_HEAD(contentType, status)
+                self.wfile.write(instance.getDisplayString())
     return responseToRequest
 
 def startWebDeamon(portService):

@@ -7,7 +7,8 @@ class cdnProvider():
         "bootstrapCSS" : "bootstrap.css",
         "bootstrapTheme" : "bootstrapTheme.css",
         "bootstrapJS" : "bootstrap.js",
-        "style": "style.css"
+        "style": "style.css",
+        "updateStatus": "updateStatus.js"
     }
 
     url = ""
@@ -40,4 +41,5 @@ class cdnProvider():
 
     #returns the DisplayString of the content as byte object
     def getDisplayString(self):
-        return bytes(self.file.read(), "utf-8")
+        if self.status == 200:
+            return bytes(self.file.read(), "utf-8")

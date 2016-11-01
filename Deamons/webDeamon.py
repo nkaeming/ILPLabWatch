@@ -44,12 +44,16 @@ def handlerClassFactory(portServiceParam):
             #select the module and direct to the module
             else:
                 module = URLStripper.getModule(rqPath)
-                class_ = getattr(importlib.import_module("UI.Views." + module + "." + module), module)
-                instance = class_(rqPath, portServiceParam)
-                contentType = instance.getContentType()
-                status = instance.getStatus()
-                self.do_HEAD(contentType, status)
-                self.wfile.write(instance.getDisplayString())
+                try:
+                    class_ = getattr(importlib.import_module("UI.Views." + module + "." + module), module)
+                    instance = class_(rqPath, portServiceParam)
+                    contentType = instance.getContentType()
+                    status = instance.getStatus()
+                    self.do_HEAD(contentType, status)
+                    self.wfile.write(instance.getDisplayString())
+                except ImportError:
+                    self.do_HEAD("text/html", 404)
+                    self.wfile.write(bytes("404 Error detected.", "utf-8"))
     return responseToRequest
 
 def startWebDeamon(portService):

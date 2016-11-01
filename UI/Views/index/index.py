@@ -1,5 +1,5 @@
 import UI.Helper.URLStripper as URLHelper
-import UI.Helper.layout as layout
+import UI.Helper.template as layout
 #This class makes the main page.
 class index():
     portService = None
@@ -10,7 +10,9 @@ class index():
     #returns the DisplayString of the content as byte object
     def getDisplayString(self):
         template = layout.getTemplate()
-        return bytes(str(template), "utf-8")
+        layout.setActiveNav(template, "index")
+        layout.addUpdateStatusJS(template)
+        return bytes(str(template.prettify()), "utf-8")
 
     def getContentType(self):
         return "text/html"

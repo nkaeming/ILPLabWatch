@@ -1,5 +1,5 @@
 #The Port Service is a connector between the backend and all services that uses the port.
-import importlib
+import importlib, os
 
 import ConfModule.confAdapter as confAdapter
 import Ports.PortTypes.DigitalOutputPort as DigitalOutputPort
@@ -25,6 +25,14 @@ class portService():
     #returns a port object of the port.
     def getPort(self, externalPortNumber):
         return self.ports[externalPortNumber]
+
+    #rteurns a list of all available PortTypes.
+    def getPortTypesAvailable(self):
+        availablePortTypes = []
+        for item in os.listdir("Ports/portTypes"):
+            if item.endswith(".py") and item != "__init__.py":
+                availablePortTypes.append(str(item).split(".")[0])
+        return availablePortTypes
 
     #returns a list of all ports that should be logged
     def getLoggedPorts(self):
@@ -56,6 +64,14 @@ class portService():
     def deletePort(self, externalPortNumber):
         #TODO: implement
         return 0
+
+    #returns true if a port already exists
+    def doesPortExistByName(self, name):
+        #:TODO This actually does not work!
+        if name in self.ports.keys():
+            return True
+        else:
+            return False
 
     def setUpLEDs(self):
         statusLED = DigitalOutputPort.DigitalOutputPort("statusLED", {})

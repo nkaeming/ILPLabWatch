@@ -3,7 +3,7 @@ import ConfModule.confReader as confReader
 
 #adds a new port to the configuration
 #name: the display name of the port, port: the port on the connector Box, logged: True or False, loginterval: the loginterval in secondes
-def addPort(name, port, logged, loginterval):
+def addPort(port):
     #Todo: implement
     return 0
 

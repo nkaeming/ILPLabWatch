@@ -20,7 +20,7 @@ class portService():
             type = self.portConfig[port]["type"]
             class_ = getattr(importlib.import_module("Ports.PortTypes." + type), type)
             portInstance = class_(port, self.portConfig[port])
-            self.ports[int(port)] = portInstance
+            self.ports[port] = portInstance
 
     #returns a port object of the port.
     def getPort(self, externalPortNumber):
@@ -67,11 +67,10 @@ class portService():
 
     #returns true if a port already exists
     def doesPortExistByName(self, name):
-        #:TODO This actually does not work!
-        if name in self.ports.keys():
-            return True
-        else:
-            return False
+        for port in self.ports.values():
+            if port.getName() == name:
+                return True
+        return False
 
     def setUpLEDs(self):
         statusLED = DigitalOutputPort.DigitalOutputPort("statusLED", {})

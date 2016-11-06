@@ -3,7 +3,7 @@
 import os, datetime
 
 #log Basedir
-basedir = "../logs/"
+basedir = "logs/"
 
 #Function to read the Logs. inputName: the Name of the Port. startDate: the start date of the daterange, endDate: the end date of the daterange; the type of the dates is an instance of datetime; returns a list of the logData
 def readLog(inputName, startDate, endDate):
@@ -54,5 +54,3 @@ def readLogStr(inputName, startDate, endDate):
     for logPoint in logData:
         outputLines.append(logPoint[0] + " " + logPoint[1] + " " + logPoint[2])
     return outputLines
-
-print(readLog("Test", datetime.datetime.strptime("20.10.2016", "%d.%m.%Y"), datetime.datetime.strptime("21.10.2016", "%d.%m.%Y")))

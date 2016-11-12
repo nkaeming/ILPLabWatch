@@ -19,3 +19,13 @@ def setActiveNav(template, view):
 def addUpdateStatusJS(template):
     newTag = template.new_tag("script", src="/CDN/updateStatus")
     template.body.append(newTag)
+
+#sets the heading on a page.
+def setHeading(template, heading):
+    newTag = template.new_tag("h1")
+    newTag.string = heading
+    addContentTag(template, newTag)
+
+#adds a Tag to the content div
+def addContentTag(template, tag):
+    template.find("div", {"id": "content"}).append(tag)

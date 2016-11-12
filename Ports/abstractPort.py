@@ -65,11 +65,11 @@ class abstractPort():
 
     #retuns the description of a port. Should be implemented in the child class
     def getDescription(self):
-        ...
+        pass
 
     #returns the state of a port. has to be implemented in child class
     def getState(self):
-        ...
+        pass
 
     def getCurrentInformation(self):
         info = {}
@@ -85,3 +85,7 @@ class abstractPort():
     #returns the possible options of the Port.
     def getOptions(self):
         return self.options
+
+    #returns all settings related to the port.
+    def getSettings(self):
+        return self.settings

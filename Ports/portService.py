@@ -16,6 +16,8 @@ class portService():
 
     #set up all the ports. This function should be called when the configuration changed.
     def portSetUp(self):
+        self.portConfig = {}
+        self.ports = {}
         for port in self.portConfig:
             type = self.portConfig[port]["type"]
             class_ = getattr(importlib.import_module("Ports.PortTypes." + type), type)
@@ -72,6 +74,6 @@ class portService():
                 return True
         return False
 
+    #set the status LED's up.
     def setUpLEDs(self):
-        statusLED = DigitalOutputPort.DigitalOutputPort("statusLED", {})
-        warnLED = DigitalOutputPort.DigitalOutputPort("warnLED", {})
+        pass

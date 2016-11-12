@@ -4,8 +4,8 @@ import ConfModule.confReader as confReader
 #adds a new port to the configuration
 #name: the display name of the port, port: the port on the connector Box, logged: True or False, loginterval: the loginterval in secondes
 def addPort(port):
-    #Todo: implement
-    return 0
+    portConf = confReader.readPortConf()
+    portConf["ports"][port.getExternalPort()] = port.getSettings()
 
 #gets the port information of all ports.
 def getPortsConf():
@@ -14,6 +14,10 @@ def getPortsConf():
 #gets the internal Number of an external Port. nedds also the type of the port.
 def getInternalPort(type, externalPort):
     return confReader.readWiringConf()[type][str(externalPort)]
+
+#returns all ports of a type.
+def getInternalPorts(type):
+    return confReader.readWiringConf()[type]
 
 #returns the configuration of one port by the external Port number
 def getPortConf(externalPort):

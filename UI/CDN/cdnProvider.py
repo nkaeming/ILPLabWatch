@@ -1,7 +1,7 @@
 import UI.Helper.URLStripper as URLHelper
 import os
 #This class provides the needed fameworks
-#TODO: Work on Performance.
+#TODO: Create a caching mechanism
 class cdnProvider():
     url = ""
     status = 200

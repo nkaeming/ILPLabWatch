@@ -17,7 +17,10 @@ def getInternalPort(type, externalPort):
 
 #returns all ports of a type.
 def getInternalPorts(type):
-    return confReader.readWiringConf()[type]
+    try:
+        return confReader.readWiringConf()[type]
+    except IndexError:
+        return {}
 
 #returns the configuration of one port by the external Port number
 def getPortConf(externalPort):

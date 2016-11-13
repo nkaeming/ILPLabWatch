@@ -5,7 +5,7 @@ import os
 
 class DigitalInputPort(AbstractPort.abstractPort):
     #port description
-    description = "Anschluss eines 1/0 Schalters."
+    description = "Anschluss eines 1/0 Schalters an die Version 1 Box von Tobi."
 
     #a dic to describe all settings of this port (espacially for the UI)
     options = {

@@ -1,5 +1,5 @@
 import UI.Helper.URLStripper as URLHelper
-import UI.Helper.template as layout
+from UI.Helper.template import template
 import UI.Helper.formGenerator as formGenerator
 #This class represents the site for adding new Ports.
 class addPort:
@@ -12,28 +12,40 @@ class addPort:
 
     #returns the DisplayString of the content as byte object
     def getDisplayString(self):
-        template = layout.getTemplate()
-        layout.setActiveNav(template, "addPort")
-        layout.setHeading(template, "Port hinzufügen")
-        form = formGenerator.getFormTag("GET", "asdasd")
-        formGenerator.addRadioSelector(form, "Wähle den Porttyp aus:", "portTypeSelector", {"IOPort": {"optionText": "IOPort zum Anschließen von IO's", "value":"IOPort", "disabled":False}})
-        formGenerator.addSubmitButton(form, "Weiter")
-        layout.addContentTag(template, form)
+        bs = template("addPort", "Neuen Port hinzufügen")
 
-        rowDiv = layout.getDivTag("row")
-        gridDiv = layout.getDivTag("col-md-6 col-md-offset-2")
-        rowDiv.append(gridDiv)
+        #generate the radioSelector Area
+        radioSelectorRow = bs.addRow()
+        radioSelectorCollumn = bs.getCollumnDiv(12)
+        radioSelectorRow.append(radioSelectorCollumn)
 
-        panelDiv = layout.getDivTag("panel panel-primary")
-        panelHeadingDiv = layout.getDivTag("panel-heading", "Hilfe und Informationen")
-        panelContentDiv = layout.getDivTag("panel-body")
-        panelDiv.insert(panelHeadingDiv)
-        panelDiv.insert(panelContentDiv)
-        gridDiv.insert(panelDiv)
+        formTag = bs.getForm("/addPort/2")
+        radioSelectorCollumn.append(formTag)
 
-        layout.addContentTag(template, rowDiv)
+        availablePorts = self.portService.getAvailablePortsInformations()
+        displayItems = {}
+        for key, value in availablePorts.items():
+            displayItems[key] = {
+                "value": key,
+                "lable": key,
+                "disabled": not value["available"],
+                "description": value["description"]
+            }
 
-        return bytes(str(template.prettify()), "utf-8")
+        radioSelector = bs.getMultipleRadioSelect(displayItems, "portType")
+        formTag.append(bs.getHeading(2, "Bitte Porttyp wählen"))
+        formTag.append(radioSelector)
+        formTag.append(bs.getButton(lable="Weiter", style="success"))
+
+        #generate the infoArea
+        infoRow = bs.addRow()
+        infoCollumn = bs.getCollumnDiv(12)
+        infoRow.append(infoCollumn)
+
+        infoPanel = bs.getPanel("Das System überprüft alle Ports auf ihre Anschlussverfügbarkeit. Ist ein Porttyp nicht mehr anwählbar, so wurden bereits alle Anschlüsse dieses Typs belegt oder die Connector Box verfügt über keine dieser Anschlüsse. Um bereits belegte Anschlüsse frei zu geben, müssen die entsprechenden Ports in der Übersicht gelöscht werden oder die wiringConf auf die Connector Box angepassst werden.", header="Manche Optionen sind nicht wählbar. Warum?")
+        infoCollumn.append(infoPanel)
+
+        return bs.getPrettifyedByteObject()
 
     def getContentType(self):
         return "text/html"

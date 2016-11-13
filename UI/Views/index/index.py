@@ -9,13 +9,7 @@ class index():
 
     #returns the DisplayString of the content as byte object
     def getDisplayString(self):
-        bs = template("index")
-        lastRow = bs.addRow()
-        container = bs.getCollumnDiv(12)
-        header = bs.getHeading(1, "ILP Lab Watch")
-        header.append(bs.getIcon("globe"))
-        container.append(header)
-        lastRow.append(container)
+        bs = template("index", "Aktueller Status")
 
         return bs.getPrettifyedByteObject()
 

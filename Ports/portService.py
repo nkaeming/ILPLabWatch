@@ -2,7 +2,7 @@
 import importlib, os
 
 import ConfModule.confAdapter as confAdapter
-import Ports.PortTypes.DigitalOutputPort as DigitalOutputPort
+import Ports.abstractPort as abstractPort
 
 
 class portService():
@@ -77,3 +77,39 @@ class portService():
     #set the status LED's up.
     def setUpLEDs(self):
         pass
+
+    # returns the description of a port Type.
+    def getDescriptionOfPortType(self, type):
+        class_ = getattr(importlib.import_module("Ports.PortTypes." + type), type)
+        return class_.description
+
+    # returns the options of a port type
+    def getOptionsOfPortType(self, type):
+        klasse = getattr(importlib.import_module("Ports.PortTypes." + type), type)
+        options = {**klasse.options, **abstractPort.abstractPort.superOptions}
+        return options
+
+    # returns a dic of all available ports with informations
+    def getAvailablePortsInformations(self):
+        availablePorts = self.getPortTypesAvailable()
+        availablePortsInformation = {}
+        for port in availablePorts:
+            availablePortsInformation[port] = {
+                "description": self.getDescriptionOfPortType(port),
+                "options": self.getOptionsOfPortType(port),
+                #TODO: Diese Funktion hat massive Fehler verursacht. Bitte prüfen.
+                "available": True #self.isPortTypeAvailable(port),
+            }
+        return availablePortsInformation
+
+    # returns true if a port type is still available. That means a free internal Port in the wiring conf
+    def isPortTypeAvailable(self, type):
+        # first check if the wiringConf has some configuration for this port type.
+        internalPorts = confAdapter.getInternalPorts(type)
+        if internalPorts == {}:
+            return False
+        # check if there are free ports to configure
+        for key, value in internalPorts.items():
+            if self.getPort(key) == None:
+                return True
+        return False

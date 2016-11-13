@@ -1,5 +1,5 @@
 import UI.Helper.URLStripper as URLHelper
-import UI.Helper.template as layout
+from UI.Helper.template import template
 #This class makes the main page.
 class index():
     portService = None
@@ -9,10 +9,15 @@ class index():
 
     #returns the DisplayString of the content as byte object
     def getDisplayString(self):
-        template = layout.getTemplate()
-        layout.setActiveNav(template, "index")
-        layout.addUpdateStatusJS(template)
-        return bytes(str(template.prettify()), "utf-8")
+        bs = template("index")
+        lastRow = bs.addRow()
+        container = bs.getCollumnDiv(12)
+        header = bs.getHeading(1, "ILP Lab Watch")
+        header.append(bs.getIcon("globe"))
+        container.append(header)
+        lastRow.append(container)
+
+        return bs.getPrettifyedByteObject()
 
     def getContentType(self):
         return "text/html"

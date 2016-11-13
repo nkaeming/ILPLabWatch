@@ -11,9 +11,11 @@ def getFormTag(method, action, formType = ""):
 
 #adds a submit Button to the form.
 def addSubmitButton(formTag, lable):
-    buttonTag = formTag.new_tag("button", {"type": "submit", "class": "btn btn-primary"})
+    buttonTag = formTag.new_tag("button")
+    buttonTag["type"] = "submit"
+    buttonTag["class"] = "btn btn-primary"
     buttonTag.string = lable
-    formTag.append(buttonTag)
+    formTag.insert(buttonTag)
 
 #adds a Radioselector to the form. Radios is a dict
 def addRadioSelector(formTag, lable, name, radios):
@@ -22,24 +24,24 @@ def addRadioSelector(formTag, lable, name, radios):
     headingLable = formTag.new_tag("lable")
     headingLable["for"] = name
     headingLable.string = lable
-    divTag.append(headingLable)
+    divTag.div.insert(headingLable)
 
     for key, value in radios.items():
         #generate formal html code for each element
         outDiv = formTag.new_tag("div")
         outDiv["class"] = "radio"
         lableTag = formTag.new_tag("lable")
-        outDiv.append(lableTag)
+        outDiv.insert(lableTag)
 
         #generate the inputTag
         inputTag = formTag.new_tag("input", type="radio", id="radio-" + key,  value=value["value"])
         if value["disabled"] == True:
             inputTag["disabled"] = "disabled"
-        lableTag.append(inputTag)
-        lableTag.append(value["optionText"])
-        divTag.append(outDiv)
+        lableTag.insert(inputTag)
+        lableTag.insert(value["optionText"])
+        divTag.insert(outDiv)
 
-    formTag.append(divTag)
+    formTag.insert(divTag)
 
 def helperGetDivAround():
     bs = BeautifulSoup("", "html.parser")

@@ -1,33 +1,21 @@
 import UI.Helper.URLStripper as URLHelper
+import os
 #This class provides the needed fameworks
 #TODO: Work on Performance.
 class cdnProvider():
-    possibleFrameworks = {
-        "jquery" : "jquery.js",
-        "bootstrapCSS" : "bootstrap.css",
-        "bootstrapTheme" : "bootstrapTheme.css",
-        "bootstrapJS" : "bootstrap.js",
-        "style": "style.css",
-        "updateStatus": "updateStatus.js"
-    }
-
     url = ""
     status = 200
-    contentType = "text/html"
-    file = None
 
     def __init__(self, URL):
         self.url = URL
-        frameworkName = URLHelper.getSubmodule(self.url)
-        if frameworkName in self.possibleFrameworks:
-            filename = self.possibleFrameworks[frameworkName]
-            self.file = open("UI/CDN/files/" + filename, "r")
+        itemName = URLHelper.getSubmodule(self.url)
+        availableItems = []
+        for item in os.listdir("UI/CDN/files"):
+            availableItems.append(str(item))
+
+        if itemName in availableItems:
+            self.file = open("UI/CDN/files/" + itemName, "rb")
             self.status = 200
-            type = filename.split(".")[1]
-            if type == "js":
-                self.contentType = "text/javascript"
-            elif type == "css":
-                self.contentType = "text/css"
         else:
             self.status = 404
 
@@ -37,9 +25,9 @@ class cdnProvider():
 
     #returns the content type of the retuned byteobject
     def getContentType(self):
-        return self.contentType
+        return ""
 
     #returns the DisplayString of the content as byte object
     def getDisplayString(self):
         if self.status == 200:
-            return bytes(self.file.read(), "utf-8")
+            return self.file.read()

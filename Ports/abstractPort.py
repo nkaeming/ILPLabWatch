@@ -17,36 +17,32 @@ class abstractPort():
             "type": "text",
             "tab": -4,
             "name": "Portbezeichnung",
-            "description": "Der Name des Ports bestehend aus a-z, A-Z und 0-9.",
+            "description": "Der Name des Ports bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.",
             "standard": ""
         },
         "logCycle": {
             "type": "number",
             "name" : "Logintervall",
-            "description": "Der Loginterval in Sekunden",
+            "description": "Das Loginterval in Sekunden",
             "standard": 5,
+            "min": 1,
+            "max": 3600,
+            "step": 1,
             "tab": -2
         },
         "logging": {
             "type": "boolean",
             "name": "Logging",
-            "description": "Wenn diese Einsetllung aus ist, so wird der Port nicht geloggt.",
+            "description": "Wenn diese Einstellung aus ist, so wird der Port nicht geloggt.",
             "standard": 1,
             "tab": -3
-        },
-        "unit": {
-            "type": "text",
-            "name": "Einheit",
-            "description": "Die Einheit des Portausgangswertes.",
-            "standard": "",
-            "tab": -1
         },
         "alertValues": {
             "name": "Schwellwerte",
             "type": "multipleRangeSelect",
             "description": "Alle ausgewählten Wertebereiche lösen Alerts aus. Diese können später zugewiesen werden.",
             "standard": {},
-            "tab": 0
+            "tab": -1
         }
     }
 

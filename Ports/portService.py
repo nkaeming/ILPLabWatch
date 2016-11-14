@@ -112,3 +112,12 @@ class portService():
             if key not in self.getPorts().keys():
                 return True
         return False
+
+    # returns a list of all free external Ports.
+    def getFreeExternalPorts(self, type):
+        internalPorts = confAdapter.getInternalPorts(type)
+        freePorts = []
+        for key in internalPorts.keys():
+            if key not in self.getPorts().keys():
+               freePorts.append(key)
+        return freePorts

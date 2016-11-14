@@ -60,5 +60,5 @@ def startWebDeamon(portService):
     serverClass = HTTPServer
     handlerClass = handlerClassFactory(portService)
     httpd = serverClass((HOST_NAME, PORT_NUMBER), handlerClass)
-    print("Webservice started")
+    print("webservice started")
     httpd.serve_forever()

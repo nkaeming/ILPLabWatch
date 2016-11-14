@@ -11,7 +11,6 @@ if __name__ == "__main__":
     manager = BaseManager()
     manager.start()
     ports = manager.portService()
-    print(ports.getPorts())
     loggerProcess = mp.Process(target=Deamons.loggerDeamon.loggerDeamon, args=(ports,))
     loggerProcess.start()
     webProcess = mp.Process(target=Deamons.webDeamon.startWebDeamon, args=(ports,))

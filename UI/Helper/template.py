@@ -94,6 +94,12 @@ class template:
         buttonTag.append(lable)
         return buttonTag
 
+    # get strong rendered text
+    def getStrongRenderedText(self, text):
+        tag = self.tagBS.new_tag("strong")
+        tag.string = text
+        return tag
+
     # returns a form tag. action is the URL to direct after submitting
     def getForm(self, action):
         return self.tagBS.new_tag("form", method="GET", action=action)
@@ -148,4 +154,108 @@ class template:
             tooltipTag["data-placement"] = placement
         return tooltipTag
 
-    # TODO: implement functions to create text, boolean, number and numberrange Formfields.
+    # returns a textinput for forms.
+    def getTextInput(self, name="", placeholder="", length=35, helpText="", value="", lable=""):
+        divFormGroup = self.tagBS.new_tag("div")
+        divFormGroup["class"] = "form-group"
+        lableTag = self.tagBS.new_tag("lable")
+        lableTag["for"] = "formInput-" + name
+        lableTag.append(self.getStrongRenderedText(lable))
+        inputTag = self.tagBS.new_tag("input", id= "formInput-" + name, placeholder=placeholder, maxlength=length, value = value)
+        inputTag["class"] = "form-control"
+        inputTag["name"] = name
+        inputTag["type"] = "text"
+
+        divFormGroup.append(lableTag)
+        divFormGroup.append(inputTag)
+
+        if helpText != "":
+            inputTag["aria-describedby"] = "helpBlock-" + name
+            divFormGroup.append(self.getInputHelpSpan(helpText, "helpBlock-" + name))
+
+        return divFormGroup
+
+    # returns a checkbox
+    def getCheckboxInput(self, name="", value=False, helpText="", lable=""):
+        divFormGroup = self.tagBS.new_tag("div")
+        divFormGroup["class"] = "checkbox"
+        lableTag = self.tagBS.new_tag("lable")
+        inputTag = self.tagBS.new_tag("input", type="checkbox")
+        inputTag["name"] = name
+        if value == True:
+            inputTag["checked"] = "checked"
+        inputTag["id"] = "formInput-" + name
+        divFormGroup.append(lableTag)
+        divFormGroup.append(lable)
+        lableTag.append(inputTag)
+        if helpText != "":
+            inputTag["aria-describedby"] = "helpBlock-" + name
+            divFormGroup.append(self.getInputHelpSpan(helpText, "helpBlock-" + name))
+
+        return divFormGroup
+
+    # returns a numberinput for forms.
+    def getNumberInput(self, name="", minValue=0, maxValue=10, step=1, helpText="", value=0, lable=""):
+        divFormGroup = self.tagBS.new_tag("div")
+        divFormGroup["class"] = "form-group"
+        lableTag = self.tagBS.new_tag("lable")
+        lableTag["for"] = "formInput-" + name
+        lableTag.append(self.getStrongRenderedText(lable))
+        inputTag = self.tagBS.new_tag("input", id= "formInput-" + name, value =str(value))
+        inputTag["class"] = "form-control"
+        inputTag["name"] = name
+        inputTag["type"] = "number"
+        inputTag["min"] = str(minValue)
+        inputTag["max"] = str(maxValue)
+        inputTag["step"] = str(step)
+
+        divFormGroup.append(lableTag)
+        divFormGroup.append(inputTag)
+
+        if helpText != "":
+            inputTag["aria-describedby"] = "helpBlock-" + name
+            divFormGroup.append(self.getInputHelpSpan(helpText, "helpBlock-" + name))
+
+        return divFormGroup
+
+    # returns a select input for forms
+    def getSelectInput(self, name="", helpText="", values={}, lable=""):
+        divFormGroup = self.tagBS.new_tag("div")
+        divFormGroup["class"] = "form-group"
+        lableTag = self.tagBS.new_tag("lable")
+        lableTag["for"] = "formInput-" + name
+        lableTag.append(self.getStrongRenderedText(lable))
+        inputTag = self.tagBS.new_tag("select", id= "formInput-" + name)
+        inputTag["class"] = "form-control"
+        inputTag["name"] = name
+
+        for displayName in sorted(values.keys(), reverse=False):
+            optionTag = self.tagBS.new_tag("option")
+            optionTag["value"] = values[displayName]
+            optionTag.string = displayName
+            inputTag.append(optionTag)
+
+        divFormGroup.append(lableTag)
+        divFormGroup.append(inputTag)
+
+        if helpText != "":
+            inputTag["aria-describedby"] = "helpBlock-" + name
+            divFormGroup.append(self.getInputHelpSpan(helpText, "helpBlock-" + name))
+
+        return divFormGroup
+
+    # returns a hidden input
+    def getHiddenInput(self, name, value):
+        inputTag = self.tagBS.new_tag("input", type="hidden", value=value)
+        inputTag["name"] = name
+        return inputTag
+
+    # returns a help span for form inputs.
+    def getInputHelpSpan(self, helpText, id):
+        helpTag = self.tagBS.new_tag("span")
+        helpTag["class"] = "help-block"
+        helpTag["id"] = id
+        helpTag.string = helpText
+        return helpTag
+
+    # TODO: implement functions to create numberrange Formfields.

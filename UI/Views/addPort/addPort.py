@@ -12,11 +12,11 @@ class addPort:
 
     #returns the DisplayString of the content as byte object
     def getDisplayString(self):
-        if URLHelper.getSubmodule(self.rqPath) == "selectPortType" or URLHelper.getSubmodule(self.rqPath) == "":
+        if URLHelper.getSubmodule(self.rqPath) == "setPortSettings":
+            params = URLHelper.getGetInormations(self.rqPath)
+            output = self.setPortSettings(params["portType"])
+        else:
             output = self.selectPortType()
-        elif URLHelper.getSubmodule(self.rqPath) == "setPortSettings":
-            params = URLHelper.getGetInormations(self.rqURL)
-            output = self.setPortSetting(params["portType"])
 
         return output.getPrettifyedByteObject()
 
@@ -29,7 +29,7 @@ class addPort:
         radioSelectorCollumn = bs.getCollumnDiv(12)
         radioSelectorRow.append(radioSelectorCollumn)
 
-        formTag = bs.getForm("/addPort/2")
+        formTag = bs.getForm("/addPort/setPortSettings")
         radioSelectorCollumn.append(formTag)
 
         availablePorts = self.portService.getAvailablePortsInformations()
@@ -59,14 +59,36 @@ class addPort:
 
     # the second step is to configure the Port.
     def setPortSettings(self, portType):
-        bs = template("addPort", "Neuen Port hinzufügen (Porttyp auswählen)")
+        bs = template("addPort", "Neuen Port hinzufügen (" + portType + ")")
         # alle Portoptionen die möglich sind.
         portOptions = self.portService.getOptionsOfPortType(portType)
 
-        # generiere für jede Option ein eigenes Eingabefeld
-        for option in portOptions.keys():
-            # TODO: implementiere die Auswahl der Einstellungen in der richtigen Reiehnfolge und erstelle Liste mit Feldern.
-            pass
+        formRow = bs.addRow()
+        formCollumn = bs.getCollumnDiv(6)
+        formRow.append(formCollumn)
+
+        formTag = bs.getForm("savePort")
+        formCollumn.append(formTag)
+
+        freePorts = self.portService.getFreeExternalPorts(portType)
+
+        # adds the Porttype as a hidden input.
+        formTag.append(bs.getHiddenInput("portType", portType))
+
+        formTag.append(bs.getSelectInput(name="externalPort", helpText="Wähle den Anschlussport an der Connector Box.", values=dict(zip(freePorts, freePorts)), lable="Anschlussport"))
+
+        # generiere für jede Option ein eigenes Eingabefeld. Reiehnfolge richtet sich nach tab option.
+        for option in sorted(portOptions, key=lambda optionName: portOptions[optionName]["tab"]):
+            options =  portOptions[option]
+            if options["type"] == "text":
+                formTag.append(bs.getTextInput(name=option, helpText=options["description"], lable=options["name"]))
+            elif options["type"] == "boolean":
+                formTag.append(bs.getCheckboxInput(name=option, helpText=options["description"], lable=options["name"], value=options["standard"]))
+            elif options["type"] == "number":
+                formTag.append(bs.getNumberInput(name=option, helpText=options["description"], lable=options["name"], value=options["standard"], minValue=options["min"], maxValue=options["max"], step=options["step"]))
+
+        formTag.append(bs.getButton(type="submit", style="primary", icon="save", lable="Port hinzufügen"))
+        return bs
 
     def getContentType(self):
         return "text/html"

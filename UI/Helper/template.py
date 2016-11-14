@@ -146,5 +146,6 @@ class template:
         tooltipTag["title"] = tooltip
         if placement != "":
             tooltipTag["data-placement"] = placement
-        print(tooltipTag)
         return tooltipTag
+
+    # TODO: implement functions to create text, boolean, number and numberrange Formfields.

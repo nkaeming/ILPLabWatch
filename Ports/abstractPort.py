@@ -15,18 +15,38 @@ class abstractPort():
     superOptions = {
         "name": {
             "type": "text",
-            "description": "Der Name des Ports",
+            "tab": -4,
+            "name": "Portbezeichnung",
+            "description": "Der Name des Ports bestehend aus a-z, A-Z und 0-9.",
             "standard": ""
         },
         "logCycle": {
             "type": "number",
+            "name" : "Logintervall",
             "description": "Der Loginterval in Sekunden",
-            "standard": 5
+            "standard": 5,
+            "tab": -2
         },
         "logging": {
             "type": "boolean",
-            "description": "Wenn diese Einsetllung aus ist, so wird er Port nicht geloggt.",
-            "standard": 1
+            "name": "Logging",
+            "description": "Wenn diese Einsetllung aus ist, so wird der Port nicht geloggt.",
+            "standard": 1,
+            "tab": -3
+        },
+        "unit": {
+            "type": "text",
+            "name": "Einheit",
+            "description": "Die Einheit des Portausgangswertes.",
+            "standard": "",
+            "tab": -1
+        },
+        "alertValues": {
+            "name": "Schwellwerte",
+            "type": "multipleRangeSelect",
+            "description": "Alle ausgewählten Wertebereiche lösen Alerts aus. Diese können später zugewiesen werden.",
+            "standard": {},
+            "tab": 0
         }
     }
 
@@ -82,10 +102,14 @@ class abstractPort():
         info["state"] = self.getState()
         return info
 
-    #returns the possible options of the Port.
+    # returns the possible options of the Port.
     def getOptions(self):
         return self.options
 
-    #returns all settings related to the port.
+    # returns all settings related to the port.
     def getSettings(self):
         return self.settings
+
+    # returns the range of available Values (important for charts and alerts). The return is a list with the format: [lowest,highest,step]
+    def getValueRange(self):
+        pass

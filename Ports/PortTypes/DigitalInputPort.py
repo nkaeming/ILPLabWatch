@@ -11,8 +11,10 @@ class DigitalInputPort(AbstractPort.abstractPort):
     options = {
         "inverted": {
             "type": "boolean",
-            "description": "If enabled the Port is inverted.",
-            "standard": 0
+            "description": "Wenn aktiv, wird dieser Port invertiert.",
+            "standard": 0,
+            "name": "Invertieren",
+            "tab": 1
         }
     }
 
@@ -45,3 +47,7 @@ class DigitalInputPort(AbstractPort.abstractPort):
 
     def getDescription(self):
         return self.description
+
+    # returns the available valueRange of this Port. An IO Port can only be 1 or 0.
+    def getValueRange(self):
+        return [0,1,1]

@@ -16,9 +16,8 @@ class portService():
 
     #set up all the ports. This function should be called when the configuration changed.
     def portSetUp(self):
-        self.portConfig = {}
         self.ports = {}
-        for port in self.portConfig:
+        for port in self.portConfig.keys():
             type = self.portConfig[port]["type"]
             class_ = getattr(importlib.import_module("Ports.PortTypes." + type), type)
             portInstance = class_(port, self.portConfig[port])
@@ -98,7 +97,7 @@ class portService():
                 "description": self.getDescriptionOfPortType(port),
                 "options": self.getOptionsOfPortType(port),
                 #TODO: Diese Funktion hat massive Fehler verursacht. Bitte prüfen.
-                "available": True #self.isPortTypeAvailable(port),
+                "available": self.isPortTypeAvailable(port),
             }
         return availablePortsInformation
 
@@ -109,7 +108,7 @@ class portService():
         if internalPorts == {}:
             return False
         # check if there are free ports to configure
-        for key, value in internalPorts.items():
-            if self.getPort(key) == None:
+        for key in internalPorts.keys():
+            if key not in self.getPorts().keys():
                 return True
         return False

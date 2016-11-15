@@ -81,7 +81,7 @@ class addPort:
         for option in sorted(portOptions, key=lambda optionName: portOptions[optionName]["tab"]):
             options =  portOptions[option]
             if options["type"] == "text":
-                formTag.append(bs.getTextInput(name=option, helpText=options["description"], lable=options["name"]))
+                formTag.append(bs.getTextInput(name=option, helpText=options["description"], lable=options["name"], placeholder=options["standard"]))
             elif options["type"] == "boolean":
                 formTag.append(bs.getCheckboxInput(name=option, helpText=options["description"], lable=options["name"], value=options["standard"]))
             elif options["type"] == "number":

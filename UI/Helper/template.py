@@ -114,7 +114,7 @@ class template:
             outDiv = self.tagBS.new_tag("div")
             outDiv["class"] = "radio"
 
-            lableTag = self.tagBS.new_tag("lable")
+            lableTag = self.tagBS.new_tag("label")
             outDiv.append(lableTag)
 
             # generate the inputTag
@@ -122,6 +122,7 @@ class template:
             inputTag["name"] = name
             if value["disabled"] == True:
                 inputTag["disabled"] = "disabled"
+                outDiv["class"] = outDiv["class"] + " disabled"
 
             lableTag.append(inputTag)
             lableTag.append(value["lable"])
@@ -130,7 +131,7 @@ class template:
                 tooltip = self.getTooltipIcon(icon="question-sign", placement="right", tooltip=value["description"])
                 lableTag.append(tooltip)
 
-            formGroup.append(lableTag)
+            formGroup.append(outDiv)
 
         return formGroup
 
@@ -158,15 +159,15 @@ class template:
     def getTextInput(self, name="", placeholder="", length=35, helpText="", value="", lable=""):
         divFormGroup = self.tagBS.new_tag("div")
         divFormGroup["class"] = "form-group"
-        lableTag = self.tagBS.new_tag("lable")
-        lableTag["for"] = "formInput-" + name
-        lableTag.append(self.getStrongRenderedText(lable))
+        labelTag = self.tagBS.new_tag("label")
+        labelTag["for"] = "formInput-" + name
+        labelTag.append(self.getStrongRenderedText(lable))
         inputTag = self.tagBS.new_tag("input", id= "formInput-" + name, placeholder=placeholder, maxlength=length, value = value)
         inputTag["class"] = "form-control"
         inputTag["name"] = name
         inputTag["type"] = "text"
 
-        divFormGroup.append(lableTag)
+        divFormGroup.append(labelTag)
         divFormGroup.append(inputTag)
 
         if helpText != "":
@@ -179,15 +180,15 @@ class template:
     def getCheckboxInput(self, name="", value=False, helpText="", lable=""):
         divFormGroup = self.tagBS.new_tag("div")
         divFormGroup["class"] = "checkbox"
-        lableTag = self.tagBS.new_tag("lable")
+        labelTag = self.tagBS.new_tag("label")
         inputTag = self.tagBS.new_tag("input", type="checkbox")
         inputTag["name"] = name
         if value == True:
             inputTag["checked"] = "checked"
         inputTag["id"] = "formInput-" + name
-        divFormGroup.append(lableTag)
+        divFormGroup.append(labelTag)
         divFormGroup.append(lable)
-        lableTag.append(inputTag)
+        labelTag.append(inputTag)
         if helpText != "":
             inputTag["aria-describedby"] = "helpBlock-" + name
             divFormGroup.append(self.getInputHelpSpan(helpText, "helpBlock-" + name))
@@ -198,9 +199,9 @@ class template:
     def getNumberInput(self, name="", minValue=0, maxValue=10, step=1, helpText="", value=0, lable=""):
         divFormGroup = self.tagBS.new_tag("div")
         divFormGroup["class"] = "form-group"
-        lableTag = self.tagBS.new_tag("lable")
-        lableTag["for"] = "formInput-" + name
-        lableTag.append(self.getStrongRenderedText(lable))
+        labelTag = self.tagBS.new_tag("label")
+        labelTag["for"] = "formInput-" + name
+        labelTag.append(self.getStrongRenderedText(lable))
         inputTag = self.tagBS.new_tag("input", id= "formInput-" + name, value =str(value))
         inputTag["class"] = "form-control"
         inputTag["name"] = name
@@ -209,7 +210,7 @@ class template:
         inputTag["max"] = str(maxValue)
         inputTag["step"] = str(step)
 
-        divFormGroup.append(lableTag)
+        divFormGroup.append(labelTag)
         divFormGroup.append(inputTag)
 
         if helpText != "":
@@ -222,9 +223,9 @@ class template:
     def getSelectInput(self, name="", helpText="", values={}, lable=""):
         divFormGroup = self.tagBS.new_tag("div")
         divFormGroup["class"] = "form-group"
-        lableTag = self.tagBS.new_tag("lable")
-        lableTag["for"] = "formInput-" + name
-        lableTag.append(self.getStrongRenderedText(lable))
+        labelTag = self.tagBS.new_tag("label")
+        labelTag["for"] = "formInput-" + name
+        labelTag.append(self.getStrongRenderedText(lable))
         inputTag = self.tagBS.new_tag("select", id= "formInput-" + name)
         inputTag["class"] = "form-control"
         inputTag["name"] = name
@@ -235,7 +236,7 @@ class template:
             optionTag.string = displayName
             inputTag.append(optionTag)
 
-        divFormGroup.append(lableTag)
+        divFormGroup.append(labelTag)
         divFormGroup.append(inputTag)
 
         if helpText != "":

@@ -4,10 +4,13 @@ import os
 
 
 class DigitalInputPort(AbstractPort.abstractPort):
-    #port description
+    # port description
     description = "Anschluss eines 1/0 Schalters an die Version 1 Box von Tobi."
 
-    #a dic to describe all settings of this port (espacially for the UI)
+    # returns the available valueRange of this Port. An IO Port can only be 1 or 0.
+    valueRange = [0,1,1]
+
+    # a dic to describe all settings of this port (espacially for the UI)
     options = {
         "inverted": {
             "type": "boolean",
@@ -20,16 +23,9 @@ class DigitalInputPort(AbstractPort.abstractPort):
 
     #creates the port and set it up in the GPIO settings.
     def __init__(self, externalPort, settings):
-        self.settings = settings
-        super().__init__(int(externalPort))
-        self.inputPort = True
+        super().__init__(externalPort, settings)
         #TODO: in production uncomment the following line
         #os.system("gpio -g mode " + str(self.getInternalPort()) + " out")
-
-    def getCurrentInformation(self):
-        info = super().getCurrentInformation()
-        info["inverted"] = self.settings["inverted"]
-        return info
 
     #cheks the actual state of the port and returns 0 for an open switch and 1 for a colsed switch
     def getState(self):
@@ -45,9 +41,8 @@ class DigitalInputPort(AbstractPort.abstractPort):
                 value = 1
         return value
 
-    def getDescription(self):
-        return self.description
-
-    # returns the available valueRange of this Port. An IO Port can only be 1 or 0.
     def getValueRange(self):
-        return [0,1,1]
+        return self.valueRange
+
+    def getOptions(self):
+        return {**super().superOptions, **self.options}

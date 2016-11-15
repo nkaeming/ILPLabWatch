@@ -7,10 +7,10 @@ class abstractPort():
     externalNumber = 0
     #The internal Rasberry Pi Port.
     internalPort = 0
-    #is input Port
-    inputPort = False
-    #the settings of the Port.
+    # the actual settings of the Port
     settings = {}
+    #the settings of the Port.
+    superSettings = {}
     #super Options
     superOptions = {
         "name": {
@@ -46,10 +46,10 @@ class abstractPort():
         }
     }
 
-
-    #initialise the Instance and Class Constants
-    def __init__(self, externalNumber):
+   #initialise the Instance and Class Constants
+    def __init__(self, externalNumber, settings):
         self.externalNumber = externalNumber
+        self.settings = {**self.superSettings, **settings}
         self.internalPort = confAdapter.getInternalPort(self.getType(), externalNumber)
 
     def getExternalPort(self):
@@ -75,32 +75,24 @@ class abstractPort():
     def writeLog(self):
         logWriter.writeLog(self)
 
-    #returns true if the port is an input port
-    def isInputPort(self):
-        return self.inputPort
-
     #retuns the description of a port. Should be implemented in the child class
     def getDescription(self):
-        pass
+        return self.description
 
     #returns the state of a port. has to be implemented in child class
     def getState(self):
-        pass
+        raise NotImplementedError("Method not implemented in child class.")
 
     def getCurrentInformation(self):
-        info = {}
+        info = self.getSettings()
         info["port"] = self.externalNumber
-        info["name"] = self.getName()
         info["type"] = self.__class__.__name__
-        info["logging"] = self.getLoggingSetting()
-        info["logCycle"] = self.getLogCycle()
-        info["description"] = self.getDescription()
         info["state"] = self.getState()
         return info
 
     # returns the possible options of the Port.
     def getOptions(self):
-        return self.options
+        raise NotImplementedError("Method not implemented in child class.")
 
     # returns all settings related to the port.
     def getSettings(self):
@@ -108,4 +100,4 @@ class abstractPort():
 
     # returns the range of available Values (important for charts and alerts). The return is a list with the format: [lowest,highest,step]
     def getValueRange(self):
-        pass
+        raise NotImplementedError("Method not implemented in child class.")

@@ -73,7 +73,7 @@ class template:
         # adding the body
         bodyDiv = self.tagBS.new_tag("div")
         bodyDiv["class"] = "panel-body"
-        bodyDiv.string = body
+        bodyDiv.append(body)
         panelDivTag.append(bodyDiv)
         # adding the footer if necessary
         if footer != "":
@@ -156,12 +156,12 @@ class template:
         return tooltipTag
 
     # returns a textinput for forms.
-    def getTextInput(self, name="", placeholder="", length=35, helpText="", value="", lable=""):
+    def getTextInput(self, name="", placeholder="", length=35, helpText="", value="", label=""):
         divFormGroup = self.tagBS.new_tag("div")
         divFormGroup["class"] = "form-group"
         labelTag = self.tagBS.new_tag("label")
         labelTag["for"] = "formInput-" + name
-        labelTag.append(self.getStrongRenderedText(lable))
+        labelTag.append(self.getStrongRenderedText(label))
         inputTag = self.tagBS.new_tag("input", id= "formInput-" + name, placeholder=placeholder, maxlength=length, value = value)
         inputTag["class"] = "form-control"
         inputTag["name"] = name
@@ -177,18 +177,21 @@ class template:
         return divFormGroup
 
     # returns a checkbox
-    def getCheckboxInput(self, name="", value=False, helpText="", lable=""):
+    def getCheckboxInput(self, name="", value=False, helpText="", label=""):
         divFormGroup = self.tagBS.new_tag("div")
         divFormGroup["class"] = "checkbox"
         labelTag = self.tagBS.new_tag("label")
         inputTag = self.tagBS.new_tag("input", type="checkbox")
         inputTag["name"] = name
-        if value == True:
+        if bool(value) == True:
+            inputTag["checked"] = "checked"
+
+        if value == "on":
             inputTag["checked"] = "checked"
         inputTag["id"] = "formInput-" + name
         divFormGroup.append(labelTag)
-        divFormGroup.append(lable)
         labelTag.append(inputTag)
+        labelTag.append(label)
         if helpText != "":
             inputTag["aria-describedby"] = "helpBlock-" + name
             divFormGroup.append(self.getInputHelpSpan(helpText, "helpBlock-" + name))
@@ -196,12 +199,12 @@ class template:
         return divFormGroup
 
     # returns a numberinput for forms.
-    def getNumberInput(self, name="", minValue=0, maxValue=10, step=1, helpText="", value=0, lable=""):
+    def getNumberInput(self, name="", minValue=0, maxValue=10, step=1, helpText="", value=0, label=""):
         divFormGroup = self.tagBS.new_tag("div")
         divFormGroup["class"] = "form-group"
         labelTag = self.tagBS.new_tag("label")
         labelTag["for"] = "formInput-" + name
-        labelTag.append(self.getStrongRenderedText(lable))
+        labelTag.append(self.getStrongRenderedText(label))
         inputTag = self.tagBS.new_tag("input", id= "formInput-" + name, value =str(value))
         inputTag["class"] = "form-control"
         inputTag["name"] = name
@@ -220,7 +223,7 @@ class template:
         return divFormGroup
 
     # returns a select input for forms
-    def getSelectInput(self, name="", helpText="", values={}, lable=""):
+    def getSelectInput(self, name="", helpText="", values={}, lable="", value=""):
         divFormGroup = self.tagBS.new_tag("div")
         divFormGroup["class"] = "form-group"
         labelTag = self.tagBS.new_tag("label")
@@ -233,6 +236,8 @@ class template:
         for displayName in sorted(values.keys(), reverse=False):
             optionTag = self.tagBS.new_tag("option")
             optionTag["value"] = values[displayName]
+            if values[displayName] == value:
+                optionTag["selected"] = "selected"
             optionTag.string = displayName
             inputTag.append(optionTag)
 
@@ -258,5 +263,28 @@ class template:
         helpTag["id"] = id
         helpTag.string = helpText
         return helpTag
+
+    # generiert eine Warnmeldung.
+    def getAlert(self, text, type="danger"):
+        divTag = self.tagBS.new_tag("div")
+        divTag["class"] = "alert alert-" + type
+        divTag["role"] = "alert"
+        divTag.append(text)
+        return divTag
+
+    # gibt einen Link als Button zurück.
+    def getLinkButton(self, label, href, icon="", type="default"):
+        aTag = self.tagBS.new_tag("a", role="button", href=href)
+        aTag["class"] = "btn btn-" + type
+        if icon != "":
+            aTag.append(self.getIcon(icon))
+        aTag.append(label)
+        return aTag
+
+    # gibt einen HTML Paragraphen zurück.
+    def getParagraph(self, text):
+        paragraph = self.tagBS.new_tag("p")
+        paragraph.append(text)
+        return paragraph
 
     # TODO: implement functions to create numberrange Formfields.

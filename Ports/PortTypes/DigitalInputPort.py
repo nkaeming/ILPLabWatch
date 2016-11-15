@@ -17,7 +17,8 @@ class DigitalInputPort(AbstractPort.abstractPort):
             "description": "Wenn aktiv, wird dieser Port invertiert.",
             "standard": 0,
             "name": "Invertieren",
-            "tab": 1
+            "tab": 1,
+            "final": False
         }
     }
 

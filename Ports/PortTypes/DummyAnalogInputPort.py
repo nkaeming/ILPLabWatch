@@ -12,7 +12,8 @@ class DummyAnalogInputPort(abstractPort):
             "type": "text",
             "description": "Ein Seed für den Zufallsgenerator.",
             "standard": "abc",
-            "tab": 1
+            "tab": 1,
+            "final": True
         },
         "min": {
             "name": "minimaler Wert",
@@ -22,7 +23,8 @@ class DummyAnalogInputPort(abstractPort):
             "tab": 2,
             "min": -2000,
             "max": 2000,
-            "step": 1
+            "step": 1,
+            "final": False
         },
         "max": {
             "name": "maximaler Wert",
@@ -32,12 +34,13 @@ class DummyAnalogInputPort(abstractPort):
             "tab": 3,
             "min": -2000,
             "max": 2000,
-            "step": 1
+            "step": 1,
+            "final": False
         }
     }
 
     def __init__(self, externalPort, settings):
-        super().__init__(externalPort, options, settings)
+        super().__init__(externalPort, settings)
         random.seed(self.settings["randomSeed"])
 
     def getState(self):

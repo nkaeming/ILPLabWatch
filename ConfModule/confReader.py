@@ -12,7 +12,7 @@ def readConf(confLink):
 #write a conf file.
 def writeConf(confLink, config):
     with open(confLink, "w") as configfile:
-        json.dump(config, configfile)
+        json.dump(config, configfile, indent=4)
 
 #reads the port conf
 def readPortConf():
@@ -20,7 +20,7 @@ def readPortConf():
 
 #write the ports conf
 def writePortConf(config):
-    writeConf("wiringConf.cfg", config)
+    writeConf("portsConf.cfg", config)
 
 #reads the wiring conf
 def readWiringConf():

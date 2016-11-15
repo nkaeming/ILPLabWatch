@@ -57,9 +57,15 @@ class portService():
         return self.ports
 
     #adds a port to the setUp
-    def addPort(self, port):
-        #TODO: implement
-        return 0
+    def addPort(self, portType, settings, externalPort):
+        if portType in self.getPortTypesAvailable():
+            class_ = getattr(importlib.import_module("Ports.PortTypes." + portType), portType)
+            settings["type"] = portType
+            portInstance = class_(externalPort, settings)
+            self.ports[externalPort] = portInstance
+            confAdapter.addPort(self.ports[externalPort])
+        else:
+            raise FileNotFoundError("Dieser Porttyp (" + portType + ") wurde nich gefunden.")
 
     #delets a port from the setUp
     def deletePort(self, externalPortNumber):
@@ -121,3 +127,7 @@ class portService():
             if key not in self.getPorts().keys():
                freePorts.append(key)
         return freePorts
+
+    # returns true if an external Port is free
+    def isExternalPortFree(self, externalPort):
+        return not externalPort in self.portConfig.keys()

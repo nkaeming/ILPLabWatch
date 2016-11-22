@@ -287,4 +287,8 @@ class template:
         paragraph.append(text)
         return paragraph
 
+    # appends a Beautifulsoup object to the content Tag.
+    def appendContent(self, content):
+        self.tagBS.find("div", {"id": "content"}).append(content)
+
     # TODO: implement functions to create numberrange Formfields.

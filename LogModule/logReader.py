@@ -39,7 +39,7 @@ def readLog(inputName, startDate, endDate):
                 logTimeFull = datetime.datetime.strptime(data[0], "%H:%M:%S:%f")
                 logDateTime = datetime.datetime(year= year, month= month, day= day, hour=logTimeFull.hour, minute=logTimeFull.minute, second=logTimeFull.second, microsecond=logTimeFull.microsecond)
                 if logDateTime >= startDate and logDateTime <= endDate:
-                    output.append([name, logDateTime.strftime("%Y_%m_%d_%H:%M:%S:%f"), data[1]])
+                    output.append([name, logDateTime.timestamp(), data[1]])
 
             f.close()
         except FileNotFoundError:

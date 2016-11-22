@@ -5,3 +5,15 @@
  .row {
      padding-top: 5px;
  }
+ .edit-table > tbody > tr > td {
+     vertical-align: middle;
+     font-size: 1.25em;
+}
+.port-error {
+    background-color: red;
+    color: white;
+}
+.port-ok {
+    background-color: green;
+    color: white;
+}

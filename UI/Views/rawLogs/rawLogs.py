@@ -23,10 +23,12 @@ class rawLogs:
 
             self.logData = logReader.readLog(portName, start, end)
             self.status = 200
-            print(self.logData)
 
     def getDisplayString(self):
-        return bytes(str(json.dumps(self.logData)), "utf-8")
+        data = {}
+        for datapoint in self.logData:
+            data[int(datapoint[1])] = datapoint[2]
+        return bytes(str(json.dumps(data)), "utf-8")
 
     def getStatus(self):
         return self.status

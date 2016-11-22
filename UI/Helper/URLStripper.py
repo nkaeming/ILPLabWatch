@@ -1,13 +1,10 @@
+from urllib.parse import parse_qsl, urlparse
 # this file defines a few helper functions to deal with the URL
 
 # returns the HTTP-Request Get informations of an URL
 def getGetInormations(rqURL):
-    gets = {}
-    rqURL = rqURL.split("/")
-    getString = rqURL[-1].split("?")[1]
-    for keyvalue in getString.split("&"):
-        keyvalue = keyvalue.split("=")
-        gets[keyvalue[0]] = keyvalue[1]
+    getString = urlparse(rqURL).query
+    gets = dict((x,y) for x, y in parse_qsl(getString))
     return gets
 
 

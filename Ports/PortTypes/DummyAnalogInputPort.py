@@ -56,8 +56,8 @@ class DummyAnalogInputPort(abstractPort):
                 randomNumber = randomNumber - 1
             else:
                 randomNumber = randomNumber + 1
-
-        return self.lastNumber + randomNumber
+        self.lastNumber = self.lastNumber + randomNumber
+        return self.lastNumber
 
     def getValueRange(self):
         settings = self.getSettings()

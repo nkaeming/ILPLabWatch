@@ -1,6 +1,6 @@
 var ctx = document.getElementById("portChart");
 var data = [];
-$.getJSON("/rawLogs/Test", function (rawJson) {
+$.getJSON("/rawLogs/FastTest", function (rawJson) {
     $.each(rawJson, function (key, value) {
         data.push({x: key * 1000, y: Number(value)});
     });

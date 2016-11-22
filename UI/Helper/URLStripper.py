@@ -1,6 +1,6 @@
-#this file defines a few helper functions to deal with the URL
+# this file defines a few helper functions to deal with the URL
 
-#returns the HTTP-Request Get informations of an URL
+# returns the HTTP-Request Get informations of an URL
 def getGetInormations(rqURL):
     gets = {}
     rqURL = rqURL.split("/")
@@ -9,6 +9,7 @@ def getGetInormations(rqURL):
         keyvalue = keyvalue.split("=")
         gets[keyvalue[0]] = keyvalue[1]
     return gets
+
 
 # vergleicht die get Informationen der Anfrage mit einem Dictionary von Optionen und konvertiert die Eingaben zu ensprechenden Typen in Python.
 # existiert eine get Information in dem angegebenen optionen nicht, so wird diese auf den standard Wert gesetzt.
@@ -38,6 +39,7 @@ def convertGetInformations(rqURL, options):
 # returns the Module of an URL
 def getModule(rqURL):
     return rqURL.split("/")[1]
+
 
 # returns the Submodule if setted
 def getSubmodule(rqURL):

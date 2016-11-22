@@ -1,4 +1,4 @@
-#The Port Service is a connector between the backend and all services that uses the port.
+# The Port Service is a connector between the backend and all services that uses the port.
 import importlib, os
 
 import ConfModule.confAdapter as confAdapter
@@ -14,7 +14,7 @@ class portService():
         self.portConfig = confAdapter.getPortsConf()
         self.portSetUp()
 
-    #set up all the ports. This function should be called when the configuration changed.
+    # set up all the ports. This function should be called when the configuration changed.
     def portSetUp(self):
         self.ports = {}
         for port in self.portConfig.keys():
@@ -23,11 +23,11 @@ class portService():
             portInstance = class_(port, self.portConfig[port])
             self.ports[port] = portInstance
 
-    #returns a port object of the port.
+    # returns a port object of the port.
     def getPort(self, externalPortNumber):
         return self.ports[externalPortNumber]
 
-    #rteurns a list of all available PortTypes.
+    # rteurns a list of all available PortTypes.
     def getPortTypesAvailable(self):
         availablePortTypes = []
         for item in os.listdir("Ports/portTypes"):
@@ -35,7 +35,7 @@ class portService():
                 availablePortTypes.append(str(item).split(".")[0])
         return availablePortTypes
 
-    #returns a list of all ports that should be logged
+    # returns a list of all ports that should be logged
     def getLoggedPorts(self):
         loggedPorts = []
         for port in self.getPorts():
@@ -43,7 +43,7 @@ class portService():
                 loggedPorts.append(self.getPort(port))
         return loggedPorts
 
-    #returns all ports that are in a logCycle that is seconds
+    # returns all ports that are in a logCycle that is seconds
     def getPortsLoggedIn(self, seconds):
         loggedPorts = self.getLoggedPorts()
         portsThatAreLogged = []
@@ -52,11 +52,11 @@ class portService():
                 portsThatAreLogged.append(port)
         return portsThatAreLogged
 
-    #returns all ports
+    # returns all ports
     def getPorts(self):
         return self.ports
 
-    #adds a port to the setUp
+    # adds a port to the setUp
     def addPort(self, portType, settings, externalPort):
         if portType in self.getPortTypesAvailable():
             class_ = getattr(importlib.import_module("Ports.PortTypes." + portType), portType)
@@ -67,19 +67,19 @@ class portService():
         else:
             raise FileNotFoundError("Dieser Porttyp (" + portType + ") wurde nich gefunden.")
 
-    #delets a port from the setUp
+    # delets a port from the setUp
     def deletePort(self, externalPortNumber):
-        #TODO: implement
+        # TODO: implement
         return 0
 
-    #returns true if a port already exists
+    # returns true if a port already exists
     def doesPortExistByName(self, name):
         for port in self.ports.values():
             if port.getName() == name:
                 return True
         return False
 
-    #set the status LED's up.
+    # set the status LED's up.
     def setUpLEDs(self):
         pass
 
@@ -102,7 +102,7 @@ class portService():
             availablePortsInformation[port] = {
                 "description": self.getDescriptionOfPortType(port),
                 "options": self.getOptionsOfPortType(port),
-                #TODO: Diese Funktion hat massive Fehler verursacht. Bitte prüfen.
+                # TODO: Diese Funktion hat massive Fehler verursacht. Bitte prüfen.
                 "available": self.isPortTypeAvailable(port),
             }
         return availablePortsInformation
@@ -125,7 +125,7 @@ class portService():
         freePorts = []
         for key in internalPorts.keys():
             if key not in self.getPorts().keys():
-               freePorts.append(key)
+                freePorts.append(key)
         return freePorts
 
     # returns true if an external Port is free

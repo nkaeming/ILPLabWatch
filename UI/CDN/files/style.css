@@ -9,11 +9,3 @@
      vertical-align: middle;
      font-size: 1.25em;
 }
-.port-error {
-    background-color: red;
-    color: white;
-}
-.port-ok {
-    background-color: green;
-    color: white;
-}

@@ -91,7 +91,8 @@ class portService():
     # returns the options of a port type
     def getOptionsOfPortType(self, type):
         klasse = getattr(importlib.import_module("Ports.PortTypes." + type), type)
-        options = {**klasse.options, **abstractPort.abstractPort.superOptions}
+        options = klasse.options.copy()
+        options.update(abstractPort.abstractPort.superOptions)
         return options
 
     # returns a dic of all available ports with informations

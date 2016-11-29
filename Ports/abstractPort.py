@@ -45,7 +45,8 @@ class abstractPort():
    #initialise the Instance and Class Constants
     def __init__(self, externalNumber, settings):
         self.externalNumber = externalNumber
-        self.settings = {**self.superSettings, **settings}
+        self.settings = self.superSettings.copy()
+        self.settings.update(settings)
         self.internalPort = confAdapter.getInternalPort(self.getType(), externalNumber)
 
     def getExternalPort(self):

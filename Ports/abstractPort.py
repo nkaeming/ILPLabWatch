@@ -97,3 +97,11 @@ class abstractPort():
     # returns the range of available Values (important for charts and alerts). The return is a list with the format: [lowest,highest,step]
     def getValueRange(self):
         raise NotImplementedError("Method not implemented in child class.")
+
+    # returns true if the port is dynamic. For example a bus port.
+    def isDynamicPort(self):
+        return False
+
+    # returns all Ports that are available on this port.
+    def getDynamicPortsList(self):
+        pass

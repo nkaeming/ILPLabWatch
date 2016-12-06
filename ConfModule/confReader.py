@@ -1,7 +1,8 @@
 #the provided function are used for the configuration input and output.
 import json
 
-#TODO: Not working well.
+portConf = "portsConf.cfg"
+wiringConf = "wiringConf.cfg"
 
 #reads a conf file
 def readConf(confLink):
@@ -16,14 +17,18 @@ def writeConf(confLink, config):
 
 #reads the port conf
 def readPortConf():
-    return readConf("portsConf.cfg")
+    return readConf(portConf)
 
 #write the ports conf
 def writePortConf(config):
-    writeConf("portsConf.cfg", config)
+    writeConf(portConf, config)
 
 #reads the wiring conf
 def readWiringConf():
-    return readConf("wiringConf.cfg")
+    return readConf(wiringConf)
+
+#writes the complete wiring conf
+def wrieWiringConf(config):
+    writeConf(wiringConf, config)
 
 

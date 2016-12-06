@@ -131,3 +131,11 @@ class portService():
     # returns true if an external Port is free
     def isExternalPortFree(self, externalPort):
         return not externalPort in self.portConfig.keys()
+
+    # rereads the wiring conf for the given Port.
+    def rereadWiringConf(self, portType):
+        portTypes = self.getPortTypesAvailable()
+        if portType in portTypes:
+            klasse = getattr(importlib.import_module("Ports.PortTypes." + type), type)
+            ports = klasse.getDynamicPortsList
+            actualWirings

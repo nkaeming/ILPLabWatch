@@ -23,6 +23,13 @@ def getInternalPorts(type):
     except:
         return {}
 
+# updates the port in the wiring conf
+def updateWiringConf(type, conf):
+    oldConf = confReader.readWiringConf()
+    oldConf[type].pop()
+    confReader.writeConf()
+
+
 #returns the configuration of one port by the external Port number
 def getPortConf(externalPort):
     return confReader.readPortConf()[str(externalPort)]

@@ -16,10 +16,10 @@ class trigger():
     # Prüft ob der Trigger ausgelöst werden soll
     def check(self):
         if self.port.getState() <= self.triggerRange[0] or self.port.getState() >= self.triggerRange[1]:
-            self.informAlerts()
+            self.callAlerts()
 
     # ruft alle alerts auf
-    def informAlerts(self):
+    def callAlerts(self):
         for alert, params in self.alerts.items():
             alertClass = getattr(importlib.import_module("Ports.PortAlerts." + alert), alert)
             alertInstance = alertClass()

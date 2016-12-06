@@ -3,6 +3,7 @@ import importlib, os
 
 import ConfModule.confAdapter as confAdapter
 import Ports.abstractPort as abstractPort
+from Ports.triggerService import triggerService
 
 
 class portService():
@@ -10,9 +11,16 @@ class portService():
     ports = {}
     statusLED = {}
 
+    triggerService = None
+
     def __init__(self):
         self.portConfig = confAdapter.getPortsConf()
         self.portSetUp()
+        self.triggerService = triggerService(self)
+
+    # returns the related trigger service.
+    def getTriggerService(self):
+        return self.triggerService
 
     # set up all the ports. This function should be called when the configuration changed.
     def portSetUp(self):

@@ -3,6 +3,7 @@ import json
 
 portConf = "portsConf.cfg"
 wiringConf = "wiringConf.cfg"
+triggerConf = "triggerConf.cfg"
 
 #reads a conf file
 def readConf(confLink):
@@ -28,7 +29,11 @@ def readWiringConf():
     return readConf(wiringConf)
 
 #writes the complete wiring conf
-def wrieWiringConf(config):
+def writeWiringConf(config):
     writeConf(wiringConf, config)
 
+def readTriggerConf():
+    return readConf(triggerConf)
 
+def writeTriggerConf(conf):
+    writeConf(triggerConf, conf)

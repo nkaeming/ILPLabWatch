@@ -6,5 +6,5 @@ class commandLineAlert():
     def getDescription(self):
         return "Gibt eine Warnmeldung auf der Konsole aus."
 
-    def throwAlert(self, port):
-        print("Der Port " + port.getName() + " hat den kritischen Wert " + str(port.getValue()) + " erreicht.")
+    def throwAlert(self, port, settings):
+        print("Der Port " + port.getName() + " hat den kritischen Wert " + str(port.getValue()) + " erreicht. Nachricht: " + settings["message"])

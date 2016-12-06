@@ -34,4 +34,6 @@ class OneWireSensor(abstractPort):
         return [-10, 85, 0.05]
 
     def getOptions(self):
-        return {**super().superOptions, **self.options}
+        options = super().superOptions.copy()
+        options.update(self.options)
+        return options

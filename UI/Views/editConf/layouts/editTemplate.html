@@ -1,4 +1,8 @@
 {% extends "UI/layouts/template.html" %}
+{% block head %}
+
+{% endblock %}
+
 {% block body %}
 <div class="row">
     <div class="col-md-12">
@@ -8,7 +12,7 @@
             <tr>
                 <td><strong>Anschluss</strong></td>
                 <td><strong>Port Name</strong></td>
-                <td><strong>aktueller Wert</strong></td>
+                <td><strong>aktueller Wert (alle 5sek.)</strong></td>
                 <td><strong>Optionen</strong></td>
             </tr>
             </thead>
@@ -17,7 +21,7 @@
             <tr>
                 <td>{{ portStatus["port"] }}</td>
                 <td>{{ portName }}</td>
-                <td class="success"><strong>{{ portStatus["state"] }}</strong></td>
+                <td class="success"><strong id="current-Value-of-{{ portStatus["name"] }}">{{ portStatus["state"] }}</strong></td>
                 <td>
                     <div class="btn-group" role="group">
                         <a class="btn btn-primary" href="/viewGraph/{{ portStatus["port"] }}">Verlauf <span class="glyphicon glyphicon-signal"></span></a>
@@ -37,4 +41,7 @@
         <canvas id="portChart"></canvas>
     </div>
 </div>
+{% endblock %}
+{% block scripts %}
+<script src="CDN/updateStatus.js"></script>
 {% endblock %}

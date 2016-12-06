@@ -3,12 +3,13 @@ import UI.Helper.URLStripper as URLHelper
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 
+
 class editConf():
     portService = None
     path = ""
     env = None
 
-    def __init__(self, rqPath,portService):
+    def __init__(self, rqPath, portService):
         self.portService = portService
         self.path = rqPath
         self.env = Environment()
@@ -33,7 +34,7 @@ class editConf():
         for port in portsList.values():
             portsInformation[port.getName()] = port.getCurrentInformation()
 
-        return bytes(template.render(ports = portsInformation, activeSite="editConf"), "utf-8")
+        return bytes(template.render(ports=portsInformation, activeSite="editConf"), "utf-8")
 
     def getStatus(self):
         return 200

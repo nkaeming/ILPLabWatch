@@ -1,6 +1,6 @@
 $(function(){
     var intervalID;
-    var sec = 1;
+    var sec = 5;
     intervalID = setInterval(refresh, sec * 1000);
 
     function refresh() {
@@ -8,13 +8,7 @@ $(function(){
             $.each(data, function (index) {
                 var name = data[index].name;
                 var state = data[index].state;
-                if (state == 1){
-                    $("#" + name).attr("class", "input-status red");
-                    $("#" + name).text(state);
-                } else {
-                    $("#" + name).attr("class", "input-status green");
-                    $("#" + name).text(state);
-                }
+                $("#current-Value-of-" + name).text(state);
             });
         });
     }

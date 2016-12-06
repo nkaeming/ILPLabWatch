@@ -78,6 +78,7 @@ class abstractPort():
 
     #returns the state of a port. has to be implemented in child class
     def getState(self):
+        #TODO: Hier sollte dringend caching eingebaut werden. gerade bei Ports, wo die Abfrage der Datn ggf. lange dauert oder aber in der Port Klasse selbst.
         raise NotImplementedError("Method not implemented in child class.")
 
     def getCurrentInformation(self):

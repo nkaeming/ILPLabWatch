@@ -1,5 +1,6 @@
 import UI.Helper.URLStripper as URLHelper
 from UI.Helper.template import template
+
 #This class makes the main page.
 class index():
     portService = None

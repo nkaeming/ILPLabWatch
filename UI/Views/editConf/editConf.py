@@ -1,18 +1,23 @@
 import UI.Helper.URLStripper as URLHelper
 from UI.Helper.template import template
-from bs4 import BeautifulSoup
+from jinja2 import Template
 
 class editConf():
     portService = None
+    path = ""
 
     def __init__(self, rqPath,portService):
         self.portService = portService
+        self.path = rqPath
 
     def getDisplayString(self):
-        bs = template("editConf", "Port Übersicht")
-        content = BeautifulSoup(open("UI/Views/editConf/editTemplate.html"), "html.parser")
-        bs.appendContent(content)
-        return bs.getPrettifyedByteObject()
+        # wenn es keine tieferen Verweise gibt.
+        if URLHelper.getSubmodule(self.path) == "":
+            return self.index()
+
+    def index(self):
+        template = Template("Hello {{ name }}")
+        return bytes(template.render(name="Peter"), "utf-8")
 
     def getStatus(self):
         return 200

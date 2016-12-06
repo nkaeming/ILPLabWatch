@@ -32,15 +32,22 @@ def convertGetInformations(rqURL, options):
             results[key] = options[key]["standard"]
     return results
 
+# returns the module on the number no. Example getModule(www.example.com/abc/def/ghj, 2) returns def
+def getSubUrl(rqURL, no):
+    try:
+        part = rqURL.split("/")[no]
+    except:
+        part = ""
+    if "?" in part:
+        return part.split("?")[0]
+    return part
+
 
 # returns the Module of an URL
 def getModule(rqURL):
-    return rqURL.split("/")[1]
+    return getSubUrl(rqURL, 1)
 
 
 # returns the Submodule if setted
 def getSubmodule(rqURL):
-    part = rqURL.split("/")[-1]
-    if "?" in part:
-        return part.split("?")[0]
-    return part
+    return getSubUrl(rqURL, 2)

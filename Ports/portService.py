@@ -138,5 +138,5 @@ class portService():
         portTypes = self.getPortTypesAvailable()
         if portType in portTypes:
             klasse = getattr(importlib.import_module("Ports.PortTypes." + type), type)
-            ports = klasse.getDynamicPortsList
-            actualWirings
+            ports = klasse.getDynamicPortsList()
+            confAdapter.updateWiringConf(portType, ports)

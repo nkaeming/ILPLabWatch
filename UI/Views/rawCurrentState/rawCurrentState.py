@@ -12,8 +12,9 @@ class rawCurrentState:
     def getDisplayString(self):
         ports = self.portService.getPorts()
         output = {}
-        for key, value in ports.items():
-            output[key] = value.getCurrentInformation()
+        for key, port in ports.items():
+            output[key] = port.getCurrentInformation()
+            # TODO: An dieser Stelle wird mit lastCall =0 reingegangen und last Call richtig gesetzt. Wo ist der Fehler???
 
         return bytes(str(json.dumps(output)), "utf-8")
 

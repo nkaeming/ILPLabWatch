@@ -41,15 +41,17 @@ class DummyAnalogInputPort(abstractPort):
 
     lastNumber = 0
 
+    minSecondsToRefresh = 5
+
     def __init__(self, externalPort, settings):
         super().__init__(externalPort, settings)
         random.seed(self.settings["randomSeed"])
         self.lastNumber = int((settings["max"] - settings["min"]) / 2)
 
-    def getState(self):
+    def getPrivateState(self):
         settings = self.getSettings()
         # generate a realistic value, near the old value.
-        shortRangeValue = (settings["max"] - settings["min"]) / 100
+        shortRangeValue = int((settings["max"] - settings["min"]) / 100)
         randomNumber = random.randint(-shortRangeValue, shortRangeValue)
         if randomNumber > settings["max"]:
             randomNumber = settings["max"]

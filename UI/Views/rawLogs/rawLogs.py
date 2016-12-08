@@ -17,10 +17,9 @@ class rawLogs:
                 dateRange = urlStripper.getGetInormations(rqPath)
                 start = datetime.strptime(dateRange["start"], "%d:%m:%Y:%H:%M:%S")
                 end = datetime.strptime(dateRange["end"], "%d:%m:%Y:%H:%M:%S")
-            except IndexError:
+            except KeyError:
                 start = datetime.now() - timedelta(minutes=10)
                 end = datetime.now()
-
             self.logData = logReader.readLog(portName, start, end)
             self.status = 200
 

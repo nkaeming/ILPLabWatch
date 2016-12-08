@@ -1,6 +1,7 @@
 #Abstract port already implements all neccessary funcitons to deal with ports. The real functionality of the ports is implemented in the ports classes which are child classes of the abstract port.
 import ConfModule.confAdapter as confAdapter
 import LogModule.logWriter as logWriter
+import time
 
 class abstractPort():
     #the Port Number on the Connector Box
@@ -39,8 +40,21 @@ class abstractPort():
             "standard": 1,
             "tab": -3,
             "final": False
+        },
+        "unit": {
+            "type": "text",
+            "tab": -1,
+            "name": "Einheit",
+            "description": "Die Einheit die der Port haben soll.",
+            "standard": "",
+            "final": True
         }
     }
+    # the time of the last getState.
+    lastCall = 0
+    # last value
+    lastValue = 0
+
 
    #initialise the Instance and Class Constants
     def __init__(self, externalNumber, settings):
@@ -76,9 +90,31 @@ class abstractPort():
     def getDescription(self):
         return self.description
 
-    #returns the state of a port. has to be implemented in child class
+    # returns the unit if set.
+    def getUnit(self):
+        if "unit" in self.getSettings().keys():
+            return self.getSettings()["unit"]
+        else:
+            return ""
+
+    # returns the state of a port. has to be implemented in child class
     def getState(self):
-        #TODO: Hier sollte dringend caching eingebaut werden. gerade bei Ports, wo die Abfrage der Datn ggf. lange dauert oder aber in der Port Klasse selbst.
+        # caching method.
+        if hasattr(self, "minSecondsToRefresh"):
+            minWaitingTime = self.minSecondsToRefresh
+        else:
+            minWaitingTime = 0
+
+        if time.time() > (self.lastCall + minWaitingTime):
+            value = self.getPrivateState()
+        else:
+            value = self.lastValue
+        self.lastCall = time.time()
+        # TODO: lastCall wird immer wieder auf 0 gesetzt Warum? Fehler suchen.
+        return value
+
+    # this method returns the real state of the port.
+    def getPrivateState(self):
         raise NotImplementedError("Method not implemented in child class.")
 
     def getCurrentInformation(self):
@@ -102,7 +138,10 @@ class abstractPort():
 
     # returns true if the port is dynamic. For example a bus port.
     def isDynamicPort(self):
-        return False
+        if hasattr(self, "isDynamicPort"):
+            return self.isDynamicPort
+        else:
+            return False
 
     # returns all Ports that are available on this port.
     def getDynamicPortsList(self):

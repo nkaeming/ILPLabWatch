@@ -1,6 +1,6 @@
 $(function(){
     var intervalID;
-    var sec = 5;
+    var sec = 0.5;
     intervalID = setInterval(refresh, sec * 1000);
 
     function refresh() {

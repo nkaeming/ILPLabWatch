@@ -13,7 +13,7 @@ class OneWireSensor(abstractPort):
     def __init__(self, externalPort, settings):
         super().__init__(externalPort, settings)
 
-    def getState(self):
+    def getPrivateState(self):
         # Open the file that we viewed earlier so that python can see what is in it. Replace the serial number as before.
         tfile = open("/sys/bus/w1/devices/10-000802824e58/w1_slave")
         # Read all of the text in the file.

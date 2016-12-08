@@ -29,7 +29,7 @@ class DigitalInputPort(AbstractPort.abstractPort):
         # os.system("gpio -g mode " + str(self.getInternalPort()) + " out")
 
     # cheks the actual state of the port and returns 0 for an open switch and 1 for a colsed switch
-    def getState(self):
+    def getPrivateState(self):
         import random
         value = random.randint(0, 1)
         # TODO: In production uncomment the following line and comment the random line.

@@ -3,7 +3,7 @@ from threading import Thread
 
 
 class LoggerDeamon(Thread):
-    """The Logerdeamon logs all the Ports."""
+    """The Loggerdeamon logs all the Ports."""
     portService = None
 
     def __init__(self, portService):

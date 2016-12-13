@@ -16,7 +16,7 @@ class portService():
     def __init__(self):
         self.portConfig = confAdapter.getPortsConf()
         self.portSetUp()
-        # self.triggerService = triggerService(self)
+        self.triggerService = triggerService(self)
 
     # returns the related trigger service.
     def getTriggerService(self):

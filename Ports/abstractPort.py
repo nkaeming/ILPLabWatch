@@ -55,7 +55,6 @@ class abstractPort():
     # last value
     lastValue = 0
 
-
    #initialise the Instance and Class Constants
     def __init__(self, externalNumber, settings):
         self.externalNumber = externalNumber
@@ -100,17 +99,17 @@ class abstractPort():
     # returns the state of a port. has to be implemented in child class
     def getState(self):
         # caching method.
+        print(self.lastCall)
         if hasattr(self, "minSecondsToRefresh"):
             minWaitingTime = self.minSecondsToRefresh
         else:
             minWaitingTime = 0
-
         if time.time() > (self.lastCall + minWaitingTime):
             value = self.getPrivateState()
+            self.lastValue = value
         else:
             value = self.lastValue
         self.lastCall = time.time()
-        # TODO: lastCall wird immer wieder auf 0 gesetzt Warum? Fehler suchen.
         return value
 
     # this method returns the real state of the port.

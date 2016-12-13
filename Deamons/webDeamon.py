@@ -3,7 +3,7 @@ from UI.CDN.cdnProvider import cdnProvider
 import UI.Helper.URLStripper as URLStripper
 from UI.Views.index.index import index as MainPage
 import importlib
-import json
+from threading import Thread
 
 HOST_NAME = ""
 PORT_NUMBER = 8080
@@ -56,9 +56,18 @@ def handlerClassFactory(portServiceParam):
                     self.wfile.write(bytes("404 Error detected.", "utf-8"))
     return responseToRequest
 
-def startWebDeamon(portService):
-    serverClass = HTTPServer
-    handlerClass = handlerClassFactory(portService)
-    httpd = serverClass((HOST_NAME, PORT_NUMBER), handlerClass)
-    print("webservice started")
-    httpd.serve_forever()
+
+class WebDeamon(Thread):
+    """The thread for the web UI"""
+    portService = None
+
+    def __init__(self, portService):
+        self.portService = portService
+        super().__init__()
+
+    def run(self):
+        serverClass = HTTPServer
+        handlerClass = handlerClassFactory(self.portService)
+        httpd = serverClass((HOST_NAME, PORT_NUMBER), handlerClass)
+        print("webservice started")
+        httpd.serve_forever()

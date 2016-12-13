@@ -1,5 +1,6 @@
 from Ports.abstractPort import abstractPort
 import random
+import time
 # Ein Dummy Port, der random Analog Inputs generiert.
 
 
@@ -47,6 +48,7 @@ class DummyAnalogInputPort(abstractPort):
         super().__init__(externalPort, settings)
         random.seed(self.settings["randomSeed"])
         self.lastNumber = int((settings["max"] - settings["min"]) / 2)
+        self.identity = time.time()
 
     def getPrivateState(self):
         settings = self.getSettings()

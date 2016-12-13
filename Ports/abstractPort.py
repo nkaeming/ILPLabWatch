@@ -99,17 +99,19 @@ class abstractPort():
     # returns the state of a port. has to be implemented in child class
     def getState(self):
         # caching method.
-        print(self.lastCall)
+        now = time.time()
+
         if hasattr(self, "minSecondsToRefresh"):
             minWaitingTime = self.minSecondsToRefresh
         else:
             minWaitingTime = 0
-        if time.time() > (self.lastCall + minWaitingTime):
+
+        if time.time() > self.lastCall + minWaitingTime:
             value = self.getPrivateState()
             self.lastValue = value
+            self.lastCall = now
         else:
             value = self.lastValue
-        self.lastCall = time.time()
         return value
 
     # this method returns the real state of the port.

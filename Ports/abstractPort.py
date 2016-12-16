@@ -1,18 +1,20 @@
-#Abstract port already implements all neccessary funcitons to deal with ports. The real functionality of the ports is implemented in the ports classes which are child classes of the abstract port.
-import ConfModule.confAdapter as confAdapter
-import LogModule.logWriter as logWriter
-import time
+import IOHelper.config as configIO
+import IOHelper.log as logIO
+from Models.Observable import Observable
+from Models.OptionalbeObject import OptionalbeObject
+from Ports.Threads.LoggingThread import LoggingThread
+from Ports.Threads.WatcherThread import WatcherThread
 
-class abstractPort():
-    #the Port Number on the Connector Box
-    externalNumber = 0
-    #The internal Rasberry Pi Port.
-    internalPort = 0
-    # the actual settings of the Port
+
+class AbstractPort(Observable, OptionalbeObject):
+    """Ein abstrakter Port, von dem jeder UserPort erben sollte."""
+    # die eindeutige PortID
+    portID = None
+
+    # die Einstellungen des Ports
     settings = {}
-    #the settings of the Port.
-    superSettings = {}
-    #super Options
+
+    # die Optionen die jeder Port hat
     superOptions = {
         "name": {
             "type": "text",
@@ -24,7 +26,7 @@ class abstractPort():
         },
         "logCycle": {
             "type": "number",
-            "name" : "Logintervall",
+            "name": "Logintervall",
             "description": "Das Loginterval in Sekunden",
             "standard": 5,
             "min": 1,
@@ -50,100 +52,120 @@ class abstractPort():
             "final": True
         }
     }
-    # the time of the last getState.
-    lastCall = 0
-    # last value
+
+    # die Eisntellungen die jeder Port haben muss.
+    superSettings = {}
+
+    # der letzte Wert des Ports bei der letzten Überprüfung.
     lastValue = 0
 
-   #initialise the Instance and Class Constants
-    def __init__(self, externalNumber, settings):
-        self.externalNumber = externalNumber
-        self.settings = self.superSettings.copy()
-        self.settings.update(settings)
-        self.internalPort = confAdapter.getInternalPort(self.getType(), externalNumber)
+    # der Thread zum loggen
+    loggingThread = None
 
-    def getExternalPort(self):
-        return self.externalNumber
+    # der Thread zum überwachen des Ports
+    watcherThread = None
 
-    def getInternalPort(self):
-        return self.internalPort
+    # wenn der Port sich selber updaten kann, wird diese Variable auf True gesetzt.
+    isSelfUpdating = False
 
-    def getName(self):
-        return self.settings["name"]
+    # ist isSelfUpdateing False, so wird eine minimale refreshTime benötigt.
+    minRefreshTime = 0
 
-    def getType(self):
-        return self.__class__.__name__
+    # erwartet vom Kindobjekt
+    def __init__(self, childSettings, id):
+        self.portID = id
+        super().__init__({**self.superSettings, **childSettings})
+        self.startThreads()
 
-    def getLogCycle(self):
-        return self.settings["logCycle"]
+    # startet die Portthreads
+    def startThreads(self):
+        if self.getSetting("logging") == True:
+            self.loggingThread = LoggingThread(self)
+            self.loggingThread.start()
+        if self.isSelfUpdating == False:
+            self.watcherThread = WatcherThread(self)
+            self.watcherThread.start()
 
-    #The logging setting is true if the port is monitored by the logging protocols.
-    def getLoggingSetting(self):
-        return self.settings["logging"]
+    # gibt True zurück, wenn beim Port alles in Ordnung ist.
+    def isPortOK(self):
+        if self.getSetting("logging") == True:
+            if self.loggingThread.is_alive() == False:
+                return False
+        if self.isSelfUpdating == False:
+            if self.watcherThread.is_alive() == False:
+                return False
+        if self.isPortInternalOK() == False:
+            return False
+        return True
 
-    #writes the state of the port in the log file.
-    def writeLog(self):
-        logWriter.writeLog(self)
+    # Methode kann überschrieben werden, wenn der Port in sich Strukturen zur Überprüfung beherbergt.
+    def isPortInternalOK(self):
+        return True
 
-    #retuns the description of a port. Should be implemented in the child class
-    def getDescription(self):
-        return self.description
+    # schreibt in die Logdatei
+    def log(self):
+        logIO.writeLog(self)
 
-    # returns the unit if set.
-    def getUnit(self):
-        if "unit" in self.getSettings().keys():
-            return self.getSettings()["unit"]
-        else:
-            return ""
-
-    # returns the state of a port. has to be implemented in child class
+    # Gibt den aktuellen Status des Ports zurück.
     def getState(self):
-        # caching method.
-        now = time.time()
+        return self.lastValue
 
-        if hasattr(self, "minSecondsToRefresh"):
-            minWaitingTime = self.minSecondsToRefresh
-        else:
-            minWaitingTime = 0
-
-        if time.time() > self.lastCall + minWaitingTime:
-            value = self.getPrivateState()
-            self.lastValue = value
-            self.lastCall = now
-        else:
-            value = self.lastValue
-        return value
-
-    # this method returns the real state of the port.
-    def getPrivateState(self):
-        raise NotImplementedError("Method not implemented in child class.")
-
-    def getCurrentInformation(self):
-        info = self.getSettings()
-        info["port"] = self.externalNumber
-        info["type"] = self.__class__.__name__
-        info["state"] = self.getState()
-        return info
-
-    # returns the possible options of the Port.
-    def getOptions(self):
-        raise NotImplementedError("Method not implemented in child class.")
-
-    # returns all settings related to the port.
-    def getSettings(self):
-        return self.settings
-
-    # returns the range of available Values (important for charts and alerts). The return is a list with the format: [lowest,highest,step]
+    # gibt den möglichen Wertebereich des Ports zurück. [niedrigster, höchster, schrittweite]
     def getValueRange(self):
-        raise NotImplementedError("Method not implemented in child class.")
+        raise NotImplementedError
 
-    # returns true if the port is dynamic. For example a bus port.
-    def isDynamicPort(self):
+    # muss implementiert werden, wenn minRefreshTime gesetzt und ungleich -1 ist.
+    def getPrivateState(self):
+        pass
+
+    # wird aufgerufen, wenn der Portzustand sich geändert hat.
+    def portChanged(self, newValue):
+        self.lastValue = newValue
+        self.informObserver()
+
+    # gibt die Optionen des Ports zurück. Diese werden dann in der GUI angezeigt. Kann überschrieben werden, sofern nötig.
+    def getOptions(self):
+        return {**super().getOptions, **self.superOptions}
+
+    # gibt alle Anschlussmöglichkeiten für diesen Porttyp zurück.
+    def getInputs(self):
+        buildInPorts = configIO.loadWiring()[str(self.__class__)]
+        ports = buildInPorts
         if hasattr(self, "isDynamicPort"):
-            return self.isDynamicPort
+            if self.isDynamicPort == True:
+                ports = {**buildInPorts, **self.getDynamicInputs()}
+        return ports
+
+    # kann bei dynamiscen Ports hinzugefügt werden.
+    def getDynamicInputs(self):
+        pass
+
+    # gibt die minimale Aktualisierungszeit zurück.
+    def getMinRefreshTime(self):
+        return self.minRefreshTime
+
+    # gibt den Namen des Ports zurück.
+    def getName(self):
+        return self.getSetting("name")
+
+    # gibt die PortID zurück
+    def getID(self):
+        return self.portID
+
+    # gibt True zurück wenn der Port geloggt wird.
+    def isPortLogged(self):
+        return self.getSetting("logging")
+
+    # gibt die Sekunden zwischen zwei Logzeiten an
+    def getLogCycle(self):
+        return self.getSetting("logCycle")
+
+    # Zwei Ports sollen genau dann gleich sein, wenn ihre ID übereinstimmt.
+    def __eq__(self, other):
+        if self.__class__ == other.__class__:
+            if self.getID() == other.getID():
+                return True
+            else:
+                return False
         else:
             return False
-
-    # returns all Ports that are available on this port.
-    def getDynamicPortsList(self):
-        pass

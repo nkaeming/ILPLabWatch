@@ -28,3 +28,6 @@ class DummyAnalogInputPort(AbstractPort):
         settings = self.getSettings()
         interval = [settings["min"], settings["max"], 1]
         return interval
+
+    def getDescription(self):
+        return "Ein Dummyport, der zufällig generierte Zahlen ausgibt."

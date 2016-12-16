@@ -24,6 +24,13 @@ class AbstractPort(Observable, OptionalbeObject):
             "standard": "",
             "final": True
         },
+        "description": {
+            "type": "text",
+            "tab": 0,
+            "name": "Beschreibung",
+            "desciption": "Eine Beschribung des Ports.",
+            "length": 200
+        },
         "logCycle": {
             "type": "number",
             "name": "Logintervall",
@@ -73,7 +80,8 @@ class AbstractPort(Observable, OptionalbeObject):
 
     # erwartet vom Kindobjekt
     def __init__(self, childSettings, id):
-        self.portID = id
+        self.portID = str(id)
+        self.superSettings["type"] = self.getType()
         super().__init__({**self.superSettings, **childSettings})
         self.startThreads()
 
@@ -127,6 +135,10 @@ class AbstractPort(Observable, OptionalbeObject):
     def getOptions(self):
         return {**super().getOptions, **self.superOptions}
 
+    # gibt den Typ des Ports zurück.
+    def getType(self):
+        return str(self.__class__.__name__)
+
     # gibt alle Anschlussmöglichkeiten für diesen Porttyp zurück.
     def getInputs(self):
         buildInPorts = configIO.loadWiring()[str(self.__class__)]
@@ -169,3 +181,7 @@ class AbstractPort(Observable, OptionalbeObject):
                 return False
         else:
             return False
+
+    # gibt die Beschreibung des Porttyps zurück.
+    def getDescription(self):
+        raise NotImplementedError

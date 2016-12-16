@@ -1,11 +1,10 @@
-import importlib
-import uuid
-from IOHelper import config
+import importlib, uuid
 from Models.Observable import Observable
 from Models.Observer import Observer
+from Models.PersistantObject import PersistantObject
 
 
-class PortService(Observable, Observer):
+class PortService(Observable, Observer, PersistantObject):
     """Der Portservice verwaltet alle Ports."""
     # alle Ports
     ports = []
@@ -14,17 +13,19 @@ class PortService(Observable, Observer):
     triggerService = None
 
     def __init__(self):
-        self.setUpPorts()
+        self.loadObjectConf()
+
+    # setzte den Configfilename für den Service
+    def getConfigFileName(self):
+        return "portsConf.cfg"
 
     # setzt den TriggerService
     def setTriggerService(self, triggerService):
         self.triggerService = triggerService
-        self.addObserver(triggerService)
 
     # erzeugt die Instanzen der Portklassen
-    def setUpPorts(self):
-        portConf = config.loadPorts()
-        for portID, settings in portConf.items():
+    def setUp(self):
+        for portID, settings in self.persistantConfig.items():
             self.ports.append(self.generatePort(portID, settings))
         self.informObserver()
 
@@ -32,8 +33,12 @@ class PortService(Observable, Observer):
     def generateAndAddNewPort(self, settings):
         portID = str(uuid.uuid4())
         portInstance = self.generatePort(portID, settings)
+
+        # aktualisiere die Konfigurationsdetails
+        self.persistantConfig[portID] = settings()
+        self.saveObjectConf()
+
         self.ports.append(portInstance)
-        # ein neuer Port wurde hinzugefügt.
         self.informObserver()
         return portID
 

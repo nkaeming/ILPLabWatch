@@ -36,7 +36,7 @@ def saveWiring(content):
 
 
 # Speichert die Triggereinstellungen
-def saveTrigger(content):
+def saveTriggers(content):
     saveConfig(triggerConf, content)
 
 

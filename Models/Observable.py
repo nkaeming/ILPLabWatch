@@ -14,4 +14,4 @@ class Observable():
     # informiert alle Observer über eine Änderung
     def informObserver(self):
         for observer in self.observers:
-            observer.oberservableUpdated(self)
+            observer.observableChanged(self)

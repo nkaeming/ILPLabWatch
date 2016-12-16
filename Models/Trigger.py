@@ -1,4 +1,3 @@
-import importlib
 from Models.Observer import Observer
 
 
@@ -16,11 +15,15 @@ class Trigger(Observer):
 
     warnTrigger = False  # gibt an ob der Trigger im UI als Warntrigger auftauchen soll.
 
+    triggerID = 0  # eindeutige ID des Trigger
+
     # min ist die untere Schranke des Triggers und max die obere.
-    def __init__(self, min, max, port):
-        self.triggerRange = [min, max]
+    def __init__(self, triggerID, minimal, maximal, port, warnTrigger):
+        self.triggerRange = [minimal, maximal]
         self.port = port
+        self.triggerID = triggerID
         self.port.addObserver(self)
+        self.warnTrigger = warnTrigger
 
     # wird ausgelöst, wenn der Port sich verändert.
     def observableChanged(self, observable):
@@ -28,7 +31,7 @@ class Trigger(Observer):
 
     # Prüft ob der Trigger ausgelöst werden soll
     def check(self):
-        if self.port.getState() <= self.triggerRange[0] or self.port.getState() >= self.triggerRange[1]:
+        if self.triggerRange[0] <= self.port.getState() or self.port.getState() <= self.triggerRange[1]:
             self.callAlerts()
 
     # ruft alle alerts auf
@@ -36,11 +39,36 @@ class Trigger(Observer):
         for alert in self.alerts:
             alert.throwAlert(self.port)
 
-    # fügt dem trigger einen Alert hinzu.
-    def addAlert(self, alertType, settings):
-        alertClass = getattr(importlib.import_module("Alerts." + alertType + "." + alertType), alertType)
-        self.alerts.append(alertClass(settings))
+    # fügt ein neues alert Objekt hinzu.
+    def appendAlert(self, alert):
+        self.alerts.append(alert)
 
     # gibt true zurück, wenn der Trigger als Warnung im UI auftauchen soll.
     def isWarnTrigger(self):
         return self.warnTrigger
+
+    # gibt den Port zurück, der den Trigger auslöst
+    def getPort(self):
+        return self.port
+
+    # gibt die ID des Triggers zurück.
+    def getID(self):
+        return self.triggerID
+
+    # gibt die Alerts zurück, welche mit diesem Trigger verbunden sind.
+    def getAlerts(self):
+        return self.alerts
+
+    # entfernt einen alert
+    def removeAlert(self, alert):
+        self.alerts.remove(alert)
+
+    # zwei Trigger sind gleich, wenn ihre ID gleich ist.
+    def __eq__(self, other):
+        if self.__class__ == other.__class__:
+            if self.getID() == other.getID():
+                return True
+            else:
+                return False
+        else:
+            return False

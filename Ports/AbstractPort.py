@@ -4,6 +4,7 @@ from Models.Observable import Observable
 from Models.OptionalbeObject import OptionalbeObject
 from Ports.Threads.LoggingThread import LoggingThread
 from Ports.Threads.WatcherThread import WatcherThread
+from Models.Trigger import Trigger
 
 
 class AbstractPort(Observable, OptionalbeObject):
@@ -129,7 +130,8 @@ class AbstractPort(Observable, OptionalbeObject):
     # wird aufgerufen, wenn der Portzustand sich geändert hat.
     def portChanged(self, newValue):
         self.lastValue = newValue
-        self.informObserver()
+        # informiert alle trigger.
+        self.informObserverOfType(Trigger)
 
     # gibt die Optionen des Ports zurück. Diese werden dann in der GUI angezeigt. Kann überschrieben werden, sofern nötig.
     def getOptions(self):

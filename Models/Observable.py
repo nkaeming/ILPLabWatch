@@ -15,3 +15,9 @@ class Observable():
     def informObserver(self):
         for observer in self.observers:
             observer.observableChanged(self)
+
+    # informiert nur die observer, welche vom typ type sind. (klappt auc für subtypen.)
+    def informObserverOfType(self, type):
+        observers = list(filter(lambda object: isinstance(object, type), self.observers))
+        for observer in observers:
+            observer.observableChanged(self)

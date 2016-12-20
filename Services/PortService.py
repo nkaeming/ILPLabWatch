@@ -2,6 +2,7 @@ import importlib, uuid
 from Models.Observable import Observable
 from Models.Observer import Observer
 from Models.PersistantObject import PersistantObject
+from Ports.AbstractPort import AbstractPort
 
 
 class PortService(Observable, Observer, PersistantObject):
@@ -71,10 +72,10 @@ class PortService(Observable, Observer, PersistantObject):
     def getInterruptPorts(self):
         return list(filter(lambda port: port.isPortOK() == False, self.ports))
 
-    # Geerbt von Observer
+    # wird aufgerufen, wenn eine Observable sich ändert. Hier z.B. die
     def observableChanged(self, observable):
-        # wird aufgerufen, wenn sich am Triggerservice etwas verändert.
-        pass
+        if issubclass(observable.__class__, AbstractPort):
+
 
     # schreibt die persistente Konfiguration.
     def writeConf(self):

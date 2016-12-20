@@ -25,10 +25,6 @@ class PersistantObject:
             configfile.close()
         return conf
 
-    # wird aufgerufen, wenn die ObjectConf eingeladen wurde.
-    def setUp(self):
-        raise NotImplementedError
-
     # fügt in der obersten ebene einen Key mit den Einstellungen hinzu.
     def appendMainConfigKey(self, key, settings):
         conf = self.getConf()

@@ -1,13 +1,12 @@
 import IOHelper.config as configIO
 import IOHelper.log as logIO
-from Models.Observable import Observable
 from Models.OptionalbeObject import OptionalbeObject
 from Ports.Threads.LoggingThread import LoggingThread
 from Ports.Threads.WatcherThread import WatcherThread
 from Models.Trigger import Trigger
 
 
-class AbstractPort(Observable, OptionalbeObject):
+class AbstractPort(OptionalbeObject):
     """Ein abstrakter Port, von dem jeder UserPort erben sollte."""
     # die eindeutige PortID
     portID = None

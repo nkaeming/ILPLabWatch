@@ -72,13 +72,14 @@ class PortService(Observable, Observer, PersistantObject):
     def getInterruptPorts(self):
         return list(filter(lambda port: port.isPortOK() == False, self.ports))
 
-    # wird aufgerufen, wenn eine Observable sich ändert. Hier z.B. die
+    # wird aufgerufen, wenn eine Observable sich ändert. Hier z.B. die Ports.
     def observableChanged(self, observable):
-        if issubclass(observable.__class__, AbstractPort):
+        # wenn sich ein Port verändert hat, dann könnten sich die Einstellungen geändert haben.
+        if isinstance(observable, AbstractPort):
+            self.writeConf()
 
-
-    # schreibt die persistente Konfiguration.
-    def writeConf(self):
+    # schreibt die persistente Konfiguration. conf ist ein redundanter parameter und sollte nicht übergeben werden.
+    def writeConf(self, conf=None):
         portList = self.getPorts()
         config = {}
         for port in portList:

@@ -1,9 +1,9 @@
-import inspect
-import os
+import inspect, importlib, os
 import IOHelper.config as configIO
+from Models.Observable import Observable
 
 
-class OptionalbeObject:
+class OptionalbeObject(Observable):
     """Klassen die von dieser Klasse erben können Optionen in der im gleichen Ordner angelegten Options.cfg haben. Das bedeutet, dass Objekte dieser Klassen durch die UI Eingestellt werden können."""
 
     settings = {}  # die vorgenommenen Einstellungen.
@@ -30,3 +30,18 @@ class OptionalbeObject:
         else:
             options = {}
         return options
+
+    # setzt eine Einstellun mit dem Namen auf die Value value.
+    def setSetting(self, name, value):
+        self.settings[name] = value
+        if self.getServiceName() != "":
+            try:
+                serviceClass = getattr(importlib.import_module("Services." + self.getServiceName()),
+                                       self.getServiceName())
+                self.informObserverOfType(serviceClass)
+            except:
+                pass
+
+    # wenn das Objekt zu einem Service gehört, so muss der Service bei Änderungen informiert werden. Gibt diese Funktion einen Servicenamen zurück, so wird dieser informiert.
+    def getServiceName(self):
+        return ""

@@ -1,8 +1,10 @@
 from Models.PersistantObject import PersistantObject
+from Models.Observer import Observer
 from Models.Trigger import Trigger
+import uuid
 
 
-class TriggerService(PersistantObject):
+class TriggerService(PersistantObject, Observer):
     """Der Triggerservice verwaltet alle Trigger"""
 
     triggers = []
@@ -20,6 +22,7 @@ class TriggerService(PersistantObject):
         conf = self.getConf()
         for triggerID, triggerSettings in conf.items():
             trigger = self.getTriggerObject(triggerID, triggerSettings)
+            trigger.addObserver(self)
             self.triggers.append(trigger)
 
     # gibt ein neues Triggerobjekt mit den Settings zurück, sofern der Trigger noch nicht in der Triggerliste existierte, ansonsten wird das bereits existierende Triggerobjekt zurückgegeben.
@@ -31,10 +34,11 @@ class TriggerService(PersistantObject):
             if port == None:
                 raise ReferenceError("A Trigger can't exists without a Port.")
             else:
-                trigger = Trigger(id, settings["range"][0], settings["range"][0], port, settings["warnTrigger"])
-                for alertID in settings["alerts"]:
-                    alert = self.alertServcie.getAlertByID(alertID)
-                    trigger.appendAlert(alert)
+                trigger = Trigger(id, settings["range"][0], settings["range"][1], port, settings["warnTrigger"])
+                if "alerts" in settings.keys():
+                    for alertID in settings["alerts"]:
+                        alert = self.alertServcie.getAlertByID(alertID)
+                        trigger.appendAlert(alert)
                 return trigger
         else:
             return triggerByID
@@ -44,6 +48,30 @@ class TriggerService(PersistantObject):
         result = filter(lambda trigger: trigger.getID() == id, self.triggers)
         return next(result, None)
 
+    # schreibt die Konfiguration neu.
+    def writeConf(self, conf=None):
+        conf = {}
+        for trigger in self.triggers:
+            id = trigger.getID()
+            settings = trigger.getSettings()
+            conf[id] = settings
+        super().writeConf(conf)
+
     # gib die Konfigurationsdateinamen für den Triggerservice an die Parentclass weiter.
     def getConfigFileName(self):
         return "triggerConf.cfg"
+
+    # wird aufggerufen, wenn sich ein Observable geändert hat.
+    def observableChanged(self, observable):
+        # wenn das zu überwachende Objekt ein trigger ist, dann hat sich die Konfiguration geändert.
+        print("Die Triggerconf soll geupdatet werden.")
+        if isinstance(observable, Trigger):
+            self.writeConf()
+
+    # fügt einen neuen Trigger hinzu und speichert ihn persistent.
+    def addTigger(self, settings):
+        triggerID = str(uuid.uuid4())
+        trigger = self.getTriggerObject(triggerID, settings)
+        self.triggers.append(trigger)
+        self.writeConf()
+        return trigger

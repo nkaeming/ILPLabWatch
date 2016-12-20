@@ -1,8 +1,10 @@
 from Models.PersistantObject import PersistantObject
-import importlib
+from Models.Observer import Observer
+from Alerts.AbstractAlert import AbstractAlert
+import importlib, uuid
 
 
-class AlertService(PersistantObject):
+class AlertService(PersistantObject, Observer):
     """Der Alertservcie verwaltet und erzeugt alle Alerts."""
 
     alerts = []  # eine Liste aller alert Objekte.
@@ -14,7 +16,9 @@ class AlertService(PersistantObject):
     def setUp(self):
         conf = self.getConf()
         for id, settings in conf.items():
-            self.alerts.append(self.getAlertObject(id, settings))
+            alertObject = self.getAlertObject(id, settings)
+            alertObject.addObserver(self)
+            self.alerts.append(alertObject)
 
     # erzeugt ein neues alert Objekt. Ähnlich einer Fabrik. Wurde ein Port mit dieser Id bereits erzegt, so wird dieses Objekt zurückgegeben.
     def getAlertObject(self, id, settings):
@@ -36,6 +40,30 @@ class AlertService(PersistantObject):
         result = filter(lambda alert: alert.getName() == name, self.alerts)
         return next(result, None)
 
+    # schreibt die Konfiguration des Services neu. conf ist ein redunanter Parameter
+    def writeConf(self, conf=None):
+        conf = {}
+        for alert in self.alerts:
+            id = alert.getID()
+            settings = alert.getSettings()
+            conf[id] = settings
+        super().writeConf(conf)
+
     # gibt den Dateinamen für die conf Datei zurück.
     def getConfigFileName(self):
         return "alertConf.cfg"
+
+    # wird aufggerufen, wenn sich ein Observable geändert hat.
+    def observableChanged(self, observable):
+        # wenn das zu überwachende Objekt ein alert ist, dann hat sich die Konfiguration geändert.
+        if isinstance(observable, AbstractAlert):
+            self.writeConf()
+
+    # fügt einen neuen alert hinzu und speicht ihn dauerhaft und gibt das gerade erzegte Alertobjekt zurück.
+    def addAlert(self, settings):
+        alertID = str(uuid.uuid4())
+        alert = self.getAlertObject(alertID, settings)
+        self.alerts.append(alert)
+        alert.addObserver(self)
+        self.writeConf()
+        return alert

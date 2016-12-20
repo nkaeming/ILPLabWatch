@@ -1,9 +1,9 @@
 from Models.Observer import Observer
-
+from Models.Observable import Observable
 
 # Ein Trigger dient zur Verbindung zwischen den Ports und den Alerts.
 
-class Trigger(Observer):
+class Trigger(Observer, Observable):
     """Trigger werden ausgelöst, wenn ein Port kritische Werte erreicht."""
 
     triggerRange = [0,
@@ -39,17 +39,20 @@ class Trigger(Observer):
         for alert in self.alerts:
             alert.throwAlert(self.port)
 
-    # ibt den minimalen Wert zurück bei dem der Trigger auslöst.
-    def minimalValue(self):
+    # gibt den minimalen Wert zurück bei dem der Trigger auslöst.
+    def getMinimalValue(self):
         return self.triggerRange[0]
 
     # gibt den maximalen wert zurück bei dem der Trigger auslöst.
-    def maximalValue(self):
+    def getMaximalValue(self):
         return self.triggerRange[1]
 
     # fügt ein neues alert Objekt hinzu.
     def appendAlert(self, alert):
         self.alerts.append(alert)
+
+        from Services.TriggerService import TriggerService
+        self.informObserverOfType(TriggerService)
 
     # gibt true zurück, wenn der Trigger als Warnung im UI auftauchen soll.
     def isWarnTrigger(self):
@@ -70,6 +73,8 @@ class Trigger(Observer):
     # entfernt einen alert
     def removeAlert(self, alert):
         self.alerts.remove(alert)
+        from Services.TriggerService import TriggerService
+        self.informObserverOfType(TriggerService)
 
     # gibt die Einstellungen des triggers als dict zurück.
     def getSettings(self):

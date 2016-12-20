@@ -1,5 +1,4 @@
 from Models.OptionalbeObject import OptionalbeObject
-from Models.Trigger import Trigger
 
 
 class AbstractAlert(OptionalbeObject):
@@ -52,3 +51,11 @@ class AbstractAlert(OptionalbeObject):
     # gibt den Namen eines Alerts zurück.
     def getName(self):
         return self.getSetting("name")
+
+    # setzt die Beschreibung des Alerts neu.
+    def setDescription(self, description):
+        self.setSetting("description", description)
+
+    # Gibt den Namen des Services der die Objekte verwaltet zurück.
+    def getServiceName(self):
+        return "AlertService"

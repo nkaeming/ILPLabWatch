@@ -9,11 +9,10 @@ class PortService(Observable, Observer, PersistantObject):
     # alle Ports
     ports = []
 
-    # der verbundene TriggerService
     triggerService = None
 
     def __init__(self):
-        self.loadObjectConf()
+        self.setUp()
 
     # setzte den Configfilename für den Service
     def getConfigFileName(self):
@@ -25,7 +24,8 @@ class PortService(Observable, Observer, PersistantObject):
 
     # erzeugt die Instanzen der Portklassen
     def setUp(self):
-        for portID, settings in self.persistantConfig.items():
+        conf = self.getConf()
+        for portID, settings in conf.items():
             self.ports.append(self.generatePort(portID, settings))
         self.informObserver()
 
@@ -34,12 +34,12 @@ class PortService(Observable, Observer, PersistantObject):
         portID = str(uuid.uuid4())
         portInstance = self.generatePort(portID, settings)
 
-        # aktualisiere die Konfigurationsdetails
-        self.persistantConfig[portID] = settings()
-        self.saveObjectConf()
-
         self.ports.append(portInstance)
         self.informObserver()
+
+        # die Konfigurationsdatei neu schreiben
+        self.writeConf()
+
         return portID
 
     # erzeugt eine Portinstanz, fügt sie allerdings nicht dem Service hinzu sondern gibt sie zurück.
@@ -75,3 +75,13 @@ class PortService(Observable, Observer, PersistantObject):
     def observableChanged(self, observable):
         # wird aufgerufen, wenn sich am Triggerservice etwas verändert.
         pass
+
+    # schreibt die persistente Konfiguration.
+    def writeConf(self):
+        portList = self.getPorts()
+        config = {}
+        for port in portList:
+            id = port.getID()
+            settings = port.getSettings()
+            config[id] = settings
+        super().writeConf(config)

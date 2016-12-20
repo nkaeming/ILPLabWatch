@@ -14,7 +14,7 @@ class TriggerService(Observable, PersistantObject):
 
     def __init__(self, portService):
         self.portService = portService
-        self.loadObjectConf()
+        self.getConf()
 
     # gitb den dateinamen der Einstellungsdatei an.
     def getConfigFileName(self):
@@ -59,7 +59,7 @@ class TriggerService(Observable, PersistantObject):
             "warnTrigger": warnTrigger
         }
 
-        self.saveObjectConf()
+        self.writeConf()
         return trigger
 
     # fügt einen neuen Alert hinzu.
@@ -71,7 +71,7 @@ class TriggerService(Observable, PersistantObject):
                 classPointer = getattr(importlib.import_module("Alerts." + alertType + "." + alertType), alertType)
                 alert = classPointer(alertID, alertSettings)
                 self.persistantConfig["alerts"][alertID] = alertSettings
-                self.saveObjectConf()
+                self.writeConf()
                 return alert
             except:
                 pass

@@ -185,3 +185,7 @@ class AbstractPort(Observable, OptionalbeObject):
     # gibt die Beschreibung des Porttyps zurück.
     def getDescription(self):
         raise NotImplementedError
+
+    # gibt die Einstellungen des Ports zurück.
+    def getSettings(self):
+        return self.settings

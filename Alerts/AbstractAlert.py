@@ -9,7 +9,7 @@ class AbstractAlert(OptionalbeObject):
         "name": {
             "type": "text",
             "tab": -1,
-            "name": "Portbezeichnung",
+            "name": "Alertbezeichnung",
             "description": "Der Name des Alerts bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.",
             "final": True
         },
@@ -49,5 +49,6 @@ class AbstractAlert(OptionalbeObject):
     def getType(self):
         return str(self.__class__.__name__)
 
+    # gibt den Namen eines Alerts zurück.
     def getName(self):
         return self.getSetting("name")

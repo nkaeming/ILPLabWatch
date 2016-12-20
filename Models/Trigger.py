@@ -39,6 +39,14 @@ class Trigger(Observer):
         for alert in self.alerts:
             alert.throwAlert(self.port)
 
+    # ibt den minimalen Wert zurück bei dem der Trigger auslöst.
+    def minimalValue(self):
+        return self.triggerRange[0]
+
+    # gibt den maximalen wert zurück bei dem der Trigger auslöst.
+    def maximalValue(self):
+        return self.triggerRange[1]
+
     # fügt ein neues alert Objekt hinzu.
     def appendAlert(self, alert):
         self.alerts.append(alert)
@@ -62,6 +70,20 @@ class Trigger(Observer):
     # entfernt einen alert
     def removeAlert(self, alert):
         self.alerts.remove(alert)
+
+    # gibt die Einstellungen des triggers als dict zurück.
+    def getSettings(self):
+        conf = {}
+        conf["portID"] = self.getPort().getID()
+        conf["warnTrigger"] = self.isWarnTrigger()
+        conf["range"] = self.triggerRange
+
+        alertList = []
+        for alert in self.getAlerts():
+            alertList.append(alert.getID())
+        conf["alerts"] = alertList
+
+        return conf
 
     # zwei Trigger sind gleich, wenn ihre ID gleich ist.
     def __eq__(self, other):

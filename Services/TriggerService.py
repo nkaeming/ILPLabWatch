@@ -48,6 +48,11 @@ class TriggerService(PersistantObject, Observer):
         result = filter(lambda trigger: trigger.getID() == id, self.triggers)
         return next(result, None)
 
+    # gibt alle Trigger zu einem Port aus.
+    def getTriggerByPort(self, port):
+        result = filter(lambda trigger: trigger.getPort() == port, self.triggers)
+        return list(result)
+
     # schreibt die Konfiguration neu.
     def writeConf(self, conf=None):
         conf = {}

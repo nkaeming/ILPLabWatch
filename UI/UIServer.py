@@ -49,15 +49,19 @@ class UIServer():
 
         # Globale Konfiguration
         conf = {
+            '/': {
+                'tools.sessions.on': True,
+                'tools.staticdir.root': os.path.abspath(os.getcwd())
+            },
             '/static': {
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': '../UI/Public'
+                'tools.staticdir.dir': 'UI/Static'
             }
         }
 
         # fügt die index Klasse hinzu.
         cherrypy.tree.mount(UIMain(), '/', conf)
-
+        print(cherrypy.tree.apps)
         # startet die cherrypy engine
         cherrypy.engine.start()
         cherrypy.engine.block()

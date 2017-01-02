@@ -143,7 +143,6 @@ class AbstractPort(OptionalbeObject):
     # gibt alle Anschlussmöglichkeiten für diesen Porttyp zurück.
     @classmethod
     def getInputs(cls):
-        print(str(cls.__name__))
         buildInPorts = configIO.loadWiring()[str(cls.__name__)]
         ports = {**buildInPorts, **__class__.getDynamicInputs()}
         return ports

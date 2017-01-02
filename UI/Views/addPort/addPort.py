@@ -11,8 +11,8 @@ class addPort(AbstractView):
     @cherrypy.expose
     def index(self):
         return self.jinjaEnv.get_template("selectPortType.html").render(
-            portTypes=self.PortService.getConfigurablePortTypes())
+            portTypes=self.PortService.getConfigurablePortTypes(), page="hinzufuegen")
 
     @cherrypy.expose
-    def selectPortType(self):
-        return "No Port Type Selected"
+    def portSetUP(self, portType):
+        return portType

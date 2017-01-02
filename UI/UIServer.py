@@ -3,18 +3,21 @@ import pkgutil, importlib, cherrypy, os, json
 
 
 class UIMain(object):
+    PortService = None
+    TriggerService = None
+    AlertServcie = None
+
+    def __init__(self, PS, TS, AS):
+        self.PortService = PS
+        self.AlertService = AS
+        self.TriggerService = TS
+
     @cherrypy.expose
     def index(self):
         env = Environment(loader=PackageLoader('UI', 'Templates'))
-        template = env.get_template('test.phtml')
-        return template.render(message="Hello World")
-
-    # Seite zum auswählen eines Porttypes, der hinzugefügt werden soll.
-    @cherrypy.expose
-    def selectNewPortType(self):
-        env = Environment(loader=PackageLoader('UI', 'Templates'))
-        template = env.get_template('test.phtml')
-        return template.render(message="New Port Type")
+        template = env.get_template('main.phtml')
+        portList = self.PortService.getPorts()
+        return template.render(portList=portList)
 
 
 class UIServer():
@@ -60,8 +63,9 @@ class UIServer():
         }
 
         # fügt die index Klasse hinzu.
-        cherrypy.tree.mount(UIMain(), '/', conf)
-        print(cherrypy.tree.apps)
+        uiMain = UIMain(self.PortService, self.TriggerService, self.AlertService)
+        cherrypy.tree.mount(uiMain, '/', conf)
+
         # startet die cherrypy engine
         cherrypy.engine.start()
         cherrypy.engine.block()

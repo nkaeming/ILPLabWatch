@@ -1,0 +1,39 @@
+{% extends "master.phtml" %}
+
+{% block head %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block body %}
+<h1>Aktueller Status</h1>
+
+<div class="row">
+    <div class="col-md-12 well">
+        <h2>Port Status</h2>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td class="">Port Name</td>
+                <td>aktueller Wert</td>
+                <td>Status</td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for port in portList %}
+            <tr>
+                <td>{{ port.getName() }}</td>
+                <td>{{ port.getState()|string + port.getUnit() }}</td>
+                {% if port.isPortOK() %}
+                <td class="success"><span class="glyphicon glyphicon-ok"></span></td>
+                {% else %}
+                <td class="danger"><span class="glyphicon glyphicon-remove"></span></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

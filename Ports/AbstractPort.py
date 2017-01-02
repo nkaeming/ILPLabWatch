@@ -190,3 +190,6 @@ class AbstractPort(OptionalbeObject):
     # gibt die Einstellungen des Ports zurück.
     def getSettings(self):
         return self.settings
+
+    def getUnit(self):
+        return self.getSetting("unit")

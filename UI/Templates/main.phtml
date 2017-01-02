@@ -10,26 +10,29 @@
 <h1>Aktueller Status</h1>
 
 <div class="row">
-    <div class="col-md-12 well">
+    <div class="col-md-12">
         <h2>Port Status</h2>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <td class="">Port Name</td>
-                <td>aktueller Wert</td>
-                <td>Status</td>
+                <td><strong>Port Name</strong></td>
+                <td><strong>aktueller Wert</strong></td>
+                <td><strong>Status</strong></td>
             </tr>
             </thead>
             <tbody>
             {% for port in portList %}
             <tr>
                 <td>{{ port.getName() }}</td>
-                <td>{{ port.getState()|string + port.getUnit() }}</td>
+                <td class="ajax-status-load" id="{{ port.getName() }}-state">{{ port.getState()|string + " " +
+                    port.getUnit() }}
+                </td>
                 {% if port.isPortOK() %}
-                <td class="success"><span class="glyphicon glyphicon-ok"></span></td>
+                <td class="success"><span class="glyphicon glyphicon-ok"></span> O.K.</td>
                 {% else %}
-                <td class="danger"><span class="glyphicon glyphicon-remove"></span></td>
+                <td class="danger"><span class="glyphicon glyphicon-remove"></span> Portfehler</td>
                 {% endif %}
+                <td><a href=""><span class="glyphicon glyphicon-pencil"></span> bearbeiten</a></td>
             </tr>
             {% endfor %}
             </tbody>

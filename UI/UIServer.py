@@ -1,23 +1,63 @@
-from bottle import template, route
+from jinja2 import Environment, PackageLoader
+import pkgutil, importlib, cherrypy, os, json
 
 
-# Hilfsfunktion zum Benutzen der Decorator.
-def methodroute(route):
-    def decorator(f):
-        f.route = route
-        return f
+class UIMain(object):
+    @cherrypy.expose
+    def index(self):
+        env = Environment(loader=PackageLoader('UI', 'Templates'))
+        template = env.get_template('test.phtml')
+        return template.render(message="Hello World")
 
-    return decorator
+    # Seite zum auswählen eines Porttypes, der hinzugefügt werden soll.
+    @cherrypy.expose
+    def selectNewPortType(self):
+        env = Environment(loader=PackageLoader('UI', 'Templates'))
+        template = env.get_template('test.phtml')
+        return template.render(message="New Port Type")
 
 
-class App(object):
-    @methodroute('/hello/<name>')
-    def index(self, name):
-        return template('<b>Hello {{name}}</b>!', name=name)
+class UIServer():
+    """Die Serverklasse für den Webserver."""
 
-    @route('/viewPorts')
-    def viewPorts(self):
-        portNameListe = []
-        # for port in PS.getPorts():
-        # portNameListe.append(port.getName())
-        return template('UI/test.tpl', portNameListe=portNameListe)
+    PortService = None
+    TriggerService = None
+    AlertService = None
+
+    """DependencyInjection für die Services"""
+
+    def __init__(self, PortService, TriggerService, AlertService):
+        self.PortService = PortService
+        self.AlertService = AlertService
+        self.TriggerService = TriggerService
+
+    """Startet den Server"""
+
+    def start(self):
+        # Lädt alle Views in den cherrypy.tree
+        for view in pkgutil.iter_modules(['UI/Views']):
+            name = view[1]
+            classPointer = getattr(importlib.import_module("UI.Views." + name + "." + name), name)
+            confPath = "UI/Views/" + name + "/conf.cfg"
+            if os.path.isfile(confPath):
+                with open(confPath, "r") as configfile:
+                    conf = json.load(configfile)
+                    cherrypy.tree.mount(classPointer(self.PortService, self.TriggerService, self.AlertService),
+                                        "/" + name, conf)
+            else:
+                cherrypy.tree.mount(classPointer(self.PortService, self.TriggerService, self.AlertService), "/" + name)
+
+        # Globale Konfiguration
+        conf = {
+            '/static': {
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': '../UI/Public'
+            }
+        }
+
+        # fügt die index Klasse hinzu.
+        cherrypy.tree.mount(UIMain(), '/', conf)
+
+        # startet die cherrypy engine
+        cherrypy.engine.start()
+        cherrypy.engine.block()

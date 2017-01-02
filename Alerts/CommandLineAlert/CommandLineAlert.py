@@ -14,9 +14,11 @@ class CommandLineAlert(AbstractAlert):
         portValue = port.getState()
         outputString = "Port Alert \n Name: " + portName + " \n Wert: " + str(portValue)
         if "message" in self.settings.keys():
-            print(outputString + " \n Nachricht: " + str(self.getSetting("message")))
+            # print(outputString + " \n Nachricht: " + str(self.getSetting("message")))
+            pass
         else:
-            print(outputString)
+            # print(outputString)
+            pass
 
     # gibt die Beschreibung des Alerts aus.
     def getDescription(self):

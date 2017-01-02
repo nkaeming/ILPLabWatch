@@ -1,6 +1,7 @@
 from UI.AbstractView import AbstractView
 import cherrypy
 
+
 class addPort(AbstractView):
     """View zum erstellen neuer Ports."""
 
@@ -9,7 +10,8 @@ class addPort(AbstractView):
 
     @cherrypy.expose
     def index(self):
-        return "addPort"
+        return self.jinjaEnv.get_template("selectPortType.html").render(
+            portTypes=self.PortService.getConfigurablePortTypes())
 
     @cherrypy.expose
     def selectPortType(self):

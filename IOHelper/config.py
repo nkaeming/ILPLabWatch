@@ -1,13 +1,13 @@
 import json
 
 # Porteinstellungen
-portConf = "portsConf.cfg"
+portConf = "conf/portsConf.cfg"
 
 # Verbindungsboxeinstellungen
-wiringConf = "wiringConf.cfg"
+wiringConf = "conf/wiringConf.cfg"
 
 # Triggereinstellungen
-triggerConf = "triggerConf.cfg"
+triggerConf = "conf/triggerConf.cfg"
 
 
 # gibt eine Liste mit allen Ports und ihren Einstellungen zurück.

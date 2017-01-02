@@ -1,11 +1,5 @@
 {% extends "master.phtml" %}
 
-{% block head %}
-<style>
-
-</style>
-{% endblock %}
-
 {% block body %}
 <h1>Aktueller Status</h1>
 
@@ -24,19 +18,47 @@
             {% for port in portList %}
             <tr>
                 <td>{{ port.getName() }}</td>
-                <td class="ajax-status-load" id="{{ port.getName() }}-state">{{ port.getState()|string + " " +
-                    port.getUnit() }}
+                <td id="{{ port.getName() }}-state">{{ port.getState()|string + " " + port.getUnit() }}
                 </td>
                 {% if port.isPortOK() %}
-                <td class="success"><span class="glyphicon glyphicon-ok"></span> O.K.</td>
+                <td id="{{ port.getName() }}-isok" class="success"><span class="glyphicon glyphicon-ok"></span> O.K.
+                </td>
                 {% else %}
-                <td class="danger"><span class="glyphicon glyphicon-remove"></span> Portfehler</td>
+                <td id="{{ port.getName() }}-isok" class="danger"><span class="glyphicon glyphicon-remove"></span>
+                    Portfehler
+                </td>
                 {% endif %}
-                <td><a href=""><span class="glyphicon glyphicon-pencil"></span> bearbeiten</a></td>
+                <td><a href=""><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</a></td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+        var reloadStatusFunction = function() {
+            $.getJSON( "/api/currentStatus", function( data ) {
+                $.each( data, function( key, val ) {
+                    $("#" + val.settings.name + "-state").text(val.state + " " + val.settings.unit);
+                    if (val.portOK == true) {
+                        $("#" + val.settings.name + "-isok").removeClass("danger");
+                        $("#" + val.settings.name + "-isok").addClass("success");
+                        $("#" + val.settings.name + "-isok > span").removeClass("glyphicon-remove");
+                        $("#" + val.settings.name + "-isok > span").addClass("glyphicon-ok");
+                    } else {
+                        $("#" + val.settings.name + "-isok").addClass("danger");
+                        $("#" + val.settings.name + "-isok").removeClass("success");
+                        $("#" + val.settings.name + "-isok > span").addClass("glyphicon-remove");
+                        $("#" + val.settings.name + "-isok > span").removeClass("glyphicon-ok");
+                    }
+                });
+            });
+            window.setTimeout(reloadStatusFunction, 5000)
+        }
+        window.setTimeout(reloadStatusFunction, 5000)
+
+</script>
 {% endblock %}

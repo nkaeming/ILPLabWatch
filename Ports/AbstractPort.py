@@ -141,17 +141,17 @@ class AbstractPort(OptionalbeObject):
         return str(self.__class__.__name__)
 
     # gibt alle Anschlussmöglichkeiten für diesen Porttyp zurück.
-    def getInputs(self):
-        buildInPorts = configIO.loadWiring()[str(self.__class__)]
-        ports = buildInPorts
-        if hasattr(self, "isDynamicPort"):
-            if self.isDynamicPort == True:
-                ports = {**buildInPorts, **self.getDynamicInputs()}
+    @classmethod
+    def getInputs(cls):
+        print(str(cls.__name__))
+        buildInPorts = configIO.loadWiring()[str(cls.__name__)]
+        ports = {**buildInPorts, **__class__.getDynamicInputs()}
         return ports
 
     # kann bei dynamiscen Ports hinzugefügt werden.
-    def getDynamicInputs(self):
-        pass
+    @staticmethod
+    def getDynamicInputs():
+        return {}
 
     # gibt die minimale Aktualisierungszeit zurück.
     def getMinRefreshTime(self):
@@ -191,5 +191,15 @@ class AbstractPort(OptionalbeObject):
     def getSettings(self):
         return self.settings
 
+    """Gibt die Einheit eines Ports zurück."""
     def getUnit(self):
         return self.getSetting("unit")
+
+    """Gibt alle Informationen alle Informationen zu einem Port zurück."""
+
+    def getCurrentInformations(self):
+        informations = {}
+        informations['settings'] = self.getSettings()
+        informations['state'] = self.getState()
+        informations['portOK'] = self.isPortOK()
+        return informations

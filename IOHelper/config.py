@@ -1,4 +1,4 @@
-import json
+import json, codecs
 
 # Porteinstellungen
 portConf = "conf/portsConf.cfg"
@@ -42,12 +42,12 @@ def saveTriggers(content):
 
 # Lädt eine Einstellungsdatei
 def loadConfig(configLink):
-    with open(configLink, "r") as configfile:
+    with open(configLink, "r", encoding='utf-8') as configfile:
         conf = json.load(configfile)
         return conf
 
 
 # Speichert eine Einstellunsdatei
 def saveConfig(configLink, content):
-    with open(configLink, "w") as configfile:
+    with open(configLink, "w", encoding='utf-8') as configfile:
         json.dump(content, configfile, indent=4)

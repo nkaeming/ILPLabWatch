@@ -18,45 +18,48 @@ class AbstractPort(OptionableObject):
     superOptions = {
         "name": {
             "type": "text",
-            "tab": -4,
+            "tab": -5,
             "name": "Portbezeichnung",
             "description": "Der Name des Ports bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.",
             "standard": "",
-            "final": True
+            "final": True,
+            "required": True
         },
         "description": {
             "type": "text",
-            "tab": 0,
+            "tab": -1,
             "name": "Beschreibung",
-            "desciption": "Eine Beschribung des Ports.",
+            "description": "Eine Beschribung des Ports.",
             "length": 200
         },
         "logCycle": {
             "type": "number",
             "name": "Logintervall",
-            "description": "Das Loginterval in Sekunden",
+            "description": "Das Logintervall in Sekunden.",
             "standard": 5,
             "min": 1,
             "max": 3600,
             "step": 1,
-            "tab": -2,
-            "final": False
+            "tab": -3,
+            "final": False,
+            "required": True
         },
         "logging": {
             "type": "boolean",
             "name": "Logging",
             "description": "Wenn diese Einstellung aus ist, so wird der Port nicht geloggt.",
-            "standard": 1,
-            "tab": -3,
+            "standard": True,
+            "tab": -4,
             "final": False
         },
         "unit": {
             "type": "text",
-            "tab": -1,
+            "tab": -2,
             "name": "Einheit",
             "description": "Die Einheit die der Port haben soll.",
             "standard": "",
-            "final": True
+            "final": True,
+            "required": False
         }
     }
 

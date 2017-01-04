@@ -1,4 +1,5 @@
 from UI.AbstractView import AbstractView
+from UI.Models.OptionField import OptionField
 import cherrypy
 
 
@@ -17,5 +18,12 @@ class addPort(AbstractView):
     def portSetUP(self, portType):
         options = self.PortService.getPortClassByType(portType).getOptions()
         freePortConnections = self.PortService.getFreeInputsOfPortType(portType)
-        print(freePortConnections)
-        return self.jinjaEnv.get_template("setSettingsOfPort.html").render()
+        optionFields = []
+        for optionName, optionSettings in options.items():
+            optionFields.append(OptionField(optionName, optionSettings))
+
+        optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
+
+        return self.jinjaEnv.get_template("setSettingsOfPort.html").render(wirings=freePortConnections,
+                                                                           options=optionFields, page='hinzufuegen',
+                                                                           portType=portType)

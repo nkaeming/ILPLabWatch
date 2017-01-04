@@ -1,0 +1,13 @@
+<div class="form-group {% if warnText != "" %} has-error {% endif %}">
+<div class="checkbox">
+    <label>
+        <input id="{{name}}" aria-describedby="helpBlock-{{name}}" type="checkbox" {% if value %} checked{% endif %}{%
+               if settings['required'] %} required{% endif %}>
+        {{settings['name']|e}}{% if settings['required'] %}*{% endif %}
+    </label>
+    {% if warnText != "" %}
+    <span id="helpBlock-{{name}}" class="help-block">{{warnText|e}}</span>
+    {% elif helptext != "" %}
+    <span id="helpBlock-{{name}}" class="help-block">{{settings['description']|e}}</span>
+    {% endif %}
+</div>

@@ -21,14 +21,18 @@
                 <td id="{{ port.getName() }}-state">{{ port.getState()|string + " " + port.getUnit() }}
                 </td>
                 {% if port.isPortOK() %}
-                <td id="{{ port.getName() }}-isok" class="success"><span class="glyphicon glyphicon-ok"></span> O.K.
+                <td id="{{ port.getName() }}-isok" class="success"><span class="glyphicon glyphicon-ok"></span>
+                    <span class="info-text">O.K.</span>
                 </td>
                 {% else %}
                 <td id="{{ port.getName() }}-isok" class="danger"><span class="glyphicon glyphicon-remove"></span>
-                    Portfehler
+                    <span class="info-text">Portfehler</span>
                 </td>
                 {% endif %}
-                <td><a href=""><span class="glyphicon glyphicon-pencil"></span> Bearbeiten</a></td>
+                <td>
+                    <a href="/editPort/?portID={{port.getID()}}"><span class="glyphicon glyphicon-pencil"></span>
+                        Bearbeiten</a>
+                </td>
             </tr>
             {% endfor %}
             </tbody>
@@ -46,19 +50,22 @@
                     if (val.portOK == true) {
                         $("#" + val.settings.name + "-isok").removeClass("danger");
                         $("#" + val.settings.name + "-isok").addClass("success");
-                        $("#" + val.settings.name + "-isok > span").removeClass("glyphicon-remove");
-                        $("#" + val.settings.name + "-isok > span").addClass("glyphicon-ok");
+                        $("#" + val.settings.name + "-isok > .glyphicon").removeClass("glyphicon-remove");
+                        $("#" + val.settings.name + "-isok > .glyphicon").addClass("glyphicon-ok");
+                        $("#" + val.settings.name + "-isok > .info-text").text("O.K.");
                     } else {
                         $("#" + val.settings.name + "-isok").addClass("danger");
                         $("#" + val.settings.name + "-isok").removeClass("success");
-                        $("#" + val.settings.name + "-isok > span").addClass("glyphicon-remove");
-                        $("#" + val.settings.name + "-isok > span").removeClass("glyphicon-ok");
+                        $("#" + val.settings.name + "-isok > .glyphicon").addClass("glyphicon-remove");
+                        $("#" + val.settings.name + "-isok > .glyphicon").removeClass("glyphicon-ok");
+                        $("#" + val.settings.name + "-isok > .info-text").text("Portfehler");
                     }
                 });
             });
-            window.setTimeout(reloadStatusFunction, 5000)
+            window.setTimeout(reloadStatusFunction, 1000)
         }
-        window.setTimeout(reloadStatusFunction, 5000)
+        window.setTimeout(reloadStatusFunction, 1000)
+
 
 </script>
 {% endblock %}

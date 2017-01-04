@@ -3,7 +3,7 @@ import IOHelper.config as configIO
 from Models.Observable import Observable
 
 
-class OptionalbeObject(Observable):
+class OptionableObject(Observable):
     """Klassen die von dieser Klasse erben können Optionen in der im gleichen Ordner angelegten Options.cfg haben. Das bedeutet, dass Objekte dieser Klassen durch die UI Eingestellt werden können."""
 
     settings = {}  # die vorgenommenen Einstellungen.
@@ -23,8 +23,9 @@ class OptionalbeObject(Observable):
             return ""
 
     # gibt die Optionen der Klasse zurück. Diese werden dann in der GUI angezeigt. Kann überschrieben werden, sofern nötig.
-    def getOptions(self):
-        configLink = os.path.dirname(str(inspect.getfile(self.__class__))) + "/options.cfg"
+    @classmethod
+    def getOptions(cls):
+        configLink = os.path.dirname(str(inspect.getfile(cls))) + "/options.cfg"
         if os.path.isfile(configLink):
             options = configIO.loadConfig(configLink)
         else:

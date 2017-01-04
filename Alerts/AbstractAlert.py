@@ -1,7 +1,7 @@
-from Models.OptionalbeObject import OptionalbeObject
+from Models.OptionableObject import OptionableObject
 
 
-class AbstractAlert(OptionalbeObject):
+class AbstractAlert(OptionableObject):
     """Jeder Alert erbt von dieser Klasse. Jeder Alert ist ein Type der optionierbar vom Benutzer ist."""
 
     superOptions = {

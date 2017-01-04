@@ -15,4 +15,7 @@ class addPort(AbstractView):
 
     @cherrypy.expose
     def portSetUP(self, portType):
-        return portType
+        options = self.PortService.getPortClassByType(portType).getOptions()
+        freePortConnections = self.PortService.getFreeInputsOfPortType(portType)
+        print(freePortConnections)
+        return self.jinjaEnv.get_template("setSettingsOfPort.html").render()

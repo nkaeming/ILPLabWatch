@@ -46,7 +46,7 @@ class PortService(Observable, Observer, PersistantObject):
     # erzeugt eine Portinstanz, fügt sie allerdings nicht dem Service hinzu sondern gibt sie zurück.
     def generatePort(self, portID, settings):
         type = settings["type"]
-        classPointer = getattr(importlib.import_module("Ports.UserPorts." + type + "." + type), type)
+        classPointer = self.getPortClassByType(type)
         return classPointer(settings, portID)
 
     # gibt eine Liste der Ports zurück. sortiert nach name oder durch den Parameter ordered = name, namedesc, logging, unit, logcycle oder logcycledesc
@@ -115,9 +115,22 @@ class PortService(Observable, Observer, PersistantObject):
     def getConfigurablePortTypes(self):
         availablePortTypes = []
         for portType in self.getPortTypes():
-            classPointer = getattr(importlib.import_module("Ports.UserPorts." + portType + "." + portType), portType)
+            classPointer = self.getPortClassByType(portType)
             availablePorts = len(classPointer.getInputs().keys())
             usedPorts = len(self.getPortsByType(portType))
             if availablePorts > usedPorts:
                 availablePortTypes.append(portType)
         return availablePortTypes
+
+    """Gibt einen Zeiger auf die Klasse zurück, welche den Prot definiert."""
+
+    def getPortClassByType(self, portType):
+        return getattr(importlib.import_module("Ports.UserPorts." + portType + "." + portType), portType)
+
+    """Gibt alle freien Anschlüsse eines Ports aus."""
+
+    def getFreeInputsOfPortType(self, portType):
+        freeInputs = self.getPortClassByType(portType).getInputs()
+        for port in self.getPortsByType(portType):
+            freeInputs.pop(port.getPortBoxName())
+        return freeInputs

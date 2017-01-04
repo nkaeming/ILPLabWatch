@@ -1,12 +1,12 @@
 import IOHelper.config as configIO
 import IOHelper.log as logIO
-from Models.OptionalbeObject import OptionalbeObject
+from Models.OptionableObject import OptionableObject
 from Ports.Threads.LoggingThread import LoggingThread
 from Ports.Threads.WatcherThread import WatcherThread
 from Models.Trigger import Trigger
 
 
-class AbstractPort(OptionalbeObject):
+class AbstractPort(OptionableObject):
     """Ein abstrakter Port, von dem jeder UserPort erben sollte."""
     # die eindeutige PortID
     portID = None
@@ -78,10 +78,14 @@ class AbstractPort(OptionalbeObject):
     # ist isSelfUpdateing False, so wird eine minimale refreshTime benötigt.
     minRefreshTime = 0
 
-    # erwartet vom Kindobjekt
+    # der interne Anschluss des Ports.
+    internalPin = 0
+
+    # erwartet vom Kindobjekt.
     def __init__(self, childSettings, id):
         self.portID = str(id)
         self.superSettings["type"] = self.getType()
+        self.internalPin = self.getInputs()[childSettings["wiring"]]
         super().__init__({**self.superSettings, **childSettings})
         self.startThreads()
 
@@ -133,8 +137,9 @@ class AbstractPort(OptionalbeObject):
         self.informObserverOfType(Trigger)
 
     # gibt die Optionen des Ports zurück. Diese werden dann in der GUI angezeigt. Kann überschrieben werden, sofern nötig.
-    def getOptions(self):
-        return {**super().getOptions, **self.superOptions}
+    @classmethod
+    def getOptions(cls):
+        return {**super().getOptions(), **cls.superOptions}
 
     # gibt den Typ des Ports zurück.
     def getType(self):
@@ -144,7 +149,7 @@ class AbstractPort(OptionalbeObject):
     @classmethod
     def getInputs(cls):
         buildInPorts = configIO.loadWiring()[str(cls.__name__)]
-        ports = {**buildInPorts, **__class__.getDynamicInputs()}
+        ports = {**buildInPorts, **cls.getDynamicInputs()}
         return ports
 
     # kann bei dynamiscen Ports hinzugefügt werden.
@@ -195,10 +200,19 @@ class AbstractPort(OptionalbeObject):
         return self.getSetting("unit")
 
     """Gibt alle Informationen alle Informationen zu einem Port zurück."""
-
     def getCurrentInformations(self):
         informations = {}
         informations['settings'] = self.getSettings()
         informations['state'] = self.getState()
         informations['portOK'] = self.isPortOK()
         return informations
+
+    """Gibt die externe Bezeichnung des Ports an. Diese steht z.B. an der Anschlussdose des Ports"""
+
+    def getPortBoxName(self):
+        return self.getSetting("wiring")
+
+    """Gibt die interne räpresentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt."""
+
+    def getInternalPin(self):
+        return self.internalPin

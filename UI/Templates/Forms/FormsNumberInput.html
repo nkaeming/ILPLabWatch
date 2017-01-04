@@ -1,6 +1,7 @@
 <div class="form-group {% if warnText != "" %} has-error {% endif %}">
 <label for="{{name}}">{{settings['name']|e}}{% if settings['required'] %}*{% endif %}</label>
-<input type="number" class="form-control" id="{{name}}" length="{{settings['length']}}" min="{{settings['min']}}"
+<input name="{{name}}" type="number" class="form-control" id="{{name}}" length="{{settings['length']}}"
+       min="{{settings['min']}}"
        max="{{settings['max']}}"
        step="{{settings['resolution']}}" aria-describedby="helpBlock-{{name}}" value="{{value}}" {% if
        settings['required'] %} required {% endif %}>

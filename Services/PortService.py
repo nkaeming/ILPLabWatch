@@ -49,14 +49,12 @@ class PortService(Observable, Observer, PersistantObject):
         classPointer = self.getPortClassByType(type)
         return classPointer(settings, portID)
 
-    # gibt eine Liste der Ports zurück. sortiert nach name oder durch den Parameter ordered = name, namedesc, logging, unit, logcycle oder logcycledesc
-    def getPorts(self, ordered="name"):
-        # TODO implement
-        return self.ports
-
-    """Gibt alle Ports zurück, welche einen bestimmten Typ haben."""
+    # gibt eine Liste der Ports zurück. Zulässig sind alle abstrakten settings (name, description, logCycle, logging und unit)
+    def getPorts(self, setting="name", reverse=False):
+        return sorted(self.ports, key=lambda port: port.getSetting(setting), reverse=reverse)
 
     def getPortsByType(self, type):
+        """Gibt alle Ports zurück, welche einen bestimmten Typ haben."""
         result = filter(lambda port: port.getType() == type, self.getPorts())
         return list(result)
 
@@ -94,25 +92,22 @@ class PortService(Observable, Observer, PersistantObject):
             config[id] = settings
         super().writeConf(config)
 
-    """Gibt alle aktuellen Informationen zu allen Ports als dict zurück."""
-
     def getCurrentPortsInformations(self):
+        """Gibt alle aktuellen Informationen zu allen Ports als dict zurück."""
         status = {}
         for port in self.getPorts():
             status[port.getID()] = port.getCurrentInformations()
         return status
 
-    """Gibt alle Porttypen zurück."""
-
     def getPortTypes(self):
+        """Gibt alle Porttypen zurück."""
         portTypes = []
         for portType in pkgutil.iter_modules(['Ports/UserPorts']):
             portTypes.append(portType[1])
         return portTypes
 
-    """Gibt alle Porttypen zurück, welche zurzeit freie Anschlüsse zum Konfigurieren haben."""
-
     def getConfigurablePortTypes(self):
+        """Gibt alle Porttypen zurück, welche zurzeit freie Anschlüsse zum Konfigurieren haben."""
         availablePortTypes = []
         for portType in self.getPortTypes():
             classPointer = self.getPortClassByType(portType)
@@ -122,15 +117,17 @@ class PortService(Observable, Observer, PersistantObject):
                 availablePortTypes.append(portType)
         return availablePortTypes
 
-    """Gibt einen Zeiger auf die Klasse zurück, welche den Prot definiert."""
-
     def getPortClassByType(self, portType):
+        """Gibt einen Zeiger auf die Klasse zurück, welche den Prot definiert."""
         return getattr(importlib.import_module("Ports.UserPorts." + portType + "." + portType), portType)
 
-    """Gibt alle freien Anschlüsse eines Ports aus."""
-
     def getFreeInputsOfPortType(self, portType):
+        """Gibt alle freien Anschlüsse eines Ports aus."""
         freeInputs = self.getPortClassByType(portType).getInputs()
         for port in self.getPortsByType(portType):
             freeInputs.pop(port.getPortBoxName())
         return freeInputs
+
+    def doesPortExistByName(self, name):
+        """Prüft ob ein Portname bereits existiert."""
+        return len(list(filter(lambda port: port.getName() == name, self.getPorts()))) != 0

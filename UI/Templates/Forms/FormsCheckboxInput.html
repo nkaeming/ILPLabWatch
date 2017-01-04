@@ -1,7 +1,8 @@
 <div class="form-group {% if warnText != "" %} has-error {% endif %}">
 <div class="checkbox">
     <label>
-        <input id="{{name}}" aria-describedby="helpBlock-{{name}}" type="checkbox" {% if value %} checked{% endif %}{%
+        <input id="{{name}}" name="{{name}}" aria-describedby="helpBlock-{{name}}" type="checkbox" {% if value %}
+               checked{% endif %}{%
                if settings['required'] %} required{% endif %}>
         {{settings['name']|e}}{% if settings['required'] %}*{% endif %}
     </label>

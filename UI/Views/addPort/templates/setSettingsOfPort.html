@@ -7,14 +7,7 @@
             <small>{{portType|e}}</small>
         </h2>
         <form method="post" action="/addPort/savePort">
-            <div class="form-group">
-                <label for="wiring">Anschluss</label>
-                <select class="form-control" id="wiring" name="wiring">
-                    {% for wiring in wirings %}
-                    <option value="{{ wiring }}">{{ wiring }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+            <input type="hidden" name="type" value="{{portType}}">
             {% for option in options %}
             {{ option.getHtml() }}
             {% endfor %}

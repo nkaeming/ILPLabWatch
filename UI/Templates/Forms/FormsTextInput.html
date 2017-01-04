@@ -1,6 +1,6 @@
 <div class="form-group {% if warnText != "" %} has-error {% endif %}">
 <label for="{{name}}">{{settings['name']|e}}{% if settings['required'] %}*{% endif %}</label>
-<input type="text" class="form-control" id="{{name}}" length="{{settings['length']}}"
+<input name="{{name}}" type="text" class="form-control" id="{{name}}" length="{{settings['length']}}"
        aria-describedby="helpBlock-{{name}}" value="{{value}}" {% if settings['required'] %} required {% endif %}>
 {% if warnText != "" %}
 <span id="helpBlock-{{name}}" class="help-block">{{warnText|e}}</span>

@@ -23,7 +23,8 @@ class AbstractPort(OptionableObject):
             "description": "Der Name des Ports bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.",
             "standard": "",
             "final": True,
-            "required": True
+            "required": True,
+            "regex": "[A-Za-z0-9]+"
         },
         "description": {
             "type": "text",
@@ -198,24 +199,22 @@ class AbstractPort(OptionableObject):
     def getSettings(self):
         return self.settings
 
-    """Gibt die Einheit eines Ports zurück."""
     def getUnit(self):
+        """Gibt die Einheit eines Ports zurück."""
         return self.getSetting("unit")
 
-    """Gibt alle Informationen alle Informationen zu einem Port zurück."""
     def getCurrentInformations(self):
+        """Gibt alle Informationen alle Informationen zu einem Port zurück."""
         informations = {}
         informations['settings'] = self.getSettings()
         informations['state'] = self.getState()
         informations['portOK'] = self.isPortOK()
         return informations
 
-    """Gibt die externe Bezeichnung des Ports an. Diese steht z.B. an der Anschlussdose des Ports"""
-
     def getPortBoxName(self):
+        """Gibt die externe Bezeichnung des Ports an. Diese steht z.B. an der Anschlussdose des Ports"""
         return self.getSetting("wiring")
 
-    """Gibt die interne räpresentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt."""
-
     def getInternalPin(self):
+        """Gibt die interne räpresentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt."""
         return self.internalPin

@@ -1,0 +1,14 @@
+<div class="form-group">
+    <label for="{{name}}">Anschluss</label>
+    <select class="form-control {% if warnText != "" %} has-error {% endif %}" id="{{name}}" name="{{name}}"
+    aria-describedby="helpBlock-{{name}}">
+    {% for optionValue, display in settings['options'] %}
+    <option value="{{ optionValue }}" {% if optionValue== value %}selected{% endif %}>{{ display }}</option>
+    {% endfor %}
+    </select>
+    {% if warnText != "" %}
+    <span id="helpBlock-{{name}}" class="help-block">{{warnText|e}}</span>
+    {% elif helptext != "" %}
+    <span id="helpBlock-{{name}}" class="help-block">{{settings['description']|e}}</span>
+    {% endif %}
+</div>

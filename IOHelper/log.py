@@ -27,10 +27,11 @@ def readLog(port, start, end):
 
     loopTime = start
     while loopTime <= end:
-        logFileDir = baseDir + loopTime.strftime("%Y/%m/{}_%Y_%m_%d.dat".format(port.getName()))
+        filePath = baseDir + fileName
+        logFileDir = loopTime.strftime(filePath.format(port.getName()))
         logFiles.append(logFileDir)
         loopTime = loopTime + datetime.timedelta(days=1)
-
+    print(logFiles)
     for logFile in logFiles:
         path = logFile
 

@@ -37,35 +37,72 @@
             {% endfor %}
             </tbody>
         </table>
+        <canvas id="myChart" width="400" height="400"></canvas>
     </div>
 </div>
+
 {% endblock %}
 
 {% block javascript %}
+<script src="/static/js/chart.js"></script>
+<script src="/static/js/moment.js"></script>
 <script>
-        var reloadStatusFunction = function() {
-            $.getJSON( "/api/currentStatus", function( data ) {
-                $.each( data, function( key, val ) {
-                    $("#" + val.settings.name + "-state").text(val.state + " " + val.settings.unit);
-                    if (val.portOK == true) {
-                        $("#" + val.settings.name + "-isok").removeClass("danger");
-                        $("#" + val.settings.name + "-isok").addClass("success");
-                        $("#" + val.settings.name + "-isok > .glyphicon").removeClass("glyphicon-remove");
-                        $("#" + val.settings.name + "-isok > .glyphicon").addClass("glyphicon-ok");
-                        $("#" + val.settings.name + "-isok > .info-text").text("O.K.");
-                    } else {
-                        $("#" + val.settings.name + "-isok").addClass("danger");
-                        $("#" + val.settings.name + "-isok").removeClass("success");
-                        $("#" + val.settings.name + "-isok > .glyphicon").addClass("glyphicon-remove");
-                        $("#" + val.settings.name + "-isok > .glyphicon").removeClass("glyphicon-ok");
-                        $("#" + val.settings.name + "-isok > .info-text").text("Portfehler");
-                    }
-                });
+    var reloadStatusFunction = function () {
+        $.getJSON("/api/currentStatus", function (data) {
+            $.each(data, function (key, val) {
+                $("#" + val.settings.name + "-state").text(val.state + " " + val.settings.unit);
+                if (val.portOK == true) {
+                    $("#" + val.settings.name + "-isok").removeClass("danger");
+                    $("#" + val.settings.name + "-isok").addClass("success");
+                    $("#" + val.settings.name + "-isok > .glyphicon").removeClass("glyphicon-remove");
+                    $("#" + val.settings.name + "-isok > .glyphicon").addClass("glyphicon-ok");
+                    $("#" + val.settings.name + "-isok > .info-text").text("O.K.");
+                } else {
+                    $("#" + val.settings.name + "-isok").addClass("danger");
+                    $("#" + val.settings.name + "-isok").removeClass("success");
+                    $("#" + val.settings.name + "-isok > .glyphicon").addClass("glyphicon-remove");
+                    $("#" + val.settings.name + "-isok > .glyphicon").removeClass("glyphicon-ok");
+                    $("#" + val.settings.name + "-isok > .info-text").text("Portfehler");
+                }
             });
-            window.setTimeout(reloadStatusFunction, 1000)
-        }
+        });
         window.setTimeout(reloadStatusFunction, 1000)
+    }
+    window.setTimeout(reloadStatusFunction, 1000)
+</script>
+<script>
+    var ctx = document.getElementById("myChart");
+    $.getJSON("/api/getLog", {
+        portName: 'Bla'
+    }, function (rawData) {
+        var dataset = [];
+        var labels = [];
+        for (var i = 0; i < rawData.length; i++) {
+            dataset.push(rawData[i][2]);
+            labels.push(moment.unix(rawData[i][1]));
+        }
 
-
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dataset
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            displayFormats: {
+                                quarter: 'MMM YYYY'
+                            }
+                        }
+                    }]
+                }
+            }
+        });
+    });
 </script>
 {% endblock %}

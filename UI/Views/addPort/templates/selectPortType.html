@@ -1,38 +1,41 @@
 {% extends "master.phtml" %}
 
 {% block body %}
-<div class="row">
-    <h2>1. Schritt: Port Typ Auswählen</h2>
-    <div class="col-md-6 col-md-offset-3">
-        <form class="form-horizontal" method="post" action="/addPort/portSetUP">
-            <div class="form-group row">
-                <label for="portType" class="col-sm-2 control-label">Porttyp</label>
-                <div class="col-sm-10">
-                    <select class="form-control" id="portType" name="portType">
-                        {% for portType in portTypes %}
-                        <option value="{{ portType }}">{{ portType }}</option>
-                        {% endfor %}
-                    </select>
+    <div class="row">
+        <h2>1. Schritt: Port Typ Auswählen</h2>
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-horizontal" method="post" action="/addPort/portSetUP">
+                <div class="form-group row">
+                    <label for="portType" class="col-sm-2 control-label">Porttyp</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="portType" name="portType">
+                            {% for portType in portTypes %}
+                                <option value="{{ portType }}">{{ portType }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-3">
-                <button class="btn btn-success" type="submit">Weiter</button>
-            </div>
-        </form>
+                <div class="col-sm-3">
+                    <button class="btn btn-success" type="submit">Weiter</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <span class="glyphicon glyphicon-question-sign"></span> Warum werden manche Porttypen nicht angezeigt?
-            </div>
-            <div class="panel-body">
-                <p>Das System überprüft vor der Erstellung von Ports, ob es noch freie konfigurierbare Anschlüsse gibt.
-                    Sollte dies nicht der Fall sein, so werden diese Ports auch nicht angezeigt. Es müssen erst Ports
-                    gelöscht werden, bevor neue erstellt werden können.</p>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-question-sign"></span> Warum werden manche Porttypen nicht
+                    angezeigt?
+                </div>
+                <div class="panel-body">
+                    <p>Das System überprüft vor der Erstellung von Ports, ob es noch freie konfigurierbare Anschlüsse
+                        gibt.
+                        Sollte dies nicht der Fall sein, so werden diese Ports auch nicht angezeigt. Es müssen erst
+                        Ports
+                        gelöscht werden, bevor neue erstellt werden können.</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

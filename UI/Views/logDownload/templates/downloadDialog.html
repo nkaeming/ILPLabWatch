@@ -1,0 +1,36 @@
+{% extends 'master.phtml' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>Logdaten Downloaden</h2>
+            <form class="form-horizontal" action="/api/getLog" method="get">
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">Dateityp</label>
+                    <div class="col-sm-10">
+                        <select id="type" class="form-control">
+                            <option value="json">json (JavaScript Object Notation)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="startDate" class="col-sm-4 control-label">Startzeitpunkt</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="startDate" id="startDate" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="endDate" class="col-sm-4 control-label">Endzeitpunkt</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="endDate" id="endDate" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <input type="submit" value="Daten laden" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

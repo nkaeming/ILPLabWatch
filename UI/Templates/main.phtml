@@ -7,6 +7,8 @@
     }
 
 
+
+
 </style>
 {% endblock %}
 
@@ -28,7 +30,7 @@
             {% for port in portList %}
             <tr>
                 <td>{{ port.getName() }}</td>
-                <td id="{{ port.getName() }}-state" class="portValue" onclick="viewPortChart('{{port.getName()}}')">{{
+                <td class="portValue" portname="{{ port.getName() }}">{{
                     port.getState()|string + " " + port.getUnit() }}
                 </td>
                 {% if port.isPortOK() %}
@@ -60,7 +62,31 @@
                 <h4 class="modal-title" id="ModalLabel"></h4>
             </div>
             <div class="modal-body">
-                <canvas id="portChart"></canvas>
+                <ul class="nav nav-tabs">
+                    <li role="presentation" id="oneMinuteBackChart" class="active chartTabBar"><a
+                            href="javascript:void(0)">1 Minute</a></li>
+                    <li role="presentation" id="tenMinutesBackChart" class="chartTabBar"><a href="javascript:void(0)">10
+                        Minuten</a></li>
+                    <li role="presentation" id="oneHourBackChart" class="chartTabBar"><a href="javascript:void(0)">1
+                        Stunde</a></li>
+                    <li role="presentation" id="oneDayBackChart" class="chartTabBar"><a href="javascript:void(0)">1
+                        Tag</a></li>
+                    <li role="presentation"><a href="javascript:void(0)">Eigene</a></li>
+                </ul>
+                <div class="row">
+                    <div class="col-md-12" id="portChart">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"
+                                 aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            </div>
+                        </div>
+                        <canvas portname=""></canvas>
+                        <div class="alert alert-info" role="alert">
+                            <strong>Hinweis!</strong> Aktuell wird die Grafik auf eine begrenzte Anzahl von Datenpunkten
+                            beschränkt. Wichtige Messpunkte können daher verloren gehen.
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -96,16 +122,50 @@
         });
         window.setTimeout(reloadStatusFunction, 1000);
     }
-    window.setTimeout(reloadStatusFunction, 1000);
-    function viewPortChart(portName) {
-        $.getJSON("/api/currentStatus", {
-                portName: portName,
-            },
-            function (data) {
-                drawPortChart('portChart', data.settings);
-                $('#chartModal').modal('toggle');
-            });
+    reloadStatusFunction();
+
+    $.each($('.portValue'), function(key, tag){
+        $(tag).mouseup(function(){
+            portName = $(this).attr('portname');
+            currentDisplayPortName = portName;
+            $('#chartModal').modal('toggle');
+            $('.modal-title').text("Chart für " + portName);
+            $('.chartTabBar').removeClass("active");
+            $('#oneMinuteBackChart').addClass("active");
+            drawPortChart('portChart', portName, moment().subtract(1, 'minute'), moment(), 100);
+        });
+    });
+
+    $('#oneMinuteBackChart').mouseup(function (){
+        $('.chartTabBar').removeClass("active");
+        $(this).addClass("active");
+        redrawFromNavBar(1,'minute');
+    });
+
+    $('#tenMinutesBackChart').mouseup(function (){
+        $('.chartTabBar').removeClass("active");
+        $(this).addClass("active");
+        redrawFromNavBar(10,'minute');
+    });
+
+    $('#oneHourBackChart').mouseup(function (){
+        $('.chartTabBar').removeClass("active");
+        $(this).addClass("active");
+        redrawFromNavBar(1,'hour');
+    });
+
+    $('#oneDayBackChart').mouseup(function (){
+        $('.chartTabBar').removeClass("active");
+        $(this).addClass("active");
+        redrawFromNavBar(1,'day');
+    });
+
+    function redrawFromNavBar (value=1, type='minute') {
+        drawPortChart('portChart', "", moment().subtract(value, type), moment(), 100);
     }
 
+    function redrawPortChart(startDate, endDate, dataPoints) {
+        drawPortChart('portChart', "", startDate, endDate, dataPoints);
+    }
 </script>
 {% endblock %}

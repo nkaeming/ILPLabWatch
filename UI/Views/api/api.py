@@ -18,7 +18,7 @@ class api(AbstractView):
             return json.dumps(self.PortService.getPortByName(portName).getCurrentInformations())
 
     @cherrypy.expose
-    def getLog(self, portName="", portID="", type="json", startDate="", endDate=""):
+    def getLog(self, portName="", portID="", type="json", startDate="", endDate="", aboutPoints=0):
         """Gibt die Logdaten im angegebenden Zeitraum zurück. Zulässige typen sind json"""
         # TODO: Mehr typen hinzufügen
         if portName == "" and portID == "":
@@ -46,7 +46,7 @@ class api(AbstractView):
             port = self.PortService.getPortByName(portName)
 
         # daten je nach Typ auslesen.
-        data = Logreader.readLog(port, startDate, endDate)
+        data = Logreader.readLog(port, startDate, endDate, aboutPoints)
 
         if type == "json":
             return json.dumps(data)

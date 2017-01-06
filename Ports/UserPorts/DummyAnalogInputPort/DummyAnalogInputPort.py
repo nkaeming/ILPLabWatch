@@ -16,15 +16,15 @@ class DummyAnalogInputPort(AbstractPort):
         # generate a realistic value, near the old value.
         shortRangeValue = int((settings["max"] - settings["min"]) / 100)
         randomNumber = random.randint(0, shortRangeValue)
+        if random.randint(0, 1) == 0:
+            randomNumber = self.lastNumber + randomNumber
+        else:
+            randomNumber = self.lastNumber - randomNumber
         if randomNumber > settings["max"]:
             randomNumber = settings["max"]
         elif randomNumber < settings["min"]:
             randomNumber = settings["min"]
-
-        if random.randint(0, 1) == 0:
-            self.lastNumber = self.lastNumber + randomNumber
-        else:
-            self.lastNumber = self.lastNumber - randomNumber
+        self.lastNumber = randomNumber
         return self.lastNumber
 
     def getValueRange(self):

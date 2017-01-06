@@ -19,7 +19,7 @@ def writeLog(port):
     f.close()
 
 
-def readLog(port, start, end):
+def readLog(port, start, end, aboutPoints=0):
     """port ist der Port von dem das Log geladen werde soll. start und end sind datetime objekte."""
     # Alle Zeilen, die in dem Zeitraum liegen.
     output = []
@@ -32,7 +32,6 @@ def readLog(port, start, end):
         logFileDir = loopTime.strftime(filePath.format(port.getName()))
         logFiles.append(logFileDir)
         loopTime = loopTime + datetime.timedelta(days=1)
-    print(logFiles)
     for logFile in logFiles:
         path = logFile
 
@@ -61,6 +60,20 @@ def readLog(port, start, end):
         except FileNotFoundError:
             continue
 
+        output = sorted(output, key=lambda dataArray: dataArray[1])
+
+        # TODO: Performance verbessern. Hier werden erst Daten eingelesen und dann gelöscht
+        aboutPoints = int(aboutPoints)
+
+        if aboutPoints > 0:
+            numberOfDatapoints = len(output)
+            intervalLength = int(numberOfDatapoints / aboutPoints)
+            if intervalLength > 1:
+                newOutput = []
+                for i in range(0, numberOfDatapoints):
+                    if i % intervalLength == 0:
+                        newOutput.append(output[i])
+                output = sorted(newOutput, key=lambda dataArray: dataArray[1])
     return output
 
 

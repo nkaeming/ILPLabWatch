@@ -1,21 +1,45 @@
-function drawPortChart(elementId, portSettings, startDate, endDate) {
+function drawPortChart(elementId, portName="", startDate=0, endDate=0, dataPoints=0) {
     moment.locale('de');
-    var ctx = document.getElementById(elementId);
-    var portName = portSettings.name;
-    var unit = portSettings.unit;
-    $.getJSON("/api/getLog", {
+
+    //das Canvaselement auf dem der Chart erstellt werden soll.
+    ctx = $("#" + elementId + " > canvas");
+    ctx.hide();
+
+    //Wenn der Portname nicht angegeben wird, benutze den Portnamen vom ctx.
+    if (portName == "") {
+        portName = ctx.attr('portname');
+    }
+
+    //zeige Ladebalken
+    loadingBar = $("#" + elementId + " > .progress");
+    loadingBar.show();
+    //Infobox
+    infoBox = $("#" + elementId + " > .alert");
+    infoBox.hide()
+    //zunächst Infos zum Port holen.
+    var portUnit = ""
+    $.getJSON("/api/currentStatus", {portName: portName}, function(data) {
+        portUnit = data.settings.unit;
+
+        //im dataset sind alle Messdaten des Abfragezeitraums.
+        var dataset = []
+        //alle Labels zum Graphen.
+        var labels = []
+
+        //Die Logdaten abrufen
+        requestData = {
             portName: portName,
-            startDate: startDate,
-            endDate: endDate
-        },
-        function (rawData) {
-            var dataset = [];
-            var labels = [];
+            startDate: startDate.format('X'),
+            endDate: endDate.format('X'),
+            aboutPoints: dataPoints,
+        }
+        $.getJSON("/api/getLog", requestData, function(rawData) {
             for (var i = 0; i < rawData.length; i++) {
                 dataset.push({x: rawData[i][1], y: rawData[i][2]});
-                labels.push(rawData[i][1]);
+                labels.push(rawData[i][1])
             }
 
+            //das eigentliche Chartelement.
             var myLineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -54,5 +78,12 @@ function drawPortChart(elementId, portSettings, startDate, endDate) {
                     }
                 },
             });
+            if (dataPoints > 0) {
+                infoBox.show();
+            }
+            ctx.show();
+            ctx.attr('portname', portName)
+            loadingBar.hide();
         });
+    });
 }

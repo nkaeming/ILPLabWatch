@@ -20,6 +20,7 @@ def writeLog(port):
 
 
 def readLog(port, start, end):
+    """port ist der Port von dem das Log geladen werde soll. start und end sind datetime objekte."""
     # Alle Zeilen, die in dem Zeitraum liegen.
     output = []
     # Alle Logfiles die theoretisch betroffen sind.

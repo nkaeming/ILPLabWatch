@@ -24,6 +24,7 @@ class api(AbstractView):
         if portName == "" and portID == "":
             raise cherrypy.HTTPError(400, "Es muss entweder portName oder portID spezifiziert werden.")
 
+        # setze die passenden start und end Daten.
         if startDate == "":
             startDate = datetime.datetime.now() + datetime.timedelta(days=-1)
         else:
@@ -34,14 +35,17 @@ class api(AbstractView):
         else:
             endDate = datetime.datetime.fromtimestamp(float(endDate))
 
+        # prüfen ob das Startdatum zulässig ist.
         if startDate > endDate:
             raise cherrypy.HTTPError(400, "Das Startdatum darf nicht nach dem Enddatum liegen.")
 
+        # entscheide ob er port nach seiner ID oder seinem Namen geholt werden soll.
         if portName == "":
             port = self.PortService.getPortByID(portID)
         else:
             port = self.PortService.getPortByName(portName)
 
+        # daten je nach Typ auslesen.
         data = Logreader.readLog(port, startDate, endDate)
 
         if type == "json":

@@ -1,10 +1,12 @@
-function drawPortChart(elementId, portSettings) {
+function drawPortChart(elementId, portSettings, startDate, endDate) {
     moment.locale('de');
     var ctx = document.getElementById(elementId);
     var portName = portSettings.name;
     var unit = portSettings.unit;
     $.getJSON("/api/getLog", {
-            portName: portName
+            portName: portName,
+            startDate: startDate,
+            endDate: endDate
         },
         function (rawData) {
             var dataset = [];

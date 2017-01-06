@@ -11,4 +11,4 @@ class logDownload(AbstractView):
     @cherrypy.expose
     def index(self):
         template = self.jinjaEnv.get_template('downloadDialog.html')
-        return template.render()
+        return template.render(page='logs')

@@ -95,12 +95,28 @@ class AbstractPort(OptionableObject):
 
     # startet die Portthreads
     def startThreads(self):
-        if self.getSetting("logging") == True:
-            self.loggingThread = LoggingThread(self)
-            self.loggingThread.start()
+        # Ein Port der sich selbst updated registriert selber Veränderungen.
         if self.isSelfUpdating == False:
             self.watcherThread = WatcherThread(self)
             self.watcherThread.start()
+        # wenn bei dem Port logging aktiviert ist, so wird hier der entsprecende Deamon gestartet.
+        if self.getSetting("logging") == True:
+            self.loggingThread = LoggingThread(self)
+            self.loggingThread.start()
+
+    def restratThreads(self):
+        """Startet die Portthreads neu."""
+        self.stopThreads()
+        self.startThreads()
+
+    def stopThreads(self):
+        """Stoppt die Threads"""
+        if isinstance(self.loggingThread, LoggingThread):
+            self.loggingThread.stop()
+            self.loggingThread = None
+        if isinstance(self.watcherThread, WatcherThread):
+            self.watcherThread.stop()
+            self.watcherThread = None
 
     # gibt True zurück, wenn beim Port alles in Ordnung ist.
     def isPortOK(self):

@@ -1,5 +1,15 @@
 {% extends "master.phtml" %}
 
+{% block head %}
+<style>
+    .portValue {
+        cursor: pointer;
+    }
+
+
+</style>
+{% endblock %}
+
 {% block body %}
 <h1>Aktueller Status</h1>
 
@@ -18,7 +28,8 @@
             {% for port in portList %}
             <tr>
                 <td>{{ port.getName() }}</td>
-                <td id="{{ port.getName() }}-state">{{ port.getState()|string + " " + port.getUnit() }}
+                <td id="{{ port.getName() }}-state" class="portValue" onclick="viewPortChart('{{port.getName()}}')">{{
+                    port.getState()|string + " " + port.getUnit() }}
                 </td>
                 {% if port.isPortOK() %}
                 <td id="{{ port.getName() }}-isok" class="success"><span class="glyphicon glyphicon-ok"></span>
@@ -37,15 +48,32 @@
             {% endfor %}
             </tbody>
         </table>
-        <canvas id="myChart" width="400" height="400"></canvas>
     </div>
 </div>
 
+<div class="modal fade" id="chartModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Schließen"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="ModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <canvas id="portChart"></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascript %}
 <script src="/static/js/chart.js"></script>
 <script src="/static/js/moment.js"></script>
+<script src="static/js/portChart.js"></script>
 <script>
     var reloadStatusFunction = function () {
         $.getJSON("/api/currentStatus", function (data) {
@@ -66,43 +94,18 @@
                 }
             });
         });
-        window.setTimeout(reloadStatusFunction, 1000)
+        window.setTimeout(reloadStatusFunction, 1000);
     }
-    window.setTimeout(reloadStatusFunction, 1000)
-</script>
-<script>
-    var ctx = document.getElementById("myChart");
-    $.getJSON("/api/getLog", {
-        portName: 'Bla'
-    }, function (rawData) {
-        var dataset = [];
-        var labels = [];
-        for (var i = 0; i < rawData.length; i++) {
-            dataset.push(rawData[i][2]);
-            labels.push(moment.unix(rawData[i][1]));
-        }
-
-        var myLineChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: dataset
-                }]
+    window.setTimeout(reloadStatusFunction, 1000);
+    function viewPortChart(portName) {
+        $.getJSON("/api/currentStatus", {
+                portName: portName,
             },
-            options: {
-                scales: {
-                    xAxes: [{
-                        type: 'time',
-                        time: {
-                            displayFormats: {
-                                quarter: 'MMM YYYY'
-                            }
-                        }
-                    }]
-                }
-            }
-        });
-    });
+            function (data) {
+                drawPortChart('portChart', data.settings);
+                $('#chartModal').modal('toggle');
+            });
+    }
+
 </script>
 {% endblock %}

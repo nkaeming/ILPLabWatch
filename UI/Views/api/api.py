@@ -10,9 +10,12 @@ class api(AbstractView):
         super().__init__(PortService, TriggerService, AlertService)
 
     @cherrypy.expose
-    def currentStatus(self):
+    def currentStatus(self, portName=""):
         """Gibt den aktuellen Status aller Ports zurück."""
-        return json.dumps(self.PortService.getCurrentPortsInformations())
+        if portName == "":
+            return json.dumps(self.PortService.getCurrentPortsInformations())
+        else:
+            return json.dumps(self.PortService.getPortByName(portName).getCurrentInformations())
 
     @cherrypy.expose
     def getLog(self, portName="", portID="", type="json", startDate="", endDate=""):

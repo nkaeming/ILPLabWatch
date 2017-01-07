@@ -7,8 +7,6 @@
     }
 
 
-
-
 </style>
 {% endblock %}
 
@@ -124,43 +122,43 @@
     }
     reloadStatusFunction();
 
-    $.each($('.portValue'), function(key, tag){
-        $(tag).mouseup(function(){
+    $.each($('.portValue'), function (key, tag) {
+        $(tag).mouseup(function () {
             portName = $(this).attr('portname');
             currentDisplayPortName = portName;
             $('#chartModal').modal('toggle');
             $('.modal-title').text("Chart für " + portName);
             $('.chartTabBar').removeClass("active");
             $('#oneMinuteBackChart').addClass("active");
-            drawPortChart('portChart', portName, moment().subtract(1, 'minute'), moment(), 100);
+            drawPortChart('portChart', portName, moment().subtract(1, 'minutes'), moment(), 100);
         });
     });
 
-    $('#oneMinuteBackChart').mouseup(function (){
+    $('#oneMinuteBackChart').mouseup(function () {
         $('.chartTabBar').removeClass("active");
         $(this).addClass("active");
-        redrawFromNavBar(1,'minute');
+        redrawFromNavBar(1, 'minutes');
     });
 
-    $('#tenMinutesBackChart').mouseup(function (){
+    $('#tenMinutesBackChart').mouseup(function () {
         $('.chartTabBar').removeClass("active");
         $(this).addClass("active");
-        redrawFromNavBar(10,'minute');
+        redrawFromNavBar(10, 'minutes');
     });
 
-    $('#oneHourBackChart').mouseup(function (){
+    $('#oneHourBackChart').mouseup(function () {
         $('.chartTabBar').removeClass("active");
         $(this).addClass("active");
-        redrawFromNavBar(1,'hour');
+        redrawFromNavBar(1, 'hours');
     });
 
-    $('#oneDayBackChart').mouseup(function (){
+    $('#oneDayBackChart').mouseup(function () {
         $('.chartTabBar').removeClass("active");
         $(this).addClass("active");
-        redrawFromNavBar(1,'day');
+        redrawFromNavBar(1, 'days');
     });
 
-    function redrawFromNavBar (value=1, type='minute') {
+    function redrawFromNavBar(value, type) {
         drawPortChart('portChart', "", moment().subtract(value, type), moment(), 100);
     }
 

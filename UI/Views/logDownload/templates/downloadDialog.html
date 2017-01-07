@@ -1,73 +1,76 @@
 {% extends 'master.phtml' %}
 
 {% block head %}
-<link href="/static/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-datetimepicker.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <h2>Logdaten Downloaden</h2>
-        <form class="form-horizontal" action="/api/getLog" method="get" id="dataDownloadForm">
-            <div class="form-group">
-                <label for="portName" class="col-sm-2 control-label">Port</label>
-                <div class="col-sm-10">
-                    <select id="portName" class="form-control" name="portName">
-                        {% for port in ports %}
-                        <option value="{{ port.getName() }}">{{ port.getName() }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="type" class="col-sm-2 control-label">Dateityp</label>
-                <div class="col-sm-10">
-                    <select id="type" class="form-control">
-                        <option value="json">json (JavaScript Object Notation)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Zeitraum</label>
-                <div class="col-sm-10">
-                    <div class="input-group input-daterange" id="daterangeSelector">
-                        <input type="text" class="form-control" id="startDate">
-                        <input type="hidden" name="startDate" id="startDateHidden">
-                        <span class="input-group-addon">bis</span>
-                        <input type="text" class="form-control" id="endDate">
-                        <input type="hidden" name="endDate" id="endDateHidden">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>Logdaten Downloaden</h2>
+            <form class="form-horizontal" action="/api/getLog" method="get" id="dataDownloadForm">
+                <div class="form-group">
+                    <label for="portName" class="col-sm-2 control-label">Port</label>
+                    <div class="col-sm-10">
+                        <select id="portName" class="form-control" name="portName">
+                            {% for port in ports %}
+                                <option value="{{ port.getName() }}">{{ port.getName() }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <input type="submit" value="Daten laden" class="btn btn-primary">
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">Dateityp</label>
+                    <div class="col-sm-10">
+                        <select id="type" class="form-control">
+                            <option value="json">json (JavaScript Object Notation)</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Zeitraum</label>
+                    <div class="col-sm-10">
+                        <div class="input-group input-daterange" id="daterangeSelector">
+                            <input type="text" class="form-control" id="startDate">
+                            <input type="hidden" name="startDate" id="startDateHidden">
+                            <span class="input-group-addon">bis</span>
+                            <input type="text" class="form-control" id="endDate">
+                            <input type="hidden" name="endDate" id="endDateHidden">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        <input type="submit" value="Daten laden" class="btn btn-primary">
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block javascript %}
-<script src="/static/js/moment.js"></script>
-<script src="/static/js/bootstrap-datetimepicker.js"></script>
-<script src="/static/locales/de.js"></script>
-<script>
-var startDatePicker = $('#startDate').datetimepicker({
-    defaultDate: moment().subtract(1, 'day'),
-    locale: 'de',
-    format: 'DD.MM.YYYY H:mm',
-}).on('dp.change', function (date, oldDate) {
-        $("#startDateHidden").val(date.date.format("X"));
-});
-var endDatePicker = $('#endDate').datetimepicker({
-    defaultDate: moment(),
-    format: 'DD.MM.YYYY H:mm',
-    locale: 'de',
-}).on('dp.change', function(date, oldDate){
-    $("#endDateHidden").val(date.date.format("X"));
-});
-
-</script>
+    <script src="/static/js/moment.js"></script>
+    <script src="/static/js/bootstrap-datetimepicker.js"></script>
+    <script src="/static/locales/de.js"></script>
+    <script>
+        var startDatePicker = $('#startDate').datetimepicker({
+            defaultDate: moment().subtract(1, 'days'),
+            locale: 'de',
+            format: 'DD.MM.YYYY H:mm',
+        }).on('dp.change', function (date, oldDate) {
+            $("#startDateHidden").val(date.date.format("X"));
+        }).submit(function () {
+            $("#endDateHidden").val($(this).date().format("X"));
+        });
+        var endDatePicker = $('#endDate').datetimepicker({
+            defaultDate: moment(),
+            format: 'DD.MM.YYYY H:mm',
+            locale: 'de',
+        }).on('dp.change', function (date, oldDate) {
+            $("#endDateHidden").val(date.date.format("X"));
+        }).submit(function () {
+            $("#endDateHidden").val($(this).date().format("X"));
+        });
+    </script>
 {% endblock %}

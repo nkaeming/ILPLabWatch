@@ -65,7 +65,7 @@ def readLog(port, start, end, aboutPoints=0):
         # TODO: Performance verbessern. Hier werden erst Daten eingelesen und dann gelöscht
         aboutPoints = int(aboutPoints)
 
-        if aboutPoints > 0:
+        if aboutPoints > 0 and aboutPoints < len(output):
             numberOfDatapoints = len(output)
             intervalLength = int(numberOfDatapoints / aboutPoints)
             if intervalLength > 1:

@@ -165,17 +165,11 @@ class AbstractPort(OptionableObject):
     def getType(self):
         return str(self.__class__.__name__)
 
-    # gibt alle Anschlussmöglichkeiten für diesen Porttyp zurück.
     @classmethod
     def getInputs(cls):
+        """Gibt die Anschlussmöglichkeiten des Ports zurück. Sollte überschrieben werden, wenn der Port die Anschlüsse dynamisch nachlädt."""
         buildInPorts = configIO.loadWiring()[str(cls.__name__)]
-        ports = {**buildInPorts, **cls.getDynamicInputs()}
-        return ports
-
-    # kann bei dynamiscen Ports hinzugefügt werden.
-    @staticmethod
-    def getDynamicInputs():
-        return {}
+        return buildInPorts
 
     # gibt die minimale Aktualisierungszeit zurück.
     def getMinRefreshTime(self):

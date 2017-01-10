@@ -41,7 +41,7 @@
                 </td>
                 {% endif %}
                 <td>
-                    <a href="/editPort/?portID={{port.getID()}}"><span class="glyphicon glyphicon-pencil"></span>
+                    <a href="/conf/editPort/?portID={{port.getID()}}"><span class="glyphicon glyphicon-pencil"></span>
                         Bearbeiten</a>
                 </td>
             </tr>
@@ -108,6 +108,7 @@
                                 <label for="portChartPointsInput">Anzahl Datenpunkte (0=alle):</label>
                                 <input class="form-control" type="number" min="0" step="1" id="portChartPointsInput">
                                 <button class="btn btn-primary" id="portChartRedrawByPoints">Neu Zeichnen</button>
+                                <button class="btn btn-success" id="toggleDataPoints">Zeige Datenpunkte</button>
                             </div>
                         </div>
                     </div>

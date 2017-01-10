@@ -19,11 +19,27 @@ function drawPortChart(portName="", startDate=null, endDate=null, dataPoints=0) 
     if (endDate != null) {
         ctx.data('endDate', endDate);
     }
+    // Setzze die richtige Datenpunteanzal
+    if (dataPoints != 0) {
+        ctx.data('dataPoints', dataPoints);
+    } else if (typeof ctx.data('dataPoints') != "number") {
+        ctx.data('dataPoints', 0);
+    }
+    // entscheide ob die Datenpunkte angezeigt werden sollen oder nicht.
+    if(typeof ctx.data('displayDataPoints') != "boolean") {
+        ctx.data('displayDataPoints', false);
+    }
 
     portName = ctx.data('portName');
     startDate = ctx.data('startDate');
     endDate = ctx.data('endDate');
+    displayDataPoints = ctx.data('displayDataPoints');
 
+    // wenn die Datenpunkte angezeigt werden sollen, den radius setzen
+    var dataPointRadius = 0;
+    if (displayDataPoints == true) {
+        dataPointRadius = 4;
+    }
     //zeige Ladebalken
     loadingBar = $("#" + elementId + " > .progress");
     loadingBar.show();
@@ -68,7 +84,7 @@ function drawPortChart(portName="", startDate=null, endDate=null, dataPoints=0) 
                     datasets: [{
                         data: dataset,
                         label: portName,
-                        radius: 0,
+                        pointRadius: dataPointRadius,
                         borderColor: 'rgba(41, 59, 179, 1)',
                         backgroundColor: 'rgba(41, 59, 179, 0.1)',
                     }]
@@ -102,6 +118,13 @@ function drawPortChart(portName="", startDate=null, endDate=null, dataPoints=0) 
                     },
                     animation: {
                         duration: 0,
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(item) {
+                                return item.yLabel + " " + portUnit;
+                            }
+                        }
                     }
                 },
             });
@@ -124,5 +147,18 @@ $('#portChartPointsInput').keyup(function(e){
     if(code==13)e.preventDefault();
     if(code==32||code==13||code==188||code==186){
         drawPortChart("", null, null, $('#portChartPointsInput').val());
+    }
+});
+
+$('#toggleDataPoints').mouseup(function() {
+    ctx = $("#" + elementId + " > canvas");
+    if (ctx.data('displayDataPoints') == false) {
+        ctx.data('displayDataPoints', true);
+        $(this).text("Verstecke Datenpunkte");
+        drawPortChart("", null, null, 0);
+    } else {
+        ctx.data('displayDataPoints', false);
+        $(this).text("Zeige Datenpunkte");
+        drawPortChart("", null, null, 0);
     }
 });

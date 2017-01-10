@@ -5,9 +5,8 @@
     .portValue {
         cursor: pointer;
     }
-
-
 </style>
+<link href="/static/css/bootstrap-datetimepicker.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -69,8 +68,28 @@
                         Stunde</a></li>
                     <li role="presentation" id="oneDayBackChart" class="chartTabBar"><a href="javascript:void(0)">1
                         Tag</a></li>
-                    <li role="presentation"><a href="javascript:void(0)">Eigene</a></li>
+                    <li role="presentation" id="ownChartInterval" class="chartTabBar"><a href="javascript:void(0)">Eigene</a>
+                    </li>
                 </ul>
+                <div class="row hidden" id="ownChartIntervalSelector">
+                    <div class="col-md-12">
+                        <div class="form-inline">
+                            <label>Zeitraum wählen:</label>
+                            <div class="input-group input-daterange" id="daterangeSelector">
+                                <input type="text" class="form-control" id="ownChartIntervalStartDate">
+                                <input type="hidden" name="ownChartIntervalStartDate"
+                                       id="ownChartIntervalStartDateHidden">
+                                <span class="input-group-addon">bis</span>
+                                <input type="text" class="form-control" id="ownChartIntervalEndDate">
+                                <input type="hidden" name="ownChartIntervalEndDate" id="ownChartIntervalEndDateHidden">
+                                <span class="input-group-btn">
+                                    <input type="submit" value="Neu zeichnen" class="form-control btn btn-primary"
+                                           id="drawOwnChartInterval">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12" id="portChart">
                         <div class="progress">
@@ -78,11 +97,12 @@
                                  aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                             </div>
                         </div>
-                        <canvas portname=""></canvas>
+                        <canvas></canvas>
                         <div class="alert alert-info" role="alert">
                             <strong>Hinweis!</strong> Aktuell wird die Grafik auf eine begrenzte Anzahl von Datenpunkten
                             beschränkt. Wichtige Messpunkte können daher verloren gehen.
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -98,6 +118,8 @@
 <script src="/static/js/chart.js"></script>
 <script src="/static/js/moment.js"></script>
 <script src="static/js/portChart.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.js"></script>
+<script src="/static/locales/de.js"></script>
 <script>
     var reloadStatusFunction = function () {
         $.getJSON("/api/currentStatus", function (data) {
@@ -125,7 +147,6 @@
     $.each($('.portValue'), function (key, tag) {
         $(tag).mouseup(function () {
             portName = $(this).attr('portname');
-            currentDisplayPortName = portName;
             $('#chartModal').modal('toggle');
             $('.modal-title').text("Chart für " + portName);
             $('.chartTabBar').removeClass("active");
@@ -134,29 +155,51 @@
         });
     });
 
+     var startDatePicker = $('#ownChartIntervalStartDate').datetimepicker({
+        defaultDate: moment().subtract(1, 'days'),
+        locale: 'de',
+        format: 'DD.MM.YYYY H:mm',
+    });
+    var endDatePicker = $('#ownChartIntervalEndDate').datetimepicker({
+        defaultDate: moment(),
+        format: 'DD.MM.YYYY H:mm',
+        locale: 'de',
+    });
+
     $('#oneMinuteBackChart').mouseup(function () {
-        $('.chartTabBar').removeClass("active");
-        $(this).addClass("active");
+        renderTabBar(this);
         redrawFromNavBar(1, 'minutes');
     });
 
     $('#tenMinutesBackChart').mouseup(function () {
-        $('.chartTabBar').removeClass("active");
-        $(this).addClass("active");
+        renderTabBar(this);
         redrawFromNavBar(10, 'minutes');
     });
 
     $('#oneHourBackChart').mouseup(function () {
-        $('.chartTabBar').removeClass("active");
-        $(this).addClass("active");
+        renderTabBar(this);
         redrawFromNavBar(1, 'hours');
     });
 
     $('#oneDayBackChart').mouseup(function () {
-        $('.chartTabBar').removeClass("active");
-        $(this).addClass("active");
+        renderTabBar(this);
         redrawFromNavBar(1, 'days');
     });
+
+    $('#ownChartInterval').mouseup(function() {
+        renderTabBar(this);
+        $('#ownChartIntervalSelector').removeClass('hidden');
+    });
+
+    $('#drawOwnChartInterval').mouseup(function() {
+        redrawPortChart(startDatePicker.data('DateTimePicker').date(), endDatePicker.data('DateTimePicker').date());
+    });
+
+    function renderTabBar(caller){
+        $('.chartTabBar').removeClass("active");
+        $(caller).addClass('active');
+        $('#ownChartIntervalSelector').addClass('hidden');
+    }
 
     function redrawFromNavBar(value, type) {
         drawPortChart('portChart', "", moment().subtract(value, type), moment(), 100);

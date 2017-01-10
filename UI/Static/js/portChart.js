@@ -1,4 +1,4 @@
-function drawPortChart(elementId, portName="", startDate=0, endDate=0, dataPoints=0) {
+function drawPortChart(elementId, portName="", startDate=null, endDate=null, dataPoints=0) {
     moment.locale('de');
 
     //das Canvaselement auf dem der Chart erstellt werden soll.
@@ -7,8 +7,20 @@ function drawPortChart(elementId, portName="", startDate=0, endDate=0, dataPoint
 
     //Wenn der Portname nicht angegeben wird, benutze den Portnamen vom ctx.
     if (portName == "") {
-        portName = ctx.attr('portname');
+        portName = ctx.data('portName');
+    } else {
+        ctx.data('portName', portName);
     }
+    if (startDate != null) {
+        ctx.data('startDate', startDate);
+    }
+    if (endDate != null) {
+        ctx.data('endDate', endDate);
+    }
+
+    portName = ctx.data('portName');
+    startDate = ctx.data('startDate');
+    endDate = ctx.data('endDate');
 
     //zeige Ladebalken
     loadingBar = $("#" + elementId + " > .progress");
@@ -20,6 +32,10 @@ function drawPortChart(elementId, portName="", startDate=0, endDate=0, dataPoint
     var portUnit = ""
     $.getJSON("/api/currentStatus", {portName: portName}, function(data) {
         portUnit = data.settings.unit;
+        var yAxisString = "";
+        if (portUnit != "") {
+            var yAxisString = "Daten in " + portUnit;
+        }
 
         //im dataset sind alle Messdaten des Abfragezeitraums.
         var dataset = []
@@ -40,6 +56,9 @@ function drawPortChart(elementId, portName="", startDate=0, endDate=0, dataPoint
             }
 
             //das eigentliche Chartelement.
+            if(myLineChart != null){
+                myLineChart.destroy();
+            }
             var myLineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -64,6 +83,9 @@ function drawPortChart(elementId, portName="", startDate=0, endDate=0, dataPoint
                                 beginAtZero: false,
                                 fontFamily: 'sans-serif',
                             }
+                        }],
+                        yAxes: [{
+                            labelString: yAxisString,
                         }]
                     },
                     title: {
@@ -82,7 +104,6 @@ function drawPortChart(elementId, portName="", startDate=0, endDate=0, dataPoint
                 infoBox.show();
             }
             ctx.show();
-            ctx.attr('portname', portName)
             loadingBar.hide();
         });
     });

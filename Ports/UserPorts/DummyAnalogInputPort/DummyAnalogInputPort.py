@@ -34,3 +34,4 @@ class DummyAnalogInputPort(AbstractPort):
 
     def getDescription(self):
         return "Ein Dummyport, der zufällig generierte Zahlen ausgibt."
+

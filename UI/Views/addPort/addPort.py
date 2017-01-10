@@ -32,6 +32,7 @@ class addPort(AbstractView):
                                                'name': 'Anschluss'
                                            })
 
+        # ersetlle eine Liste mit dem internalPortSelector
         optionFields = [internalPortSelector]
         for optionName, optionSettings in options.items():
             optionFields.append(OptionField(optionName, optionSettings))

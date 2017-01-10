@@ -12,7 +12,7 @@ class conf(AbstractView):
     def index(self):
         """Bei nicht erkanntem Index oder Namen wird eine Liste aller Ports ausgegeben."""
         return self.jinjaEnv.get_template("portEditOverview.html").render(
-            portTypes=self.PortService.getConfigurablePortTypes(), page="verwalten")
+            page="verwalten", portList=self.PortService.getPorts())
 
     @cherrypy.expose
     def editPort(self, portID=0, portName=""):
@@ -28,6 +28,9 @@ class conf(AbstractView):
     def returnConfigPage(self, port):
         """Gibt die Konfigurationsseite zu einem Port aus."""
         if port != None:
-            return port.getName()
+            options = port.getOptions()
+            settings = port.getSettings()
+
+            return settings
         else:
             raise cherrypy.HTTPRedirect("/conf")

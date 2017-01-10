@@ -5,6 +5,7 @@
     .portValue {
         cursor: pointer;
     }
+
 </style>
 <link href="/static/css/bootstrap-datetimepicker.css" rel="stylesheet">
 {% endblock %}
@@ -102,7 +103,13 @@
                             <strong>Hinweis!</strong> Aktuell wird die Grafik auf eine begrenzte Anzahl von Datenpunkten
                             beschränkt. Wichtige Messpunkte können daher verloren gehen.
                         </div>
-
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label for="portChartPointsInput">Anzahl Datenpunkte (0=alle):</label>
+                                <input class="form-control" type="number" min="0" step="1" id="portChartPointsInput">
+                                <button class="btn btn-primary" id="portChartRedrawByPoints">Neu Zeichnen</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,7 +131,7 @@
     var reloadStatusFunction = function () {
         $.getJSON("/api/currentStatus", function (data) {
             $.each(data, function (key, val) {
-                $("#" + val.settings.name + "-state").text(val.state + " " + val.settings.unit);
+                $(".portValue[portname='" + val.settings.name + "']").text(val.state + " " + val.settings.unit);
                 if (val.portOK == true) {
                     $("#" + val.settings.name + "-isok").removeClass("danger");
                     $("#" + val.settings.name + "-isok").addClass("success");
@@ -151,7 +158,7 @@
             $('.modal-title').text("Chart für " + portName);
             $('.chartTabBar').removeClass("active");
             $('#oneMinuteBackChart').addClass("active");
-            drawPortChart('portChart', portName, moment().subtract(1, 'minutes'), moment(), 100);
+            drawPortChart(portName, moment().subtract(1, 'minutes'), moment(), 100);
         });
     });
 
@@ -202,11 +209,12 @@
     }
 
     function redrawFromNavBar(value, type) {
-        drawPortChart('portChart', "", moment().subtract(value, type), moment(), 100);
+        drawPortChart("", moment().subtract(value, type), moment(), 100);
     }
 
     function redrawPortChart(startDate, endDate, dataPoints) {
-        drawPortChart('portChart', "", startDate, endDate, dataPoints);
+        drawPortChart("", startDate, endDate, dataPoints);
     }
+
 </script>
 {% endblock %}

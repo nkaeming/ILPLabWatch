@@ -30,15 +30,39 @@ class conf(AbstractView):
         """Gibt die Konfigurationsseite zu einem Port aus."""
         if port != None:
             options = port.getOptions()
-            settings = port.getSettings()
             portType = port.getType()
 
             optionFields = []
-            for optionName, optionSettings in options.items():
-                optionFields.append(OptionField(optionName, optionSettings))
 
+            # selektiere nur die nicht finalen Optionen
+            def isOptionFinal(option):
+                """Erwartet ein Tupel mit (Optionname, Optioneinstellungen). Gibt den Wert der final Einstellung zurück oder aber False."""
+                try:
+                    return option[1]['final']
+                except KeyError:
+                    return False
+
+            onlyNotFinalOptions = filter(lambda option: isOptionFinal(option) == False, options.items())
+
+            for optionName, optionSettings in options.items():
+                # wenn die Einstellung final ist, der Typ des Inputfelds auf einfach Textausgabe setzen.
+                if 'final' in optionSettings:
+                    if optionSettings['final']:
+                        optionSettings['type'] = 'finalDisplayString'
+
+                optionFields.append(OptionField(optionName, optionSettings, port.getSetting(optionName)))
+            # hier stehen alle veränderbaren Einstellungen drin.
             optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
-            return self.jinjaEnv.get_template("editPortSettings.html").render(options=optionFields, page='hinzufuegen',
+
+            # wähle alle Einstellungen die nicht verändert werden können.
+            fixFields = []
+            for optionName, optionSettings in filter(lambda option: isOptionFinal(option) == True, options.items()):
+                fixFields.append({
+                    'displayName': optionSettings['name'],
+                    'value': port.getSetting(optionName)
+                })
+
+            return self.jinjaEnv.get_template("editPortSettings.html").render(options=optionFields, page='verwalten',
                                                                               portType=portType, port=port)
         else:
             raise cherrypy.HTTPRedirect("/conf")

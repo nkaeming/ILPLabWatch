@@ -77,6 +77,8 @@ class OptionField:
 
         elif inType == 'select':
             template = self.jinjaEnv.get_template('FormsSelectInput.html')
+        elif inType == 'finalDisplayString':
+            template = self.jinjaEnv.get_template('FormsFinalDisplayString.html')
         else:
             template = self.jinjaEnv.get_template('FormsType404.html')
         self.template = template

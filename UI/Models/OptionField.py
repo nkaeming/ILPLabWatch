@@ -130,4 +130,7 @@ class OptionField:
         return self.name
 
     def getValue(self):
-        return self.value
+        if type == 'number':
+            return float(self.value)
+        else:
+            return self.value

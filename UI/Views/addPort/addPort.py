@@ -79,7 +79,7 @@ class addPort(AbstractView):
             portSettings = {'type': portType, 'wiring': args['wiring']}
             for optionField in optionFields:
                 portSettings[optionField.getName()] = optionField.getValue()
-            print(portSettings)
+
             portID = self.PortService.generateAndAddNewPort(portSettings)
             return self.jinjaEnv.get_template('savePort.html').render(portSettings=portSettings, portID=portID,
                                                                       page="hinzufuegen")

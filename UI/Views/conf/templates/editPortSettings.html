@@ -6,8 +6,8 @@
             <h2>Einstellungen von {{ port.getName()|e }}
                 <small>{{ portType|e }}</small>
             </h2>
-            <form method="post" action="/addPort/savePort">
-                <input type="hidden" name="type" value="{{ portType }}">
+            <form method="post" action="/conf/saveChanges">
+                <input type="hidden" name="port-id" value="{{ port.getID()|e }}">
                 {% for option in options %}
                     {{ option.getHtml() }}
                 {% endfor %}

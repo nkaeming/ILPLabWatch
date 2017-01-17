@@ -59,7 +59,7 @@ class AbstractPort(OptionableObject):
             "name": "Einheit",
             "description": "Die Einheit die der Port haben soll.",
             "standard": "",
-            "final": True,
+            "final": False,
             "required": False
         }
     }
@@ -228,3 +228,6 @@ class AbstractPort(OptionableObject):
     def getInternalPin(self):
         """Gibt die interne räpresentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt."""
         return self.internalPin
+
+    def getServiceName(self):
+        return "PortService"

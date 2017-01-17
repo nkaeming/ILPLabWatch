@@ -31,18 +31,17 @@ class conf(AbstractView):
         if port != None:
             options = port.getOptions()
             portType = port.getType()
-
             optionFields = []
-
-            # selektiere nur die nicht finalen Optionen
-            def isOptionFinal(option):
-                """Erwartet ein Tupel mit (Optionname, Optioneinstellungen). Gibt den Wert der final Einstellung zurück oder aber False."""
-                try:
-                    return option[1]['final']
-                except KeyError:
-                    return False
-
-            onlyNotFinalOptions = filter(lambda option: isOptionFinal(option) == False, options.items())
+            optionFields.append(
+                OptionField('wiring',
+                            {
+                                'type': 'finalDisplayString',
+                                'description': 'Der Anschluss an dem das zu überwachende Gerät angeschlossen wurde.',
+                                'tab': -42,
+                                'required': True,
+                                'name': 'Anschluss'
+                            }, port.getSetting('wiring'))
+            )
 
             for optionName, optionSettings in options.items():
                 # wenn die Einstellung final ist, der Typ des Inputfelds auf einfach Textausgabe setzen.
@@ -54,15 +53,50 @@ class conf(AbstractView):
             # hier stehen alle veränderbaren Einstellungen drin.
             optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
 
-            # wähle alle Einstellungen die nicht verändert werden können.
-            fixFields = []
-            for optionName, optionSettings in filter(lambda option: isOptionFinal(option) == True, options.items()):
-                fixFields.append({
-                    'displayName': optionSettings['name'],
-                    'value': port.getSetting(optionName)
-                })
-
             return self.jinjaEnv.get_template("editPortSettings.html").render(options=optionFields, page='verwalten',
                                                                               portType=portType, port=port)
         else:
             raise cherrypy.HTTPRedirect("/conf")
+
+    @cherrypy.expose
+    def saveChanges(self, **args):
+        port = self.PortService.getPortByID(args['port-id'])
+        allOK = True
+        optionFields = []
+        for optionName, optionSettings in port.getOptions().items():
+            if not 'final' in optionSettings:
+                optionSettings['final'] = False
+
+            if optionSettings['final'] == False:
+                optionField = OptionField(optionName, optionSettings, args[optionName])
+                if not optionField.evaluate():
+                    allOK = False
+                else:
+                    port.setSetting(optionName, optionField.getValue())
+            else:
+                optionSettings['type'] = 'finalDsiplayString'
+                optionField = OptionField(optionName, optionSettings, port.getSetting(optionName))
+
+            optionFields.append(optionField)
+
+        # Wenn alle Felder ordentlich ausgefüllt waren, wird er Port gespeichert.
+        if allOK:
+            return self.jinjaEnv.get_template('portSettingsSuccessfulChanged.html').render(port=port, page="verwalten")
+        else:
+            # erzeugung der Selectoption für den Port.
+            optionFields.append(optionFields.append(
+                OptionField('wiring',
+                            {
+                                'type': 'finalDisplayString',
+                                'description': 'Der Anschluss an dem das zu überwachende Gerät angeschlossen wurde.',
+                                'tab': -42,
+                                'required': True,
+                                'name': 'Anschluss'
+                            },
+                            port.getSetting('wiring'))
+            )
+            )
+            optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
+
+            return self.jinjaEnv.get_template("editPortSettings.html").render(options=optionFields, page='verwalten',
+                                                                              portType=port.getType(), port=port)

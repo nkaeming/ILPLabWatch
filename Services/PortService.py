@@ -47,7 +47,9 @@ class PortService(Observable, Observer, PersistantObject):
     def generatePort(self, portID, settings):
         type = settings["type"]
         classPointer = self.getPortClassByType(type)
-        return classPointer(settings, portID)
+        port = classPointer(settings, portID)
+        port.addObserver(self)
+        return port
 
     # gibt eine Liste der Ports zurück. Zulässig sind alle abstrakten settings (name, description, logCycle, logging und unit)
     def getPorts(self, setting="name", reverse=False):

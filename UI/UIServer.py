@@ -59,7 +59,7 @@ class UIServer():
             '/static': {
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': 'UI/Static'
-            }
+            },
         }
 
         # fügt die index Klasse hinzu.
@@ -67,5 +67,6 @@ class UIServer():
         cherrypy.tree.mount(uiMain, '/', conf)
 
         # startet die cherrypy engine
+        cherrypy.config.update({'server.socket_host': '134.100.109.149'})
         cherrypy.engine.start()
         cherrypy.engine.block()

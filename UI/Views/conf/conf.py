@@ -1,5 +1,6 @@
 from UI.AbstractView import AbstractView
 import cherrypy
+from UI.Models.OptionField import OptionField
 
 
 class conf(AbstractView):
@@ -30,7 +31,14 @@ class conf(AbstractView):
         if port != None:
             options = port.getOptions()
             settings = port.getSettings()
+            portType = port.getType()
 
-            return settings
+            optionFields = []
+            for optionName, optionSettings in options.items():
+                optionFields.append(OptionField(optionName, optionSettings))
+
+            optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
+            return self.jinjaEnv.get_template("editPortSettings.html").render(options=optionFields, page='hinzufuegen',
+                                                                              portType=portType, port=port)
         else:
             raise cherrypy.HTTPRedirect("/conf")

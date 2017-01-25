@@ -1,5 +1,5 @@
 import importlib, uuid, pkgutil
-import
+import IOHelper.config as configIO
 from Models.Observable import Observable
 from Models.Observer import Observer
 from Models.PersistantObject import PersistantObject

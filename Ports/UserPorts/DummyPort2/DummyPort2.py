@@ -1,4 +1,5 @@
 from Ports.AbstractPort import AbstractPort
+import random
 
 class DummyPort2(AbstractPort):
     def __init__(self, childSettings, id):
@@ -8,7 +9,7 @@ class DummyPort2(AbstractPort):
         self.nachInit()
 
     def getPrivateState(self):
-        return 5
+        return self.getSetting("returnValue") + random.randint(0,5)
 
     def getValueRange(self):
         return [0, 10, 1]

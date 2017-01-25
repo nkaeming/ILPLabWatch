@@ -115,13 +115,13 @@ class OptionField:
             # prüfen ob der Wert im Wertebereich liegt.
             if not (float(self.value) >= float(self.settings['min']) and float(self.value) <= float(
                     self.settings['max'])):
-                self.warnText += " Der Wert liegt außerhalb des zugelassenden Bereichs von " + self.settings[
-                    'min'] + " bis " + self.settings['max']
+                self.warnText += " Der Wert liegt außerhalb des zugelassenden Bereichs von " + str(self.settings[
+                    'min']) + " bis " + str(self.settings['max'])
                 ok = False
             # Prüfen ob der Wert durch die Auflösung aufgelöst werden kann
-            if not (float(self.value) % float(self.settings['resolution']) == 0):
-                self.warnText += " Der Wert entspricht nicht der zugelassenden Auflösung von " + self.settings[
-                    'resolution'] + "."
+            if not (int(float(self.value) % float(self.settings['resolution'])) == 0):
+                self.warnText += " Der Wert entspricht nicht der zugelassenden Auflösung von " + str(self.settings[
+                    'resolution']) + "."
                 ok = False
         self.warnText = self.warnText.strip()
         return ok

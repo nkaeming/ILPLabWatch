@@ -69,7 +69,6 @@ class TriggerService(PersistantObject, Observer):
     # wird aufggerufen, wenn sich ein Observable geändert hat.
     def observableChanged(self, observable):
         # wenn das zu überwachende Objekt ein trigger ist, dann hat sich die Konfiguration geändert.
-        print("Die Triggerconf soll geupdatet werden.")
         if isinstance(observable, Trigger):
             self.writeConf()
 

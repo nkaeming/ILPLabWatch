@@ -1,6 +1,7 @@
 from UI.AbstractView import AbstractView
 import cherrypy
 from UI.Models.OptionField import OptionField
+from Ports.AbstractPort import AbstractPort
 
 
 class conf(AbstractView):
@@ -25,6 +26,20 @@ class conf(AbstractView):
         else:
             raise cherrypy.HTTPRedirect("/conf")
         return self.returnConfigPage(port)
+
+    @cherrypy.expose
+    def portEditOptions(self, portID=""):
+        """Zeigt die Einstellungsmöglichkeiten für diesen Port an."""
+        if portID == "":
+            raise cherrypy.HTTPRedirect('/conf')
+        port = self.PortService.getPortByID(portID)
+
+        if isinstance(port, AbstractPort):
+            triggers = self.TriggerService.getTriggerByPort(port)
+            return self.jinjaEnv.get_template("portEditOptions.html").render(
+                page="verwalten", port=port, triggers=triggers)
+        else:
+            raise cherrypy.HTTPRedirect('/conf')
 
     def returnConfigPage(self, port):
         """Gibt die Konfigurationsseite zu einem Port aus."""

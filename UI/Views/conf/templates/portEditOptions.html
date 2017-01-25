@@ -1,0 +1,41 @@
+{% extends "master.phtml" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Einstellungen zu {{ port.getName()|e }}
+                <small>{{ port.getType()|e }}</small>
+            </h2>
+            <a href="/conf/editPort?portID={{ port.getID()|e }}">Allgemeine Porteinstellungen</a>
+            <hr>
+            <h2>Trigger</h2>
+            <a href="/addTrigger?portID={{ port.getID()|e }}">Trigger hinzufügen</a>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <td><strong>Min</strong></td>
+                    <td><strong>Max</strong></td>
+                    <td><strong>Alerts</strong></td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for trigger in triggers %}
+                    <tr>
+                    <td>{{ trigger.getMinimalValue()|e }}</td>
+                    <td>{{ trigger.getMaximalValue()|e }}</td>
+                        <td>
+                            {% for alert in trigger.getAlerts() %}
+                                {{ alert.getName()|e }}&nbsp;
+                            {% endfor %}
+                        </td>
+                    <td>
+                        <a href="deleteTrigger/?triggerID={{ trigger.getID()|e }}">Trigger löschen</a>
+                    </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

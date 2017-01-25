@@ -10,6 +10,7 @@ class DummyAnalogInputPort(AbstractPort):
         random.seed(self.getSetting("randomSeed"))
         self.lastNumber = int((self.getSetting("max") - self.getSetting("min")) / 2)
         self.minRefreshTime = 5
+        self.nachInit()
 
     def getPrivateState(self):
         settings = self.getSettings()

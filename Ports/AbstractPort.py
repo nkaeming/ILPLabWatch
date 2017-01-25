@@ -30,7 +30,7 @@ class AbstractPort(OptionableObject):
             "type": "text",
             "tab": -1,
             "name": "Beschreibung",
-            "description": "Eine Beschribung des Ports.",
+            "description": "Eine Beschreibung des Ports.",
             "length": 200
         },
         "logCycle": {
@@ -91,6 +91,9 @@ class AbstractPort(OptionableObject):
         self.superSettings["type"] = self.getType()
         self.internalPin = self.getInputs()[childSettings["wiring"]]
         super().__init__({**self.superSettings, **childSettings})
+
+    def nachInit(self):
+        """Ausführen nachdem alle Init-Prozesse abgeschlossen sind. Also nach dem SetUp der GPIO-Ports. Ggf. überschreiben."""
         self.startThreads()
 
     # startet die Portthreads

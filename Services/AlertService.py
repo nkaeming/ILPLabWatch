@@ -67,3 +67,7 @@ class AlertService(PersistantObject, Observer):
         alert.addObserver(self)
         self.writeConf()
         return alert
+
+    def getAlerts(self, setting="name", reverse=False):
+        """Gibt alle Alerts zurück."""
+        return sorted(self.alerts, key=lambda alert: alert.getSetting(setting), reverse=reverse)

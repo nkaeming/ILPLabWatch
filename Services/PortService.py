@@ -1,4 +1,5 @@
 import importlib, uuid, pkgutil
+import
 from Models.Observable import Observable
 from Models.Observer import Observer
 from Models.PersistantObject import PersistantObject
@@ -112,11 +113,12 @@ class PortService(Observable, Observer, PersistantObject):
         """Gibt alle Porttypen zurück, welche zurzeit freie Anschlüsse zum Konfigurieren haben."""
         availablePortTypes = []
         for portType in self.getPortTypes():
-            classPointer = self.getPortClassByType(portType)
-            availablePorts = len(classPointer.getInputs().keys())
-            usedPorts = len(self.getPortsByType(portType))
-            if availablePorts > usedPorts:
-                availablePortTypes.append(portType)
+            if portType in configIO.loadWiring().keys():
+                classPointer = self.getPortClassByType(portType)
+                availablePorts = len(classPointer.getInputs().keys())
+                usedPorts = len(self.getPortsByType(portType))
+                if availablePorts > usedPorts:
+                    availablePortTypes.append(portType)
         return availablePortTypes
 
     def getPortClassByType(self, portType):

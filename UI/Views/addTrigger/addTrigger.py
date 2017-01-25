@@ -15,4 +15,4 @@ class addTrigger(AbstractView):
         port = self.PS.getPortById(portID)
 
         return self.jinjaEnv.get_template("addTrigger.html").render(
-            page="verwalten", port=port)
+            page="verwalten", port=port, alerts = self.AlertService.getAlerts("name"))

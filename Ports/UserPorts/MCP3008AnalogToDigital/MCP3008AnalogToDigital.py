@@ -1,6 +1,6 @@
 from Ports.AbstractPort import AbstractPort
 import IOHelper.config as configIO
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 
 class MCP3008AnalogToDigital(AbstractPort):
     """Portklasse für den MCP3008 10-Bit A/D Wandler."""
@@ -38,11 +38,13 @@ class MCP3008AnalogToDigital(AbstractPort):
     def getInputs(cls):
         """Gibt die Anschlüsse zurück."""
         connectors = {}
-        wiring = configIO.loadWiring()[str(cls.__name__)]
-        for wandler in wiring.keys():
-            for i in range(1,9):
-                connectors["Wandler:" + str(wandler) + " Anschluss: " + str(i)] = str(wandler) + "-" + str(i)
-        return connectors
+        if str(cls.__name__) in configIO.loadWiring().keys():
+            wiring = configIO.loadWiring()[str(cls.__name__)]
+            for wandler in wiring.keys():
+                for i in range(1,9):
+                    connectors["Wandler:" + str(wandler) + " Anschluss: " + str(i)] = str(wandler) + "-" + str(i)
+            return connectors
+        return {}
 
     def getValueRange(self):
         linearFaktor = self.getSetting("linearScalar")

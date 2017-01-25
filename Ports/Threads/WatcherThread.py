@@ -13,6 +13,7 @@ class WatcherThread(Thread):
 
     def run(self):
         self.running = True
+        self.port.portChanged(self.port.getPrivateState())
         lastState = self.port.getPrivateState()
         while True and self.running == True:
             time.sleep(self.port.getMinRefreshTime())

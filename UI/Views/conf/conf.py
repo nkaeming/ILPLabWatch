@@ -14,7 +14,7 @@ class conf(AbstractView):
     def index(self):
         """Bei nicht erkanntem Index oder Namen wird eine Liste aller Ports ausgegeben."""
         return self.jinjaEnv.get_template("portEditOverview.html").render(
-            page="verwalten", portList=self.PortService.getPorts())
+            page="verwalten", portList=self.PortService.getPorts(), alertLise=self.AlertService.getAlerts())
 
     @cherrypy.expose
     def editPort(self, portID=0, portName=""):

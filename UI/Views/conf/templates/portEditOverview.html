@@ -3,10 +3,17 @@
 {% block body %}
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <h1>Port zum konfigurieren wählen</h1>
+        <h1>Konfigurationsübersicht</h1>
+        <h2>Ports</h2>
         <ul>
             {% for port in portList %}
             <li><a href="/conf/portEditOptions/?portID={{ port.getID() }}">{{ port.getName() }} ({{port.getType()}})</a></li>
+            {% endfor %}
+        </ul>
+        <h2>Alerts</h2>
+        <ul>
+            {% for alert in alertList %}
+            <li><a href="/conf/alertEditOptions/?alertID={{ alert.getID() }}">{{ alert.getName() }} ({{alert.getType()}})</a></li>
             {% endfor %}
         </ul>
     </div>

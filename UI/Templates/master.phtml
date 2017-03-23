@@ -49,14 +49,17 @@
                     Start</a></li>
                 <li {% if page=="verwalten" %} class="active" {% endif %}><a href="/conf"><span
                         class="glyphicon glyphicon-wrench"></span> Verwalten</a></li>
-                <li {% if page=="hinzufuegen" %} class="active" {% endif %}><a href="/addPort"><span
+                <li {% if page=="portHinzufuegen" %} class="active" {% endif %}><a href="/addPort"><span
                         class="glyphicon glyphicon-plus"></span> Port Hinzufügen</a></li>
+                <li {% if page=="alertHinzufuegen" %} class="active" {% endif %}><a href="/addAlert"><span
+                        class="glyphicon glyphicon-plus"></span> Alert Hinzufügen</a></li>
                 <li {% if page=="logs" %} class="active" {% endif %}><a href="/logDownload"><span
                         class="glyphicon glyphicon-list-alt"></span> Logs</a></li>
                 {% else %}
                 <li class="active"><a href="/"><span class="glyphicon glyphicon-home"></span> Start</a></li>
                 <li><a href="/conf"><span class="glyphicon glyphicon-wrench"></span> Verwalten</a></li>
                 <li><a href="/addPort"><span class="glyphicon glyphicon-plus"></span> Port Hinzufügen</a></li>
+                <li><a href="/addAlert"><span class="glyphicon glyphicon-plus"></span> Alert Hinzufügen</a></li>
                 <li><a href="/logDownload"><span class="glyphicon glyphicon-list-alt"></span> Logs</a></li>
                 {% endif %}
             </ul>

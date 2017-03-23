@@ -1,7 +1,7 @@
 from Models.PersistantObject import PersistantObject
 from Models.Observer import Observer
 from Alerts.AbstractAlert import AbstractAlert
-import importlib, uuid
+import importlib, uuid, pkgutil
 
 
 class AlertService(PersistantObject, Observer):
@@ -24,7 +24,7 @@ class AlertService(PersistantObject, Observer):
     def getAlertObject(self, id, settings):
         alertById = self.getAlertByID(id)
         if alertById == None:
-            classPointer = getattr(importlib.import_module("Alerts." + settings["type"] + "." + settings["type"]),
+            classPointer = getattr(importlib.import_module("Alerts.UserAlerts." + settings["type"] + "." + settings["type"]),
                                    settings["type"])
             return classPointer(id, settings)
         else:
@@ -71,3 +71,29 @@ class AlertService(PersistantObject, Observer):
     def getAlerts(self, setting="name", reverse=False):
         """Gibt alle Alerts zurück."""
         return sorted(self.alerts, key=lambda alert: alert.getSetting(setting), reverse=reverse)
+
+    def getAlertTypes(self):
+        """Gibt alle Porttypen zurück die konfigurierbar sind"""
+        alertTypes = []
+        for alertType in pkgutil.iter_modules(['Alerts/UserAlerts']):
+            alertTypes.append(alertType[1])
+        return alertTypes
+
+    def getAlertClassByType(self, alertType):
+        """Gibt einen Zeiger auf die Klasse zurück, welche den Alert definiert."""
+        return getattr(importlib.import_module("Alerts.UserAlerts." + alertType + "." + alertType), alertType)
+
+    def doesAlertExistByName(self, name):
+        """Prüft ob ein Portname bereits existiert."""
+        return len(list(filter(lambda alert: alert.getName() == name, self.getAlerts()))) != 0
+
+    def generateAndAddNewAlert(self, settings):
+        """Erzeugt einen neuen Alert und fügt diesen hinzu."""
+        alertID = str(uuid.uuid4())
+        alertInstance = self.getAlertObject(alertID, settings)
+        alertInstance.addObserver(self)
+        self.alerts.append(alertInstance)
+        # die Konfigurationsdatei neu schreiben
+        self.writeConf()
+
+        return alertID

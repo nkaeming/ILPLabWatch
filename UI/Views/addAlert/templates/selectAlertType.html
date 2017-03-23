@@ -1,0 +1,24 @@
+{% extends "master.phtml" %}
+
+{% block body %}
+    <div class="row">
+        <h2>1. Schritt: Alret Typ Auswählen</h2>
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-horizontal" method="post" action="/addAlert/alertSetUP">
+                <div class="form-group row">
+                    <label for="portType" class="col-sm-2 control-label">Porttyp</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="alertType" name="alertType">
+                            {% for alertType in alertTypes %}
+                                <option value="{{ alertType }}">{{ alertType }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-success" type="submit">Weiter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

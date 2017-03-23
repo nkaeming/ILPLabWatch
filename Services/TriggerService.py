@@ -35,7 +35,6 @@ class TriggerService(PersistantObject, Observer):
                 raise ReferenceError("A Trigger can't exists without a Port.")
             else:
                 trigger = Trigger(id, settings["range"][0], settings["range"][1], port, settings["warnTrigger"])
-                print(settings['alerts'])
                 if "alerts" in settings.keys():
                     for alertID in settings["alerts"]:
                         alert = self.alertServcie.getAlertByID(alertID)

@@ -10,13 +10,14 @@ class AbstractAlert(OptionableObject):
             "tab": -1,
             "name": "Alertbezeichnung",
             "description": "Der Name des Alerts bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.",
-            "final": True
+            "final": True,
+            "required": True
         },
         "description": {
             "type": "text",
             "tab": 0,
             "name": "Beschreibung",
-            "desciption": "Eine Beschribung des Alerts.",
+            "description": "Eine Beschreibung des Alerts.",
             "length": 200
         }
     }
@@ -37,8 +38,9 @@ class AbstractAlert(OptionableObject):
         raise NotImplementedError
 
     # gibt die Optionen des Alerts zurück. Diese werden dann in der GUI angezeigt. Kann überschrieben werden, sofern nötig.
-    def getOptions(self):
-        return {**super().getOptions, **self.superOptions}
+    @classmethod
+    def getOptions(cls):
+        return {**super().getOptions(), **cls.superOptions}
 
     # gibt die AlertID zurück.
     def getID(self):

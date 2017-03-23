@@ -12,7 +12,7 @@ class addPort(AbstractView):
     @cherrypy.expose
     def index(self):
         return self.jinjaEnv.get_template("selectPortType.html").render(
-            portTypes=self.PortService.getConfigurablePortTypes(), page="hinzufuegen")
+            portTypes=self.PortService.getConfigurablePortTypes(), page="portHinzufuegen")
 
     @cherrypy.expose
     def portSetUP(self, portType):
@@ -40,7 +40,7 @@ class addPort(AbstractView):
         optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
 
         return self.jinjaEnv.get_template("setSettingsOfPort.html").render(wirings=freePortConnections,
-                                                                           options=optionFields, page='hinzufuegen',
+                                                                           options=optionFields, page='portHinzufuegen',
                                                                            portType=portType)
 
     @cherrypy.expose
@@ -82,7 +82,7 @@ class addPort(AbstractView):
 
             portID = self.PortService.generateAndAddNewPort(portSettings)
             return self.jinjaEnv.get_template('savePort.html').render(portSettings=portSettings, portID=portID,
-                                                                      page="hinzufuegen")
+                                                                      page="portHinzufuegen")
         else:
             # erzeugung der Selectoption für den Port.
             freePortConnections = self.PortService.getFreeInputsOfPortType(portType)
@@ -104,5 +104,5 @@ class addPort(AbstractView):
             optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
             freePortConnections = self.PortService.getFreeInputsOfPortType(portType)
             return self.jinjaEnv.get_template("setSettingsOfPort.html").render(wirings=freePortConnections,
-                                                                               options=optionFields, page='hinzufuegen',
+                                                                               options=optionFields, page='portHinzufuegen',
                                                                                portType=portType)

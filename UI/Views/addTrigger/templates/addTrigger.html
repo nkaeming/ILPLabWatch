@@ -7,13 +7,26 @@
                 <small>{{ portType|e }}</small>
             </h2>
             <form method="post" action="/addTrigger/saveTrigger">
-                <input type="hidden" name="port-id" value="{{ port.getID()|e }}">
+                <input type="hidden" name="portID" value="{{ port.getID()|e }}">
                 <div class="form-group">
                     <div class="well well-sm">Mit * gekennzeichnete Felder müssen ausgefüllt werden.</div>
                 </div>
                 <div class="form-group">
+                    <lable for="lowerBoundInput">Untere Grenze*</lable>
+                    <input type="number" id="lowerBoundInput" name="lowerBound" class="form-control" min="{{ port.getValueRange()[0]|e }}" max="{{ port.getValueRange()[1]|e }}" step="{{ port.getValueRange()[2]|e }}"
+                </div>
+                <div class="form-group">
+                    <lable for="upperBoundInput">Obere Grenze*</lable>
+                    <input type="number" id="upperBoundInput" name="upperBound" class="form-control" min="{{ port.getValueRange()[0]|e }}" max="{{ port.getValueRange()[1]|e }}" step="{{ port.getValueRange()[2]|e }}"
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="warntrigger"> Warntrigger
+                    </label>
+                </div>
+                <div class="form-group">
                     <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-save"></span>
-                        Änderungen speichern
+                        Trigger hinzufügen
                     </button>
                 </div>
             </form>

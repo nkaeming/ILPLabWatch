@@ -115,3 +115,15 @@ class conf(AbstractView):
 
             return self.jinjaEnv.get_template("editPortSettings.html").render(options=optionFields, page='verwalten',
                                                                               portType=port.getType(), port=port)
+
+    @cherrypy.expose
+    def deleteTrigger(self, triggerID):
+        """Löscht einen Trigger aus dem System mit Vorwarnung"""
+        return self.jinjaEnv.get_template("deleteTrigger.html").render(page='verwalten', triggerID=triggerID)
+
+
+    @cherrypy.expose
+    def deleteTriggerSure(self, triggerID):
+        """Löscht einen Trigger aus dem System ohne Vorwarnung"""
+        self.TriggerService.removeTrigger(triggerID)
+        raise cherrypy.HTTPRedirect('/')

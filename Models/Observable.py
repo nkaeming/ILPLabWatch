@@ -11,6 +11,11 @@ class Observable():
     def removeObserver(self, observer):
         self.observers.remove(observer)
 
+    def removeAllObservers(self):
+        """Entfernt alle Observer"""
+        for observer in self.observers:
+            self.removeObserver(observer)
+
     # informiert alle Observer über eine Änderung
     def informObserver(self):
         for observer in self.observers:

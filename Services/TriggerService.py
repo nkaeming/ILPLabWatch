@@ -35,6 +35,7 @@ class TriggerService(PersistantObject, Observer):
                 raise ReferenceError("A Trigger can't exists without a Port.")
             else:
                 trigger = Trigger(id, settings["range"][0], settings["range"][1], port, settings["warnTrigger"])
+                print(settings['alerts'])
                 if "alerts" in settings.keys():
                     for alertID in settings["alerts"]:
                         alert = self.alertServcie.getAlertByID(alertID)
@@ -71,6 +72,13 @@ class TriggerService(PersistantObject, Observer):
         # wenn das zu überwachende Objekt ein trigger ist, dann hat sich die Konfiguration geändert.
         if isinstance(observable, Trigger):
             self.writeConf()
+
+    def removeTrigger(self, triggerID):
+        """Entfernt einen Trigger permanent"""
+        trigger = self.getTriggerByID(triggerID)
+        trigger.removeAllObservers()
+        self.triggers.remove(trigger)
+        self.writeConf()
 
     # fügt einen neuen Trigger hinzu und speichert ihn persistent.
     def addTigger(self, settings):

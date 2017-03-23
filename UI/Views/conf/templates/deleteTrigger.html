@@ -1,0 +1,15 @@
+{% extends "master.phtml" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-warning">
+                <div class="panel-heading">Trigger löschen?</div>
+                <div class="panel-body">
+                    Beim Löschen des Triggers wird nur der Trigger gelöscht. Die Alerts bleiben erhalten, werden aber nicht mehr ausgelöst.
+                    <a href="/conf/deleteTriggerSure/?triggerID={{ triggerID|e }}" class="btn btn-warning">Trigger löschen</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

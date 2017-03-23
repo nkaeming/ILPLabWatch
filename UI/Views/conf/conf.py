@@ -2,6 +2,7 @@ from UI.AbstractView import AbstractView
 import cherrypy
 from UI.Models.OptionField import OptionField
 from Ports.AbstractPort import AbstractPort
+from Alerts.AbstractAlert import AbstractAlert
 
 
 class conf(AbstractView):
@@ -14,7 +15,7 @@ class conf(AbstractView):
     def index(self):
         """Bei nicht erkanntem Index oder Namen wird eine Liste aller Ports ausgegeben."""
         return self.jinjaEnv.get_template("portEditOverview.html").render(
-            page="verwalten", portList=self.PortService.getPorts(), alertLise=self.AlertService.getAlerts())
+            page="verwalten", portList=self.PortService.getPorts(), alertList=self.AlertService.getAlerts())
 
     @cherrypy.expose
     def editPort(self, portID=0, portName=""):
@@ -40,6 +41,63 @@ class conf(AbstractView):
                 page="verwalten", port=port, triggers=triggers)
         else:
             raise cherrypy.HTTPRedirect('/conf')
+
+    @cherrypy.expose
+    def alertEditOptions(self, alertID=""):
+        """Zeigt die Einstellungsmöglichkeiten für diesen Alert an."""
+        if alertID == "":
+            raise cherrypy.HTTPRedirect('/conf')
+        alert = self.AlertService.getAlertByID(alertID)
+
+        if isinstance(alert, AbstractAlert):
+            optionFields = []
+            options = alert.getOptions()
+            for optionName, optionSettings in options.items():
+                # wenn die Einstellung final ist, der Typ des Inputfelds auf einfach Textausgabe setzen.
+                if 'final' in optionSettings:
+                    if optionSettings['final']:
+                        optionSettings['type'] = 'finalDisplayString'
+
+                optionFields.append(OptionField(optionName, optionSettings, alert.getSetting(optionName)))
+
+            optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
+
+            return self.jinjaEnv.get_template("alertEditOptions.html").render(
+                page="verwalten", alert=alert, options=optionFields)
+        else:
+            raise cherrypy.HTTPRedirect('/conf')
+
+    @cherrypy.expose
+    def saveAlertOptions(self, **args):
+        """Speichert die Änderung an den Einstellungen eines Alerts."""
+        alert = self.AlertService.getAlertByID(args['alertID'])
+        allOK = True
+        optionFields = []
+        for optionName, optionSettings in alert.getOptions().items():
+            if not 'final' in optionSettings:
+                optionSettings['final'] = False
+
+            if optionSettings['final'] == False:
+                optionField = OptionField(optionName, optionSettings, args[optionName])
+                if not optionField.evaluate():
+                    allOK = False
+                else:
+                    alert.setSetting(optionName, optionField.getValue())
+            else:
+                optionSettings['type'] = 'finalDsiplayString'
+                optionField = OptionField(optionName, optionSettings, alert.getSetting(optionName))
+
+            optionFields.append(optionField)
+
+        # Wenn alle Felder ordentlich ausgefüllt waren, wird er Port gespeichert.
+        if allOK:
+            return self.jinjaEnv.get_template('alertSettingsSuccessfulChanged.html').render(alert=alert, page="verwalten")
+        else:
+            # erzeugung der Selectoption für den Port.
+            optionFields = sorted(optionFields, key=lambda optionField: optionField.getTabIndex())
+
+            return self.jinjaEnv.get_template("alertEditOptions.html").render(options=optionFields, page='verwalten',
+                                                                              alertType=alert.getType(), alert=alert)
 
     def returnConfigPage(self, port):
         """Gibt die Konfigurationsseite zu einem Port aus."""

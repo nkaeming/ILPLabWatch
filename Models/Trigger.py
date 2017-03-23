@@ -72,9 +72,10 @@ class Trigger(Observer, Observable):
 
     # entfernt einen alert
     def removeAlert(self, alert):
-        self.alerts.remove(alert)
-        from Services.TriggerService import TriggerService
-        self.informObserverOfType(TriggerService)
+        if alert in self.alerts:
+            self.alerts.remove(alert)
+            from Services.TriggerService import TriggerService
+            self.informObserverOfType(TriggerService)
 
     # gibt die Einstellungen des triggers als dict zurück.
     def getSettings(self):

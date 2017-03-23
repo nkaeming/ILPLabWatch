@@ -86,3 +86,15 @@ class TriggerService(PersistantObject, Observer):
         self.triggers.append(trigger)
         self.writeConf()
         return trigger
+
+    def removeTriggersByPort(self, port):
+        """Löscht alle Trigger eines bestimmten Ports"""
+        for trigger in self.triggers:
+            if trigger.getPort() == port:
+                self.removeTrigger(trigger.getID())
+        self.writeConf()
+
+    def removeTriggersByAlert(self, alert):
+        """Löscht alle Trigger eines Alerts"""
+        for trigger in self.triggers:
+            trigger.removeAlert(alert)

@@ -1,0 +1,18 @@
+{% extends "master.phtml" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-danger">
+                <div class="panel-heading">Port wirklich löschen?</div>
+                <div class="panel-body">
+                    <p>Soll der Port {{ port.getName()|e }} wirklich gelöscht werden? Die Trigger die mit diesem Port
+                        in Verbindung stehen werden ebenfalls gelöscht.</p>
+                    <p>Die Logdateien werden aus dem System entfernt. Es gibt jetzt die Möglichkeit diese zu speichern.
+                        <a href="/api/getLog?portID={{ port.getID()|e }}&type=text" download>Logdaten Download</a></p>
+                    <a href="removePortSure?portID={{ port.getID()|e }}" class="btn btn-danger">Ja, Port löschen</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

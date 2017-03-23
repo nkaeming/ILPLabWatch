@@ -19,4 +19,3 @@ class LoggingThread(Thread):
 
     def stop(self):
         self.running = False
-        self._stop()

@@ -197,12 +197,8 @@ class AbstractPort(OptionableObject):
     # Zwei Ports sollen genau dann gleich sein, wenn ihre ID übereinstimmt.
     def __eq__(self, other):
         if self.__class__ == other.__class__:
-            if self.getID() == other.getID():
-                return True
-            else:
-                return False
-        else:
-            return False
+            return self.getID() == other.getID()
+        return False
 
     # gibt die Beschreibung des Porttyps zurück.
     def getDescription(self):

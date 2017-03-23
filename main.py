@@ -8,6 +8,8 @@ if __name__ == '__main__':
     AS = AlertService()
     PS = PortService()
     TS = TriggerService(PS, AS)
+    AS.setTriggerService(TS)
+    PS.setTriggerService(TS)
 
     server = UIServer(PS, TS, AS)
     server.start()

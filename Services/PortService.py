@@ -11,7 +11,7 @@ class PortService(Observable, Observer, PersistantObject):
     # alle Ports
     ports = []
 
-    triggerService = None
+    TriggerService = None
 
     def __init__(self):
         self.setUp()
@@ -22,7 +22,7 @@ class PortService(Observable, Observer, PersistantObject):
 
     # setzt den TriggerService
     def setTriggerService(self, triggerService):
-        self.triggerService = triggerService
+        self.TriggerService = triggerService
 
     # erzeugt die Instanzen der Portklassen
     def setUp(self):
@@ -135,3 +135,11 @@ class PortService(Observable, Observer, PersistantObject):
     def doesPortExistByName(self, name):
         """Prüft ob ein Portname bereits existiert."""
         return len(list(filter(lambda port: port.getName() == name, self.getPorts()))) != 0
+
+    def removePort(self, port):
+        """Löscht einen Port"""
+        port.removeAllObservers()
+        self.TriggerService.removeTriggersByPort(port)
+        port.stopThreads()
+        self.ports.remove(port)
+        self.writeConf()

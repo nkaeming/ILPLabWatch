@@ -18,6 +18,26 @@ def writeLog(port):
     f.write(datetime.datetime.now().strftime("%H:%M:%S:%f") + " " + str(data) + "\n")
     f.close()
 
+def deleteLog(port):
+    """Löscht alle Logdaten eines Ports."""
+    year = datetime.datetime.now().year
+    runYear = 2017
+    portName = port.getName()
+    while runYear <= year:
+        for runMonth in ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']:
+            try:
+                for fn in os.listdir('logs/' + str(runYear) + '/' + str(runMonth)):
+                    print(fn)
+                    if os.path.isfile('logs/' + str(runYear) + '/' + str(runMonth) + '/' + str(fn)):
+                        path = 'logs/' + str(runYear) + '/' + str(runMonth) + '/' + str(fn)
+                        logFileParts = os.path.basename(path).split("_")
+                        name = logFileParts[0]
+                        if name == portName:
+                            os.remove(path)
+                        print(path)
+            except FileNotFoundError:
+                continue
+        runYear += 1
 
 def readLog(port, start, end, aboutPoints=0):
     """port ist der Port von dem das Log geladen werde soll. start und end sind datetime objekte."""
@@ -54,7 +74,7 @@ def readLog(port, start, end, aboutPoints=0):
                                                 minute=logTimeFull.minute, second=logTimeFull.second,
                                                 microsecond=logTimeFull.microsecond)
                 if logDateTime >= start and logDateTime <= end:
-                    output.append([name, logDateTime.timestamp(), data[1]])
+                    output.append((name, logDateTime.timestamp(), data[1]))
 
             f.close()
         except FileNotFoundError:
@@ -75,9 +95,3 @@ def readLog(port, start, end, aboutPoints=0):
                         newOutput.append(output[i])
                 output = sorted(newOutput, key=lambda dataArray: dataArray[1])
     return output
-
-
-# archiviert die Logs von einem Port.
-def archivLog(port):
-    # TODO: implement
-    pass

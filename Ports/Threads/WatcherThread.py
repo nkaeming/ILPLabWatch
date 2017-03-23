@@ -24,4 +24,3 @@ class WatcherThread(Thread):
 
     def stop(self):
         self.running = False
-        self._stop()

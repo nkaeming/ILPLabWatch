@@ -19,14 +19,14 @@ class api(AbstractView):
 
     @cherrypy.expose
     def getLog(self, portName="", portID="", type="json", startDate="", endDate="", aboutPoints=0):
-        """Gibt die Logdaten im angegebenden Zeitraum zurück. Zulässige typen sind json"""
+        """Gibt die Logdaten im angegebenden Zeitraum zurück. Zulässige typen sind json, text"""
         # TODO: Mehr typen hinzufügen
         if portName == "" and portID == "":
             raise cherrypy.HTTPError(400, "Es muss entweder portName oder portID spezifiziert werden.")
 
         # setze die passenden start und end Daten.
         if startDate == "":
-            startDate = datetime.datetime.now() + datetime.timedelta(days=-1)
+            startDate = datetime.datetime.fromtimestamp(1490276794)
         else:
             startDate = datetime.datetime.fromtimestamp(float(startDate))
 
@@ -50,3 +50,8 @@ class api(AbstractView):
 
         if type == "json":
             return json.dumps(data)
+        elif type == "text":
+            file = ""
+            for dataPoint in data:
+                file += datetime.datetime.fromtimestamp(dataPoint[1]).strftime("%Y-%m-%dT%H:%M:%S") + " " + str(dataPoint[2]) + "\r\n"
+            return file

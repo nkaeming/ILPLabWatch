@@ -61,3 +61,9 @@ class AbstractAlert(OptionableObject):
     # Gibt den Namen des Services der die Objekte verwaltet zurück.
     def getServiceName(self):
         return "AlertService"
+
+    def __eq__(self, other):
+        """Prüft zwei Alerts auf Gleichheit. Zwei ALerts sind gleich bei gleicher ID und gleichem Typ"""
+        if other.__class__ == self.__class__:
+            return other.getID() == self.getID()
+        return False

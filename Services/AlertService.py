@@ -8,9 +8,15 @@ class AlertService(PersistantObject, Observer):
     """Der Alertservcie verwaltet und erzeugt alle Alerts."""
 
     alerts = []  # eine Liste aller alert Objekte.
+    TriggerService = None
+
 
     def __init__(self):
         self.setUp()
+
+    def setTriggerService(self, TS):
+        """Setzt den Trigger Service"""
+        self.TriggerService = TS
 
     # erzeugt alle alerts für das erste mal. Protected nicht von außen aufrufen.
     def setUp(self):
@@ -97,3 +103,10 @@ class AlertService(PersistantObject, Observer):
         self.writeConf()
 
         return alertID
+
+    def removeAlert(self, alert):
+        """Löscht einen Alert"""
+        alert.removeAllObservers()
+        self.TriggerService.removeTriggersByAlert(alert)
+        self.alerts.remove(alert)
+        self.writeConf()

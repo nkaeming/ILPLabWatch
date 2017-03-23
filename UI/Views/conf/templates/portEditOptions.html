@@ -30,7 +30,11 @@
                             {% endfor %}
                         </td>
                     <td>
-                        <a href="/conf/deleteTrigger/?triggerID={{ trigger.getID()|e }}">Trigger löschen</a>
+                        <ul>
+                            <li><a href="/conf/deleteTrigger/?triggerID={{ trigger.getID()|e }}">Trigger löschen</a></li>
+                            <li><a href="/addAlertToTrigger?triggerID={{ trigger.getID()|e }}&portID={{ port.getID()|e }}">Alertverbindung hinzufügen</a></li>
+                            <li><a href="/removeAlertFromTrigger/?triggerID={{ trigger.getID()|e }}&portID={{ port.getID()|e }}">Alertverbidnung entfernen </a></li>
+                        </ul>
                     </td>
                     </tr>
                 {% endfor %}

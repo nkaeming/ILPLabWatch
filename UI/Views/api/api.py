@@ -48,10 +48,10 @@ class api(AbstractView):
         # daten je nach Typ auslesen.
         data = Logreader.readLog(port, startDate, endDate, aboutPoints)
 
-        if type == "json":
-            return json.dumps(data)
-        elif type == "text":
+        if type == "text":
             file = ""
             for dataPoint in data:
                 file += datetime.datetime.fromtimestamp(dataPoint[1]).strftime("%Y-%m-%dT%H:%M:%S") + " " + str(dataPoint[2]) + "\r\n"
             return file
+        else:
+            return json.dump(data)

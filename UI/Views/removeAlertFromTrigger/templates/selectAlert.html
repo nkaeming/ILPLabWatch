@@ -1,0 +1,43 @@
+{% extends "master.phtml" %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>Alert von Trigger lösen</h2>
+            <h3>Port: {{ port.getName()|e }}</h3>
+            <form action="/removeAlertFromTrigger/remove" , method="post">
+                <input type="hidden" name="portID" value="{{ port.getID()|e }}">
+                <input type="hidden" name="triggerID" value="{{ trigger.getID()|e }}">
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">Alert</label>
+                    <div class="col-sm-10">
+                        <select id="type" class="form-control" name="alertID">
+                            {% for alert in alerts %}
+                                <option value="{{ alert.getID()|e }}">{{ alert.getName()|e }}
+                                    ({{ alert.getType()|e }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Entfernen</button>
+            </form>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Was passiert beim Entfernen?
+                </div>
+                <div class="panel-body">
+                    <p>Beim Entfernen des Alerts vom Trigger wird nur die Verbindung der beiden getrennt. Trigger als
+                        auch Alert bleiben erhalten. Das ermöglicht maximale Flexibilität bei der Kopplung verschiedener
+                        Ports mit verschiedenen Alerts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block head %}
+    <style>
+        div.panel {
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}

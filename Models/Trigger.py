@@ -31,7 +31,7 @@ class Trigger(Observer, Observable):
 
     # Prüft ob der Trigger ausgelöst werden soll
     def check(self):
-        if self.triggerRange[0] <= self.port.getState() or self.port.getState() <= self.triggerRange[1]:
+        if self.triggerRange[0] <= self.port.getState() and self.port.getState() <= self.triggerRange[1]:
             self.callAlerts()
 
     # ruft alle alerts auf

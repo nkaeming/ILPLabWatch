@@ -22,25 +22,31 @@
                 <tbody>
                 {% for trigger in triggers %}
                     <tr>
-                    <td>{{ trigger.getMinimalValue()|e }}</td>
-                    <td>{{ trigger.getMaximalValue()|e }}</td>
+                        <td>{{ trigger.getMinimalValue()|e }}</td>
+                        <td>{{ trigger.getMaximalValue()|e }}</td>
                         <td>
                             {% for alert in trigger.getAlerts() %}
                                 {{ alert.getName()|e }}&nbsp;
                             {% endfor %}
                         </td>
-                    <td>
-                        <ul>
-                            <li><a href="/conf/deleteTrigger/?triggerID={{ trigger.getID()|e }}">Trigger löschen</a></li>
-                            <li><a href="/addAlertToTrigger?triggerID={{ trigger.getID()|e }}&portID={{ port.getID()|e }}">Alertverbindung hinzufügen</a></li>
-                            <li><a href="/removeAlertFromTrigger/?triggerID={{ trigger.getID()|e }}&portID={{ port.getID()|e }}">Alertverbidnung entfernen </a></li>
-                        </ul>
-                    </td>
+                        <td>
+                            <ul>
+                                <li><a href="/conf/editTrigger/?triggerID={{ trigger.getID()|e }}">Trigger
+                                    bearbeiten</a>
+                                </li>
+                                <li>
+                                    <a href="/addAlertToTrigger?triggerID={{ trigger.getID()|e }}&portID={{ port.getID()|e }}">Alertverbindung
+                                        hinzufügen</a></li>
+                                <li>
+                                    <a href="/removeAlertFromTrigger/?triggerID={{ trigger.getID()|e }}&portID={{ port.getID()|e }}">Alertverbidnung
+                                        entfernen </a></li>
+                            </ul>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-        <a class="btn btn-danger" href="/removePort?portID={{ port.getID()|e }}">Port löschen</a>
+            <a class="btn btn-danger" href="/removePort?portID={{ port.getID()|e }}">Port löschen</a>
         </div>
     </div>
 {% endblock %}

@@ -55,7 +55,10 @@ class Trigger(Observer, Observable):
     # fügt ein neues alert Objekt hinzu.
     def appendAlert(self, alert):
         self.alerts.append(alert)
+        self.informTriggerService()
 
+    def informTriggerService(self):
+        """Private Methode um den Triggerservice zu informieren"""
         from Services.TriggerService import TriggerService
         self.informObserverOfType(TriggerService)
 
@@ -95,6 +98,16 @@ class Trigger(Observer, Observable):
         conf["alerts"] = alertList
 
         return conf
+
+    def setWarntrigger(self, value):
+        """Stellt ein ob der Trigger in Warntrigger ist."""
+        self.warnTrigger = value
+        self.informTriggerService()
+
+    def setInterval(self, value):
+        self.triggerRange = value
+        self.informTriggerService()
+
 
     # zwei Trigger sind gleich, wenn ihre ID gleich ist.
     def __eq__(self, other):

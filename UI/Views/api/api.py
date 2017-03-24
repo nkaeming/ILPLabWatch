@@ -54,4 +54,4 @@ class api(AbstractView):
                 file += datetime.datetime.fromtimestamp(dataPoint[1]).strftime("%Y-%m-%dT%H:%M:%S") + " " + str(dataPoint[2]) + "\r\n"
             return file
         else:
-            return json.dump(data)
+            return json.dumps(data)

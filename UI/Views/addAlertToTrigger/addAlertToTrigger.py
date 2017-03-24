@@ -20,5 +20,6 @@ class addAlertToTrigger(AbstractView):
     def saveRelation(self, triggerID, alertID, portID):
         alert = self.AlertService.getAlertByID(alertID)
         trigger = self.TriggerService.getTriggerByID(triggerID)
+        print(trigger)
         trigger.appendAlert(alert)
         raise cherrypy.HTTPRedirect('/conf/portEditOptions/?portID=' + str(portID))

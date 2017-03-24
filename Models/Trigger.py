@@ -96,7 +96,4 @@ class Trigger(Observer, Observable):
         if self.__class__ == other.__class__:
             if self.getID() == other.getID():
                 return True
-            else:
-                return False
-        else:
-            return False
+        return False

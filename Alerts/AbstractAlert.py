@@ -11,7 +11,8 @@ class AbstractAlert(OptionableObject):
             "name": "Alertbezeichnung",
             "description": "Der Name des Alerts bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.",
             "final": True,
-            "required": True
+            "required": True,
+            "regex": "[A-Za-z0-9]+"
         },
         "description": {
             "type": "text",

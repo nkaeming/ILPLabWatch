@@ -12,7 +12,7 @@ class addAlert(AbstractView):
     @cherrypy.expose
     def index(self):
         return self.jinjaEnv.get_template("selectAlertType.html").render(
-            alertTypes=self.AlertService.getAlertTypes(), page="hinzufuegen")
+            alertTypes=self.AlertService.getAlertTypes(), page="alertHinzufuegen")
 
     @cherrypy.expose
     def alertSetUP(self, alertType):
@@ -36,7 +36,7 @@ class addAlert(AbstractView):
                 suggestedName = args['name']
                 if self.AlertService.doesAlertExistByName(suggestedName):
                     optionField = OptionField(name=option, settings=setting, value=args['name'],
-                                              warnText="Der Name existiert bereits.")
+                                              warnText="Der Name existiert bereits.", page='alertHinzufuegen')
                     allOK = False
                 else:
                     optionField = OptionField(name=option, settings=setting, value=args[option])

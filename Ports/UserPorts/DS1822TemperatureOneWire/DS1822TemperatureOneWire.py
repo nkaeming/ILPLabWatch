@@ -33,12 +33,28 @@ class DS1822TemperatureOneWire(AbstractPort):
     def getDescription(self):
         return "Port zum auslesen von DS1820/22 Temperatursensoren über den OneWire Bus. Rückgabewert in °C"
 
+    def isPortInternalOK(self):
+        try:
+            file = open(self.homePath + self.getInternalPin() + '/w1_slave')
+            filecontent = file.read()
+            file.close()
+            stringvalue = filecontent.split("\n")[1].split(" ")[9]
+            temperature = int(stringvalue[2:])
+        except:
+            return False
+        if temperature == 85000: # 85000 ist ein Fehlerwert des DS1822 und sollte nicht als 85 °C interpretiert werden.
+            return False
+        return True
+
     def getPrivateState(self):
         """Methode zum Auslesen der Daten."""
-        file = open(self.homePath + self.getInternalPin() + '/w1_slave')
-        filecontent = file.read()
-        file.close()
-        stringvalue = filecontent.split("\n")[1].split(" ")[9]
-        temperature = float(stringvalue[2:]) / 1000
+        try:
+            file = open(self.homePath + self.getInternalPin() + '/w1_slave')
+            filecontent = file.read()
+            file.close()
+            stringvalue = filecontent.split("\n")[1].split(" ")[9]
+            temperature = float(stringvalue[2:]) / 1000
+        except:
+            temperature = 0
 
-        return temperature
+        return temperature + self.getSetting('offset')

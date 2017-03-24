@@ -27,7 +27,6 @@ class LEDThread(Thread):
             GPIO.output(self.heartbeatLED, GPIO.LOW)
             time.sleep(0.5)
             GPIO.output(self.heartbeatLED, GPIO.HIGH)
-            time.sleep(0.5)
 
     def checkWarnLED(self):
         if self.portService.arePortsOK():

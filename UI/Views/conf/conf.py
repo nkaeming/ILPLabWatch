@@ -38,7 +38,7 @@ class conf(AbstractView):
         if isinstance(port, AbstractPort):
             triggers = self.TriggerService.getTriggerByPort(port)
             return self.jinjaEnv.get_template("portEditOptions.html").render(
-                page="verwalten", port=port, triggers=triggers)
+                page="verwalten", port=port, triggers=sorted(triggers, key=lambda x: x.getMinimalValue()))
         else:
             raise cherrypy.HTTPRedirect('/conf')
 

@@ -19,6 +19,7 @@ class Trigger(Observer, Observable):
 
     # min ist die untere Schranke des Triggers und max die obere.
     def __init__(self, triggerID, minimal, maximal, port, warnTrigger):
+        self.alerts = []
         self.triggerRange = [minimal, maximal]
         self.port = port
         self.triggerID = triggerID

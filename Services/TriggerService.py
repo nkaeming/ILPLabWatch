@@ -22,26 +22,24 @@ class TriggerService(PersistantObject, Observer):
         conf = self.getConf()
         for triggerID, triggerSettings in conf.items():
             trigger = self.getTriggerObject(triggerID, triggerSettings)
-            trigger.addObserver(self)
             self.triggers.append(trigger)
+        self.writeConf(conf)
 
-    # gibt ein neues Triggerobjekt mit den Settings zurück, sofern der Trigger noch nicht in der Triggerliste existierte, ansonsten wird das bereits existierende Triggerobjekt zurückgegeben.
     def getTriggerObject(self, id, settings):
-        triggerByID = self.getTriggerByID(id)
-        if triggerByID == None:
-            port = self.portService.getPortByID(settings["portID"])
-            # sollte es den Port nicht geben wird kein Trigger erzeugt.
-            if port == None:
-                raise ReferenceError("A Trigger can't exists without a Port.")
-            else:
-                trigger = Trigger(id, settings["range"][0], settings["range"][1], port, settings["warnTrigger"])
-                if "alerts" in settings.keys():
-                    for alertID in settings["alerts"]:
-                        alert = self.alertServcie.getAlertByID(alertID)
-                        trigger.appendAlert(alert)
-                return trigger
+        """Erzeugt ein neues Triggerobjekt"""
+        if len(list(filter(lambda trigger: trigger.getID() == id, self.triggers))) != 0:
+            raise IndexError
         else:
-            return triggerByID
+            port = self.portService.getPortByID(settings["portID"])
+            if port == None:
+                raise ReferenceError("Ein Trigger kann nicht ohne Port existieren.")
+            trigger = Trigger(id, settings["range"][0], settings["range"][1], port, settings["warnTrigger"])
+            if "alerts" in settings.keys():
+                for alertID in settings["alerts"]:
+                    alert = self.alertServcie.getAlertByID(alertID)
+                    trigger.appendAlert(alert)
+            trigger.addObserver(self)
+            return trigger
 
     # gibt einen Trigger nach seiner ID aus.
     def getTriggerByID(self, id):
@@ -85,7 +83,6 @@ class TriggerService(PersistantObject, Observer):
         trigger = self.getTriggerObject(triggerID, settings)
         self.triggers.append(trigger)
         self.writeConf()
-        return trigger
 
     def removeTriggersByPort(self, port):
         """Löscht alle Trigger eines bestimmten Ports"""

@@ -28,12 +28,16 @@ class Trigger(Observer, Observable):
 
     # wird ausgelöst, wenn der Port sich verändert.
     def observableChanged(self, observable):
-        self.check()
+        self.checkAndCall()
 
-    # Prüft ob der Trigger ausgelöst werden soll
-    def check(self):
-        if self.triggerRange[0] <= self.port.getState() and self.port.getState() <= self.triggerRange[1]:
+    def checkAndCall(self):
+        """Falls der Trigger gerade ausglöst ist, werden die Alerts informiert"""
+        if self.check():
             self.callAlerts()
+
+    def check(self):
+        """Gibt true zurück wenn der Trigger ausgelöst ist."""
+        return self.triggerRange[0] <= self.port.getState() and self.port.getState() <= self.triggerRange[1]
 
     # ruft alle alerts auf
     def callAlerts(self):

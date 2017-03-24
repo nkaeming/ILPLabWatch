@@ -78,7 +78,7 @@ class TriggerService(PersistantObject, Observer):
         self.writeConf()
 
     # fügt einen neuen Trigger hinzu und speichert ihn persistent.
-    def addTigger(self, settings):
+    def addTrigger(self, settings):
         triggerID = str(uuid.uuid4())
         trigger = self.getTriggerObject(triggerID, settings)
         self.triggers.append(trigger)

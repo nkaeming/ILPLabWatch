@@ -13,7 +13,7 @@ class LoggingThread(Thread):
 
     def run(self):
         self.running = True
-        while True and self.running == True:
+        while self.running == True:
             self.port.log()
             time.sleep(self.port.getSetting("logCycle"))
 

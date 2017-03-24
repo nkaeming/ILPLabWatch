@@ -143,3 +143,16 @@ class PortService(Observable, Observer, PersistantObject):
         port.stopThreads()
         self.ports.remove(port)
         self.writeConf()
+
+    def arePortsOK(self):
+        """Gibt True zurück, wenn alle Ports keine internen schwierigkeiten haben und keine warnTrigger ausgelöst sind."""
+        for port in self.getPorts():
+            if port.isPortOK():
+                triggers = self.TriggerService.getTriggerByPort(port)
+                for trigger in triggers:
+                    if trigger.isWarnTrigger() and trigger.check():
+                        return False
+            else:
+                return False
+        return True
+

@@ -32,6 +32,6 @@ class addTrigger(AbstractView):
             "alerts": []
         }
 
-        self.TriggerService.addTigger(triggerSettings)
+        self.TriggerService.addTrigger(triggerSettings)
 
         raise cherrypy.HTTPRedirect('/conf/portEditOptions/?portID=' + str(portID))

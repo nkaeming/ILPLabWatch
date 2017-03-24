@@ -11,19 +11,13 @@ class LEDThread(Thread):
     heartbeatLED = 0
 
     def __init__(self, PS):
+        GPIO.setmode(GPIO.BCM)
         self.portService = PS
         wiring = configIO.loadWiring()
-        self.heartbeatLED = wiring['SystemPorts']['hearbeatLED']
-        self.warnLED = wiring['SystemPorts']['warnLED']
+        self.heartbeatLED = int(wiring['SystemPorts']['heartbeatLED'])
+        self.warnLED = int(wiring['SystemPorts']['warnLED'])
         GPIO.setup(self.heartbeatLED, GPIO.OUT)
         GPIO.setup(self.warnLED, GPIO.OUT)
-        for i in range(0, 3):
-            GPIO.output(self.heartbeatLED, GPIO.HIGH)
-            GPIO.output(self.warnLED, GPIO.HIGH)
-            time.sleep(1)
-            GPIO.output(self.heartbeatLED, GPIO.LOW)
-            GPIO.output(self.warnLED, GPIO.LOW)
-
         super().__init__()
 
     def run(self):
@@ -32,7 +26,6 @@ class LEDThread(Thread):
             self.checkWarnLED()
             GPIO.output(self.heartbeatLED, GPIO.LOW)
             time.sleep(0.5)
-            self.checkWarnLED()
             GPIO.output(self.heartbeatLED, GPIO.HIGH)
             time.sleep(0.5)
 

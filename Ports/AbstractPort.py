@@ -171,8 +171,9 @@ class AbstractPort(OptionableObject):
     @classmethod
     def getInputs(cls):
         """Gibt die Anschlussmöglichkeiten des Ports zurück. Sollte überschrieben werden, wenn der Port die Anschlüsse dynamisch nachlädt."""
-        buildInPorts = configIO.loadWiring()[str(cls.__name__)]
-        return buildInPorts
+        if str(cls.__name__) in configIO.loadWiring().keys():
+            return configIO.loadWiring()[str(cls.__name__)]
+        return {}
 
     # gibt die minimale Aktualisierungszeit zurück.
     def getMinRefreshTime(self):

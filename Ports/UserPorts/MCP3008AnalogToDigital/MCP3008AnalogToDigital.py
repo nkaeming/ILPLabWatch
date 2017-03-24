@@ -1,6 +1,6 @@
 from Ports.AbstractPort import AbstractPort
 import IOHelper.config as configIO
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 class MCP3008AnalogToDigital(AbstractPort):
     """Portklasse für den MCP3008 10-Bit A/D Wandler."""

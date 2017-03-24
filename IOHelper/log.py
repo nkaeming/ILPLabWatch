@@ -27,14 +27,12 @@ def deleteLog(port):
         for runMonth in ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']:
             try:
                 for fn in os.listdir('logs/' + str(runYear) + '/' + str(runMonth)):
-                    print(fn)
                     if os.path.isfile('logs/' + str(runYear) + '/' + str(runMonth) + '/' + str(fn)):
                         path = 'logs/' + str(runYear) + '/' + str(runMonth) + '/' + str(fn)
                         logFileParts = os.path.basename(path).split("_")
                         name = logFileParts[0]
                         if name == portName:
                             os.remove(path)
-                        print(path)
             except FileNotFoundError:
                 continue
         runYear += 1

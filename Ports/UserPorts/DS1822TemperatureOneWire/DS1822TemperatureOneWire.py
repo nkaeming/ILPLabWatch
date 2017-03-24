@@ -1,0 +1,44 @@
+from Ports.AbstractPort import AbstractPort
+import IOHelper.config as configIO
+import RPi.GPIO as GPIO
+
+class DS1822TemperatureOneWire(AbstractPort):
+    """Portklasse für den MCP3008 10-Bit A/D Wandler."""
+
+    homePath = '/sys/bus/w1/devices/'
+    exceptFolder = 'w1_bus_master1'
+
+    def __init__(self, settings, id):
+        super().__init__(settings, id)
+        self.minRefreshTime = 1
+
+        self.nachInit()
+
+    @classmethod
+    def getInputs(cls):
+        """Gibt die Anschlüsse zurück."""
+        import os
+        dateiListe = os.listdir(cls.homePath)
+        dateiListe.remove(cls.exceptFolder)
+        connectors = {}
+        if str(cls.__name__) in configIO.loadWiring().keys():
+            for ordner in dateiListe:
+                connectors['ID:' + ordner] = ordner
+            return connectors
+        return {}
+
+    def getValueRange(self):
+        return [-55, 125, 0.01]
+
+    def getDescription(self):
+        return "Port zum auslesen von DS1820/22 Temperatursensoren über den OneWire Bus. Rückgabewert in °C"
+
+    def getPrivateState(self):
+        """Methode zum Auslesen der Daten."""
+        file = open(self.homePath + self.getInternalPin() + '/w1_slave')
+        filecontent = file.read()
+        file.close()
+        stringvalue = filecontent.split("\n")[1].split(" ")[9]
+        temperature = float(stringvalue[2:]) / 1000
+
+        return temperature

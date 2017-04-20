@@ -11,13 +11,13 @@ class editTrigger (AbstractView):
 
 
     @cherrypy.expose
-    def editTrigger(self, triggerID):
+    def index(self, triggerID):
         trigger = self.TriggerService.getTriggerByID(triggerID)
         port = trigger.getPort()
         return self.jinjaEnv.get_template("editTrigger.html").render(page='verwalten', trigger=trigger, port=port)
 
     @cherrypy.expose
-    def saveTrigger(self, triggerID, lowerBound, upperBound, warntrigger=False):
+    def saveTrigger(self, triggerID, lowerBound, upperBound, portID, warntrigger=False):
         trigger = self.TriggerService.getTriggerByID(triggerID)
         if warntrigger in ('on', True, 1, 'True', 'true', '1'):
             warntrigger = True
@@ -25,4 +25,5 @@ class editTrigger (AbstractView):
             warntrigger = False
         if warntrigger != trigger.isWarnTrigger():
             trigger.setWarntrigger(warntrigger)
-        trigger.setInterval((lowerBound, upperBound))
+        trigger.setInterval((float(lowerBound), float(upperBound)))
+        raise cherrypy.HTTPRedirect('/conf/portEditOptions/?portID=' + str(portID))

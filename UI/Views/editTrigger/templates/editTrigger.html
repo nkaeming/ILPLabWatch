@@ -2,11 +2,12 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4 col-md-offset-4">
             <h2>Trigger bearbeiten
                 <small>Port: {{ port.getName()|e }}</small>
             </h2>
             <form method="post" action="/editTrigger/saveTrigger">
+                <input type="hidden" name="triggerID" value="{{ trigger.getID()|e }}">
                 <input type="hidden" name="portID" value="{{ port.getID()|e }}">
                 <div class="form-group">
                     <div class="well well-sm">Mit * gekennzeichnete Felder müssen ausgefüllt werden.</div>

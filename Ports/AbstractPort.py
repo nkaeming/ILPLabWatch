@@ -110,7 +110,7 @@ class AbstractPort(OptionableObject):
             self.loggingThread = LoggingThread(self)
             self.loggingThread.start()
 
-    def restratThreads(self):
+    def restartThreads(self):
         """Startet die Portthreads neu."""
         self.stopThreads()
         self.startThreads()

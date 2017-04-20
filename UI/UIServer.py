@@ -36,7 +36,7 @@ class UIServer():
 
     """Startet den Server"""
 
-    def start(self):
+    def start(self, IP):
         # Lädt alle Views in den cherrypy.tree
         for view in pkgutil.iter_modules(['UI/Views']):
             name = view[1]
@@ -67,6 +67,6 @@ class UIServer():
         cherrypy.tree.mount(uiMain, '/', conf)
 
         # startet die cherrypy engine
-        cherrypy.config.update({'server.socket_host': '134.100.109.149'})
+        cherrypy.config.update({'server.socket_host': IP})
         cherrypy.engine.start()
         cherrypy.engine.block()

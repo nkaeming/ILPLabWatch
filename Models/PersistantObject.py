@@ -20,7 +20,7 @@ class PersistantObject:
     # lädt die gespeicherte Konfiguration
     def getConf(self):
         conf = {}
-        with open(self.pathToConf + "/" + self.getConfigFileName(), "r") as configfile:
+        with open(os.getcwd() + '/' + self.pathToConf + "/" + self.getConfigFileName(), "r") as configfile:
             conf = json.load(configfile)
             configfile.close()
         return conf

@@ -1,13 +1,13 @@
-import json, codecs
+import json, codecs, os
 
 # Porteinstellungen
-portConf = "conf/portsConf.cfg"
+portConf = os.getcwd() + '/' + "conf/portsConf.cfg"
 
 # Verbindungsboxeinstellungen
-wiringConf = "conf/wiringConf.cfg"
+wiringConf = os.getcwd() + '/' + "conf/wiringConf.cfg"
 
 # Triggereinstellungen
-triggerConf = "conf/triggerConf.cfg"
+triggerConf = os.getcwd() + '/' + "conf/triggerConf.cfg"
 
 
 # gibt eine Liste mit allen Ports und ihren Einstellungen zurück.

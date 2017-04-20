@@ -3,7 +3,7 @@ import os
 import time
 
 # das Verzeichnis in dem die Logdateien gespeichert werden sollen. Dieser wird von datetime interpretiert, beachte also die Python-Doku.
-baseDir = "logs/%Y/%m/"
+baseDir = os.getcwd() + '/' + "logs/%Y/%m/"
 fileName = "{}_%Y_%m_%d.dat"
 
 

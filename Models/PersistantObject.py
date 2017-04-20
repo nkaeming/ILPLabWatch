@@ -7,7 +7,7 @@ class PersistantObject:
 
     # speichert die konfiguration des objekts.
     def writeConf(self, conf):
-        path = self.pathToConf + "/" + self.getConfigFileName()
+        path = os.getcwd() + '/' + self.pathToConf + "/" + self.getConfigFileName()
         os.makedirs(os.path.dirname(path), 0o0777, True)
         with open(path, "w") as configfile:
             json.dump(conf, configfile, indent=4)

@@ -31,7 +31,7 @@ class AbstractAlert(OptionableObject):
         self.alertID = alertID
 
     # Wird vom Trigger Objekt aufgerufen, wenn der Alert auslösen soll.
-    def throwAlert(self, port):
+    def throwAlert(self, port, trigger):
         raise NotImplementedError
 
     # gibt die Beschreibung des Alerttyps zurück.

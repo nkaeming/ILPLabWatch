@@ -9,7 +9,7 @@ class CommandLineAlert(AbstractAlert):
         super().__init__(alertID, settings)
 
     # erzeugt einen neuen Alert in der Command Line.
-    def throwAlert(self, port):
+    def throwAlert(self, port, trigger):
         portName = port.getName()
         portValue = port.getState()
         outputString = "Port Alert \n Name: " + portName + " \n Wert: " + str(portValue)

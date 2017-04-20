@@ -9,14 +9,18 @@ if __name__ == '__main__':
     abspath = os.path.abspath(__file__)
     dname = os.path.dirname(abspath)
     os.chdir(dname)
-    AS = AlertService()
-    PS = PortService()
-    TS = TriggerService(PS, AS)
-    AS.setTriggerService(TS)
-    PS.setTriggerService(TS)
+    while True:
+        try:
+            AS = AlertService()
+            PS = PortService()
+            TS = TriggerService(PS, AS)
+            AS.setTriggerService(TS)
+            PS.setTriggerService(TS)
 
-    LED = LEDThread(PS)
-    LED.start()
+            LED = LEDThread(PS)
+            LED.start()
 
-    server = UIServer(PS, TS, AS)
-    server.start()
+            server = UIServer(PS, TS, AS)
+            server.start()
+        except:
+            pass

@@ -85,6 +85,9 @@ class AbstractPort(OptionableObject):
     # der interne Anschluss des Ports.
     internalPin = 0
 
+    # eine Liste mit den letzten 100 Portwerten seit Programmstart
+    portHistory = []
+
     # erwartet vom Kindobjekt.
     def __init__(self, childSettings, id):
         self.portID = str(id)
@@ -156,6 +159,7 @@ class AbstractPort(OptionableObject):
     # wird aufgerufen, wenn der Portzustand sich geändert hat.
     def portChanged(self, newValue):
         self.lastValue = newValue
+        self.addValueToHistory(newValue)
         # informiert alle trigger.
         self.informObserverOfType(Trigger)
 
@@ -231,3 +235,17 @@ class AbstractPort(OptionableObject):
 
     def getServiceName(self):
         return "PortService"
+
+    def getStateWithUnit(self):
+        """Gibt den akutellen Wert mit der Einheit aus."""
+        return str(self.getState()) + str(self.getUnit())
+
+    def addValueToHistory(self, value):
+        """Fügt der Historie einen Wert hinzu"""
+        if len(self.portHistory) >= 100:
+            self.portHistory.pop(0)
+        self.portHistory.append(value)
+
+    def getPortHistory(self):
+        """Gibt die Historie des Ports seit Porgrammstart zurück"""
+        return self.portHistory

@@ -37,12 +37,23 @@ class Trigger(Observer, Observable):
 
     def check(self):
         """Gibt true zurück wenn der Trigger ausgelöst ist."""
-        return self.triggerRange[0] <= self.port.getState() and self.port.getState() <= self.triggerRange[1]
+        return self.checkValue(self.port.getState())
+
+    def checkValue(self, value):
+        """Prüft ob ein bestimmter Wert den Trigger auslösen würde."""
+        return self.triggerRange[0] <= value and value <= self.triggerRange[1]
 
     # ruft alle alerts auf
     def callAlerts(self):
         for alert in self.alerts:
-            alert.throwAlert(self.port)
+            alert.throwAlert(self.port, self)
+
+    def isFirstCalled(self):
+        """Gibt true zurück, wenn der Trigger zum ersten Mal ausgelöst wurde. D.h. wenn der Wert zum ersten Mal in den Bereich reingelaufen ist."""
+        portHistory = self.port.getHistory()
+        if self.checkValue(portHistory[-1]) == True:
+            return False
+        return True
 
     # gibt den minimalen Wert zurück bei dem der Trigger auslöst.
     def getMinimalValue(self):

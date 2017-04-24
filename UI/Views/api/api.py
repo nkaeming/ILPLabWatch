@@ -51,7 +51,10 @@ class api(AbstractView):
         if type == "text":
             file = ""
             for dataPoint in data:
-                file += datetime.datetime.fromtimestamp(dataPoint[1]).strftime("%Y-%m-%dT%H:%M:%S") + " " + str(dataPoint[2]) + "\r\n"
+                file += dataPoint[0].strftime("%Y-%m-%dT%H:%M:%S") + " " + str(dataPoint[1]) + "\r\n"
             return file
         else:
+            advData = []
+            for dataPoint in data:
+                advData.append((portName, dataPoint[0].timestamp(), dataPoint[1]))
             return json.dumps(data)

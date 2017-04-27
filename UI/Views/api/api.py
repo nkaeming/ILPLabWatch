@@ -57,4 +57,4 @@ class api(AbstractView):
             advData = []
             for dataPoint in data:
                 advData.append((portName, dataPoint[0].timestamp(), dataPoint[1]))
-            return json.dumps(data)
+            return json.dumps(advData)

@@ -63,7 +63,8 @@ def readLog(port, start, end, aboutPoints=0):
                                               minute=logTime.minute, second=logTime.second,
                                               microsecond=logTime.microsecond)
                 value = float(valueString)
-                logData.append((totalDate, value))
+                if start <= totalDate and totalDate <= end:
+                    logData.append((totalDate, value))
             file.close()
 
         # Einen Tag dazu zählen, da für jeden Tag eine eigene Datei existiert

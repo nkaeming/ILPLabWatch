@@ -88,6 +88,9 @@ class AbstractPort(OptionableObject):
     # eine Liste mit den letzten 100 Portwerten seit Programmstart
     portHistory = []
 
+    # ist True, wenn der Port final initialisiert ist.
+    initialized = False
+
     # erwartet vom Kindobjekt.
     def __init__(self, childSettings, id):
         self.portID = str(id)
@@ -98,6 +101,7 @@ class AbstractPort(OptionableObject):
     def nachInit(self):
         """Ausführen nachdem alle Init-Prozesse abgeschlossen sind. Also nach dem SetUp der GPIO-Ports. Ggf. überschreiben."""
         self.startThreads()
+        self.initialized = True
 
     # startet die Portthreads
     def startThreads(self):
@@ -249,3 +253,7 @@ class AbstractPort(OptionableObject):
     def getPortHistory(self):
         """Gibt die Historie des Ports seit Porgrammstart zurück"""
         return self.portHistory
+
+    def isInitialized(self):
+        """Gibt True zurück, wenn der Port fertig initialisiert ist."""
+        return self.initialized

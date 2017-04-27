@@ -48,17 +48,13 @@ class DS1822TemperatureOneWire(AbstractPort):
 
     def getPrivateState(self):
         """Methode zum Auslesen der Daten."""
-        error = 0
-        # Es soll maximal 5 mal probiert werden einen Wert zu lesen. Ansonsten wird die Temperatur 0 gesetzt.
-        while error < 5:
-            try:
-                file = open(self.homePath + self.getInternalPin() + '/w1_slave')
-                filecontent = file.read()
-                file.close()
-                stringvalue = filecontent.split("\n")[1].split(" ")[9]
-                temperature = float(stringvalue[2:]) / 1000
-            except:
-                temperature = 0
-                error += 1
+        try:
+            file = open(self.homePath + self.getInternalPin() + '/w1_slave')
+            filecontent = file.read()
+            file.close()
+            stringvalue = filecontent.split("\n")[1].split(" ")[9]
+            temperature = float(stringvalue[2:]) / 1000
+        except:
+            temperature = 0
 
         return temperature + self.getSetting('offset')

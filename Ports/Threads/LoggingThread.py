@@ -14,8 +14,9 @@ class LoggingThread(Thread):
     def run(self):
         self.running = True
         while self.running == True:
-            self.port.log()
-            time.sleep(self.port.getSetting("logCycle"))
+            if self.port.isInitialized():
+                time.sleep(self.port.getSetting("logCycle"))
+                self.port.log()
 
     def stop(self):
         self.running = False

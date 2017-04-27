@@ -187,3 +187,9 @@ class conf(AbstractView):
         portID = trigger.getPort().getID()
         self.TriggerService.removeTrigger(triggerID)
         raise cherrypy.HTTPRedirect('/conf/portEditOptions/?portID=' + str(portID))
+
+    @cherrypy.expose
+    def updateSystem(self):
+        """Führt ein Update des gesamten Systems durch."""
+        import os
+        os.system('bash ~/ILPLabWatch/update.sh')

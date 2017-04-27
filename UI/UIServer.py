@@ -67,6 +67,7 @@ class UIServer():
         cherrypy.tree.mount(uiMain, '/', conf)
 
         # startet die cherrypy engine
-        cherrypy.config.update({'server.socket_host': IP})
+        cherrypy.config.update({'server.socket_host': IP,
+                                'server.socket_port': 80})
         cherrypy.engine.start()
         cherrypy.engine.block()

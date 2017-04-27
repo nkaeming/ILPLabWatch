@@ -20,4 +20,4 @@ if __name__ == '__main__':
     LED.start()
 
     server = UIServer(PS, TS, AS)
-    server.start('127.0.0.1')
+    server.start('0.0.0.0')

@@ -183,5 +183,7 @@ class conf(AbstractView):
     @cherrypy.expose
     def deleteTriggerSure(self, triggerID):
         """Löscht einen Trigger aus dem System ohne Vorwarnung"""
+        trigger = self.TriggerService.getTriggerByID(triggerID)
+        portID = trigger.getPort().getID()
         self.TriggerService.removeTrigger(triggerID)
-        raise cherrypy.HTTPRedirect('/')
+        raise cherrypy.HTTPRedirect('/conf/portEditOptions/?portID=' + str(portID))

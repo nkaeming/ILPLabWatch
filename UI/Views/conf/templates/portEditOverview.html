@@ -16,6 +16,9 @@
             <li><a href="/conf/alertEditOptions/?alertID={{ alert.getID() }}">{{ alert.getName() }} ({{alert.getType()}})</a></li>
             {% endfor %}
         </ul>
+        <h2>Sonstige Einstellungen</h2>
+        <a href="/conf/updateSystem" class="btn btn-primary">System updaten</a>
+        <p>Für ein Systemupdate wird das Gerät neu gestartet. Die Überwachung der Sensoren wird also unterbrochen!</p>
     </div>
 </div>
 {% endblock %}

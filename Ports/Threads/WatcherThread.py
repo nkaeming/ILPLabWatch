@@ -13,7 +13,7 @@ class WatcherThread(Thread):
 
     def run(self):
         self.running = True
-        while True and self.running == True:
+        while self.running:
             lastState = self.port.getState()
             newState = None
             if self.port.isPortOK() == False:

@@ -4,10 +4,11 @@ from Models.Observable import Observable
 from Models.Observer import Observer
 from Models.PersistantObject import PersistantObject
 from Ports.AbstractPort import AbstractPort
+from Services.TriggerService import TriggerService
 
 
 class PortService(Observable, Observer, PersistantObject):
-    """Der Portservice verwaltet alle Ports."""
+    """Der Portservice ist der zentrale Service für die Ports. Er verwaltet sie, erstellt sie und ist die einzige Scnittstelle zu anderen Programmteilen der in der Lage ist Referenzen auf die Ports zurück zu geben. Im System soll es nur einen Portservice geben."""
     # alle Ports
     ports = []
 
@@ -18,23 +19,41 @@ class PortService(Observable, Observer, PersistantObject):
 
     # setzte den Configfilename für den Service
     def getConfigFileName(self):
+        """
+        Gibt den Namen der Konfigurationsdatei zurück.
+        :return: der Dateiname der Konfigurationsdatei
+        :type str
+        """
         return "portsConf.cfg"
 
-    # setzt den TriggerService
     def setTriggerService(self, triggerService):
+        """
+        Legt den TriggerService fest. Es handelt sich um eine DependencyInjection. 
+        :param triggerService: Der Triggerservice mit dem der Portservice zusammenarbeiten soll.
+        :type triggerService: TriggerService
+        """
         self.TriggerService = triggerService
 
-    # erzeugt die Instanzen der Portklassen
     def setUp(self):
+        """
+        Erzeugt die Instanzen der Portklassen. Wird immer vom Konstruktor aufgerufen und ist eine private Hilfsfunktion.
+        """
         conf = self.getConf()
         for portID, settings in conf.items():
             self.ports.append(self.generatePort(portID, settings))
         self.informObserver()
 
-    # erzeugt einen neuen port und fügt ihn hinzu. Gibt die PortID zurück.
     def generateAndAddNewPort(self, settings):
+        """
+        Erzeugt eine neue Portinstanz und füt diese dem Service hinzu.
+        :param settings: Die Einstellungen des neuen Ports.
+        :type settings: dict
+        :return: Die PortID des erstellten Ports
+        :type str
+        """
         portID = str(uuid.uuid4())
         portInstance = self.generatePort(portID, settings)
+        portInstance.addObserver(self)
 
         self.ports.append(portInstance)
         self.informObserver()
@@ -44,49 +63,97 @@ class PortService(Observable, Observer, PersistantObject):
 
         return portID
 
-    # erzeugt eine Portinstanz, fügt sie allerdings nicht dem Service hinzu sondern gibt sie zurück.
     def generatePort(self, portID, settings):
+        """
+        Erzeugt eine Portinstanz und fügt diese nicht dem PortService hinzu. Gibt die Instanz stattdessen zurück. Vergleicbar mit einer Fabrikmethode. 
+        :param portID: die ID die der Port erhalten soll.
+        :param settings: Die Einstellungen des Ports.
+        :return: Die Instanz des Ports.
+        :type AbstractPort
+        """
         type = settings["type"]
         classPointer = self.getPortClassByType(type)
         port = classPointer(settings, portID)
-        port.addObserver(self)
         return port
 
     # gibt eine Liste der Ports zurück. Zulässig sind alle abstrakten settings (name, description, logCycle, logging und unit)
     def getPorts(self, setting="name", reverse=False):
+        """
+        Gibt eine sortierte Liste der Ports zurück.
+        :param setting: das Merkmal nach dem sortiert werden soll.
+        :type setting: str
+        :param reverse: Gibt an ob die Liste in die gegensätzliche Richtung sortiert werden soll.
+        :return: eine sortierte Liste von Ports
+        :type list
+        """
         return sorted(self.ports, key=lambda port: port.getSetting(setting), reverse=reverse)
 
     def getPortsByType(self, type):
-        """Gibt alle Ports zurück, welche einen bestimmten Typ haben."""
+        """
+        Gibt die Ports eines bestimmten Typs zurück.
+        :param type: der Typ des Ports.
+        :type type: str
+        :return: eine unsortierte Liste von Ports.
+        :type list
+        """
         result = filter(lambda port: port.getType() == type, self.getPorts())
         return list(result)
 
-    # gibt die Portklasse zu einer PortID zurück.
     def getPortByID(self, portID):
+        """
+        Gibt die Instanz eines Ports nach seiner ID zurück.
+        :param portID: die ID des Ports.
+        :type portID: str
+        :return: eine Portklasse die zu der ID gehört. Existiert der Port nicht im Service, so wird None zurückgegeben.
+        :type AbstractPort
+        """
         result = filter(lambda port: port.getID() == portID, self.ports)
         return next(result, None)
 
-    # gibt die Portklasse zu einem Portnamen zurück
     def getPortByName(self, portName):
+        """
+        Gibt die Instanz eines Ports nach seinem Namen zurück.
+        :param portName: der Name des Ports
+        :type portName: str
+        :return: eine Portklasse die zu dem Namen gehört. Existiert der Port nicht im Service, so wird None zurückgegeben.
+        :type AbstractPort
+        """
         result = filter(lambda port: port.getName() == portName, self.ports)
         return next(result, None)
 
-    # gibt eine Liste aller Ports zurück die geloggt werden.
     def getPortsLogged(self):
+        """
+        Gibt eine Liste der Ports zurück die geloggt werden.
+        :return: Eine unsortierte Liste von Ports.
+        :type list
+        """
         return list(filter(lambda port: port.isPortLogged() == True, self.ports))
 
-    # gibt eine Liste mit allen Ports aus, die abgestürzt sind oder einen Internen Fehler beim Auslesen haben.
     def getInterruptPorts(self):
+        """
+        Gibt eine Liste der Ports zurück die nicht mehr ordnungsgemäß ausgeführt werden.
+        :return: eine unsortierte Liste von Prots
+        :type list
+        """
         return list(filter(lambda port: port.isPortOK() == False, self.ports))
 
-    # wird aufgerufen, wenn eine Observable sich ändert. Hier z.B. die Ports.
+
     def observableChanged(self, observable):
+        """
+        Wird ausgerufen wenn eine Observable sich geändert hat. Geerbt von Observer.        
+        :param observable: die Observable die sich geändert hat.
+        :type observable: Observable
+        """
         # wenn sich ein Port verändert hat, dann könnten sich die Einstellungen geändert haben.
         if isinstance(observable, AbstractPort):
             self.writeConf()
 
-    # schreibt die persistente Konfiguration. conf ist ein redundanter parameter und sollte nicht übergeben werden.
     def writeConf(self, conf=None):
+        """
+        Schreibt die persistente Konfiguration.
+        :param conf: ein redundanter Parameter. Aus technsichen Gründen in Python ist darauf nicht zu verzichten.
+        :type conf: None
+        """
         portList = self.getPorts()
         config = {}
         for port in portList:
@@ -96,14 +163,22 @@ class PortService(Observable, Observer, PersistantObject):
         super().writeConf(config)
 
     def getCurrentPortsInformations(self):
-        """Gibt alle aktuellen Informationen zu allen Ports als dict zurück."""
+        """
+        Gibt alle aktuellen Informationen zu allen Ports als dict zurück. Dies ist z.B. für die Benutzeroberfläche relevant.
+        :return: eine Sammlung aller Informationen zu den aktuellen Ports.
+        :type dict
+        """
         status = {}
         for port in self.getPorts():
             status[port.getID()] = port.getCurrentInformations()
         return status
 
     def getPortTypes(self):
-        """Gibt alle Porttypen zurück."""
+        """
+        Gibt alle verfügbaren PortTypen zurück.
+        :return: eine Liste aller Porttypen als Module.
+        :type list
+        """
         portTypes = []
         for portType in pkgutil.iter_modules(['Ports/UserPorts']):
             portTypes.append(portType[1])

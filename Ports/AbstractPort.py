@@ -7,7 +7,10 @@ from Models.Trigger import Trigger
 
 
 class AbstractPort(OptionableObject):
-    """Ein abstrakter Port, von dem jeder UserPort erben sollte."""
+    """
+    Die Klasse AbstractPort muss von jedem Port den ein User implementieren kann geerbt werden.
+    """
+
     # die eindeutige PortID
     portID = None
 
@@ -91,20 +94,31 @@ class AbstractPort(OptionableObject):
     # ist True, wenn der Port final initialisiert ist.
     initialized = False
 
-    # erwartet vom Kindobjekt.
     def __init__(self, childSettings, id):
+        """
+        Wird vom Kindobjekt immer aufgerufen. Wird der Konstruktor nicht vom Kindobjekt aufgerufen, wird der Port nicht vollständig richtig gestartet und kann nicht ausgelesen werden.
+        :param childSettings: Die Einstellungen der von User implementierten Portklasse.
+        :type childSettings: dict
+        :param id: die eindeutige ID des Ports
+        :type id: str
+        """
         self.portID = str(id)
         self.superSettings["type"] = self.getType()
         self.internalPin = self.getInputs()[childSettings["wiring"]]
         super().__init__({**self.superSettings, **childSettings})
 
     def nachInit(self):
-        """Ausführen nachdem alle Init-Prozesse abgeschlossen sind. Also nach dem SetUp der GPIO-Ports. Ggf. überschreiben."""
+        """
+        Wird auf dem Konstruktor der Kindklasse nach der Initialisierung der Sensoren aufgerufen. Die Methode kann unter Umständen überschrieben werden muss dann aber auf jeden Fall aus Der Kindklasse aufgerufen werden.
+        """
         self.startThreads()
         self.initialized = True
 
-    # startet die Portthreads
     def startThreads(self):
+        """
+        Startet die Threads die den Port überwachen.
+        """
+
         # Ein Port der sich selbst updated registriert selber Veränderungen.
         if self.isSelfUpdating == False:
             self.watcherThread = WatcherThread(self)
@@ -115,12 +129,16 @@ class AbstractPort(OptionableObject):
             self.loggingThread.start()
 
     def restartThreads(self):
-        """Startet die Portthreads neu."""
+        """
+        Startet die Portthreads neu.
+        """
         self.stopThreads()
         self.startThreads()
 
     def stopThreads(self):
-        """Stoppt die Threads"""
+        """
+        Stoppt die Threads
+        """
         if isinstance(self.loggingThread, LoggingThread):
             self.loggingThread.stop()
             self.loggingThread = None
@@ -130,6 +148,11 @@ class AbstractPort(OptionableObject):
 
     # gibt True zurück, wenn beim Port alles in Ordnung ist.
     def isPortOK(self):
+        """
+        Prüft ob ein Port funktionsfähig ist.
+        :return: True wenn der Port funktionsfähig ist.
+        :type bool
+        """
         if self.getSetting("logging") == True:
             if self.loggingThread.is_alive() == False:
                 return False
@@ -140,20 +163,35 @@ class AbstractPort(OptionableObject):
             return False
         return True
 
-    # Methode kann überschrieben werden, wenn der Port in sich Strukturen zur Überprüfung beherbergt.
     def isPortInternalOK(self):
+        """
+        Funktion kann vom Benutzer überschrieben werden, wenn der Sensor es zulässt seine Funktionalität zu überprüfen. Z.B. ob die Verbindung klappt o.Ä.
+        :return: True, wenn der Port ordnungsgemäß funktioniert, False sonst.
+        :type bool
+        """
         return True
 
-    # schreibt in die Logdatei
     def log(self):
+        """
+        Schreibt einen Eintrag von dem Port selbst in die Log Datei.
+        """
         logIO.writeLog(self)
 
-    # Gibt den aktuellen Status des Ports zurück.
     def getState(self):
+        """
+        Gibt den aktuellen Status des Ports zurück. Dies ist der letzte Wert den der Sensor zurückgegeben hat.
+        :return: Der aktuellste Messwert des Sensors.
+        :type float
+        """
         return self.lastValue
 
     # gibt den möglichen Wertebereich des Ports zurück. [niedrigster, höchster, schrittweite]
     def getValueRange(self):
+        """
+        Gibt den Wertebereich des Ports zurück.
+        :return: Ein Tuple mit den Werten (minimalerWert, maximalerWert, )
+        :type tuple
+        """
         raise NotImplementedError
 
     # muss implementiert werden, wenn minRefreshTime gesetzt und ungleich -1 ist.

@@ -1,3 +1,4 @@
+"""Die Datei die zum Starten des Porgamms mit root Rechten ausgeführt werden muss."""
 from Services.PortService import PortService
 from Services.TriggerService import TriggerService
 from Services.AlertService import AlertService

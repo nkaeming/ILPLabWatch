@@ -193,4 +193,5 @@ class conf(AbstractView):
         """Führt ein Update des gesamten Systems durch."""
         import os
         result = os.system('bash /home/pi/ILPLabWatch/update.sh')
+        print(result)
         return self.jinjaEnv.get_template("systemUpdate.html").render(info = result)

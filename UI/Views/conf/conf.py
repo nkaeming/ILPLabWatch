@@ -192,10 +192,10 @@ class conf(AbstractView):
     def updateSystem(self):
         """Führt ein Update des gesamten Systems durch."""
         import subprocess
-        proc = subprocess.Popen(['bash', '/home/pi/ILPLabWatch/update.sh'], stdout=subprocess.PIPE)
+        proc = subprocess.Popen(['git', 'pull'], stdout=subprocess.PIPE)
         (result, err) = proc.communicate()
         if result != None:
-            result = result.decode('utf-8')
+            result = result.decode('utf-8').strip()
         else:
             result = ''
         if err != None:

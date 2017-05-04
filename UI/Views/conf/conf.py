@@ -205,6 +205,5 @@ class conf(AbstractView):
 
         if result != "Already up-to-date." and err == '':
             import os
-            print('Neustart')
-            # os.system('shutdown -r now')
+            os.system('shutdown -r now')
         return self.jinjaEnv.get_template("systemUpdate.html").render(info = result, error=err)

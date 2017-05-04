@@ -8,7 +8,7 @@ from Models.Trigger import Trigger
 
 class AbstractPort(OptionableObject):
     """
-    Die Klasse AbstractPort muss von jedem Port den ein User implementieren kann geerbt werden.
+    Die Klasse AbstractPort muss von jedem Porttyp geerbt werden. Sie ist abstrakt und kann daher nicht alleine erzeugt werden.
     """
 
     # die eindeutige PortID
@@ -109,14 +109,14 @@ class AbstractPort(OptionableObject):
 
     def nachInit(self):
         """
-        Wird auf dem Konstruktor der Kindklasse nach der Initialisierung der Sensoren aufgerufen. Die Methode kann unter Umständen überschrieben werden muss dann aber auf jeden Fall aus Der Kindklasse aufgerufen werden.
+        Die Methode nachInit muss immer am Ende der initialisierung des Ports vom Kindobjekt aufgerufen werden. Sie startet die Überwachung der Threads und ist daher auf einen vollständig funktionsfähigen Port angewiesen. 
         """
         self.startThreads()
         self.initialized = True
 
     def startThreads(self):
         """
-        Startet die Threads die den Port überwachen.
+        Startet die Threads die den Port überwachen. Ist die Variable isSelfUpdating auf True gesetzt, so wird kein WatcherThread gestartet. Ein LogingThread wird gestartet, wenn Logging auf true gesetzt wurde.
         """
 
         # Ein Port der sich selbst updated registriert selber Veränderungen.
@@ -130,14 +130,14 @@ class AbstractPort(OptionableObject):
 
     def restartThreads(self):
         """
-        Startet die Portthreads neu.
+        Startet die Portthreads zum Logging und der Überwachung neu.
         """
         self.stopThreads()
         self.startThreads()
 
     def stopThreads(self):
         """
-        Stoppt die Threads
+        Stoppt die Portthreads zum Logging und zur Überwachung.
         """
         if isinstance(self.loggingThread, LoggingThread):
             self.loggingThread.stop()
@@ -146,7 +146,6 @@ class AbstractPort(OptionableObject):
             self.watcherThread.stop()
             self.watcherThread = None
 
-    # gibt True zurück, wenn beim Port alles in Ordnung ist.
     def isPortOK(self):
         """
         Prüft ob ein Port funktionsfähig ist.
@@ -173,7 +172,7 @@ class AbstractPort(OptionableObject):
 
     def log(self):
         """
-        Schreibt einen Eintrag von dem Port selbst in die Log Datei.
+        Schreibt einen Eintrag von dem Port in die Log Datei.
         """
         logIO.writeLog(self)
 
@@ -185,81 +184,143 @@ class AbstractPort(OptionableObject):
         """
         return self.lastValue
 
-    # gibt den möglichen Wertebereich des Ports zurück. [niedrigster, höchster, schrittweite]
     def getValueRange(self):
         """
-        Gibt den Wertebereich des Ports zurück.
-        :return: Ein Tuple mit den Werten (minimalerWert, maximalerWert, )
+        Gibt den Wertebereich des Ports zurück. Muss von der Kindklasse implementiert werden!
+        :return: Ein Tuple mit den Werten (minimalerWert, maximalerWert, Schrittweite zwisachen den einzelnen Werten)
         :type tuple
         """
         raise NotImplementedError
 
-    # muss implementiert werden, wenn minRefreshTime gesetzt und ungleich -1 ist.
     def getPrivateState(self):
+        """
+        Wird vom WatcherThread aufgerufen um den aktuellen Wert des Sensors auszulesen. Insbesonders muss diese Methode implementiert werden, wenn minRefresehTime gesetzt und ungleich -1 ist.
+        :return: Den aktuellen Wert des Sensors.
+        :type float
+        """
         pass
 
-    # wird aufgerufen, wenn der Portzustand sich geändert hat.
     def portChanged(self, newValue):
+        """
+        Private Methode die bei einer Änderung des Sensorwertes aufgerufen wird. Sie aktualisiert die Historie des Ports und startet den Triggeraufruf.
+        :param newValue: Die
+        :return: 
+        """
         self.lastValue = newValue
         self.addValueToHistory(newValue)
         # informiert alle trigger.
         self.informObserverOfType(Trigger)
 
-    # gibt die Optionen des Ports zurück. Diese werden dann in der GUI angezeigt. Kann überschrieben werden, sofern nötig.
     @classmethod
     def getOptions(cls):
+        """
+        Statische Methode um die möglichen Optionen eines Ports zurück zu geben. Dies ist für die Oberfläche relevant.
+        :return: Ein dict mit allen Optionen des Ports.
+        :type dict
+        """
         return {**super().getOptions(), **cls.superOptions}
 
-    # gibt den Typ des Ports zurück.
     def getType(self):
+        """
+        Gibt den Typ des Ports zurück.
+        :return: Der Typ des Ports.
+        :type str
+        """
         return str(self.__class__.__name__)
 
     @classmethod
     def getInputs(cls):
-        """Gibt die Anschlussmöglichkeiten des Ports zurück. Sollte überschrieben werden, wenn der Port die Anschlüsse dynamisch nachlädt."""
+        """
+        Gibt die Anschlussmöglichkeiten des Ports zurück. Sollte überschrieben werden, wenn der Port die Anschlüsse dynamisch nachlädt.
+        :return: Anschlussmöglichkeiten des Ports.
+        :type dict
+        """
         if str(cls.__name__) in configIO.loadWiring().keys():
             return configIO.loadWiring()[str(cls.__name__)]
         return {}
 
-    # gibt die minimale Aktualisierungszeit zurück.
     def getMinRefreshTime(self):
+        """
+        Gibt die minimale Wartezeit für das Aktualisieren eines Ports zurück. Dies ist für den Watcherthread wichtig. 
+        :return: Die inimale Zeit zwischen zwei Anfragen an den Sensor.
+        :type float
+        """
         return self.minRefreshTime
 
-    # gibt den Namen des Ports zurück.
     def getName(self):
+        """
+        Gibt den Namen des Ports zurück.
+        :return: der Name des Ports 
+        :type str
+        """
         return self.getSetting("name")
 
-    # gibt die PortID zurück
     def getID(self):
+        """
+        Gibt die eindeutige ID des Ports zurück.
+        :return: die ID des Ports.
+        :type str
+        """
         return self.portID
 
-    # gibt True zurück wenn der Port geloggt wird.
     def isPortLogged(self):
+        """
+        Wenn der Port geloggt werden soll, gibt diese Methode true zurück.
+        :return: true, wenn der Port geloggt werden soll.
+        :type bool
+        """
         return self.getSetting("logging")
 
-    # gibt die Sekunden zwischen zwei Logzeiten an
     def getLogCycle(self):
+        """
+        Gibt die Sekunden zwischen zwei Logeinträgen zurück.
+        :return: die Sekunden zwischen zwei Logzeiten
+        :type float
+        """
         return self.getSetting("logCycle")
 
-    # Zwei Ports sollen genau dann gleich sein, wenn ihre ID übereinstimmt.
     def __eq__(self, other):
+        """
+        Prüft ob zwei Ports gleich sind. Zwei Ports sind genau dann gleich, wenn ihre ID übereinstimmt. Diese Methode überschreibt ==
+        :param other: Der zu vergleichende Port.
+        :type other: AbstractPort
+        :return: true, wenn die beiden Ports die gleiche ID haben.
+        :type bool
+        """
         if self.__class__ == other.__class__:
             return self.getID() == other.getID()
         return False
 
-    # gibt die Beschreibung des Porttyps zurück.
     def getDescription(self):
+        """
+        Gibt die Beschreibung eines Porttyps zurück. Diese Methode muss von der indklasse übschrieben werden.
+        :return: Die Beschreibung des Ports.
+        :type str
+        """
         raise NotImplementedError
 
-    # gibt die Einstellungen des Ports zurück.
     def getSettings(self):
+        """
+        Gibt die aktuellen Einstellungen des Ports zurück. Die Einstellungen sollten mindestens alle möglichen Options enthalten.
+        :return: Ein dict mit en Einstellungen.
+        :type dict
+        """
         return self.settings
 
     def getUnit(self):
-        """Gibt die Einheit eines Ports zurück."""
+        """
+        Gibt die Einheit eines Ports zurück.
+        :return: Die Einheit des Ports.
+        :type str
+        """
         return self.getSetting("unit")
 
     def getCurrentInformations(self):
+        """
+        Gibt die aktuellen Informationen zurück. Die aktuellen Informationen enthalten die settings, den aktuellen Status und die Gesundheit des Ports.
+        :return: Ein dict mit den aktuellen Informationen des Ports.
+        :type dict
+        """
         """Gibt alle Informationen alle Informationen zu einem Port zurück."""
         informations = {}
         informations['settings'] = self.getSettings()
@@ -268,30 +329,60 @@ class AbstractPort(OptionableObject):
         return informations
 
     def getPortBoxName(self):
-        """Gibt die externe Bezeichnung des Ports an. Diese steht z.B. an der Anschlussdose des Ports"""
+        """
+        Gibt die externe Bezeichnung des Ports an. Diese steht z.B. an der Anschlussdose des Ports. er wird in der wiring-Konfigurationen des Systems festgelegt. Die Methode kann bei dynamischen Ports ggf. überschrieben werden.
+        :return Die externe Bezeichnung des Ports.
+        :type str
+        """
         return self.getSetting("wiring")
 
     def getInternalPin(self):
-        """Gibt die interne räpresentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt."""
+        """
+        Gibt die interne räpresentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt.
+        Die Kindklasse kann diese Methode nutzen um die Ansteuerung des richtigen Senors durchzuführen.
+        :return Eine Repräsentation des internen Anschluss des Ports.
+        :type str
+        """
         return self.internalPin
 
     def getServiceName(self):
+        """
+        Der mit dem Port assozierte Service. Dies ist eine Hilfsmethode, nicht überschreiben. Sie kann bei einem Ausbau des System durch weitere Services benutzt werden.
+        :return: Der Name der Serviceklasse.
+        :type str
+        """
         return "PortService"
 
     def getStateWithUnit(self):
-        """Gibt den akutellen Wert mit der Einheit aus."""
+        """
+        Gibt den akutellen Wert mit der Einheit aus.
+        :return: Der aktuelle Wert mit der Einheit
+        :type str
+        """
         return str(self.getState()) + str(self.getUnit())
 
     def addValueToHistory(self, value):
-        """Fügt der Historie einen Wert hinzu"""
+        """
+        Fügt der Historie einen Wert hinzu. Die Historie eines Ports dient zur bestimmten Auslösung von Triggern. So wird z.B. ein E-Mail Triger so nicht bei jedem Prüfen eines Wertes aufgerufen sondern nur beim ersten Überschreiten eines Schwellwerts.
+        :param value: der Wert der zur Historie hinzugefügt werden soll.
+        :type value: float
+        """
         if len(self.portHistory) >= 100:
             self.portHistory.pop(0)
         self.portHistory.append(value)
 
     def getPortHistory(self):
-        """Gibt die Historie des Ports seit Porgrammstart zurück"""
+        """
+        Gibt die Historie des Ports seit Porgrammstart zurück
+        :return: Eine Liste der letzten 100 Messwerte des Ports.
+        :type list
+        """
         return self.portHistory
 
     def isInitialized(self):
-        """Gibt True zurück, wenn der Port fertig initialisiert ist."""
+        """
+        Gibt True zurück, wenn der Port fertig initialisiert ist.
+        :return: True wenn der Port initialisiert ist.
+        :type bool
+        """
         return self.initialized

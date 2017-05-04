@@ -193,7 +193,6 @@ class conf(AbstractView):
         """Führt ein Update des gesamten Systems durch."""
         import subprocess
         proc = subprocess.Popen(['bash', '/home/pi/ILPLabWatch/update.sh'], stdout=subprocess.PIPE)
-        # result = os.system('bash /home/pi/ILPLabWatch/update.sh')
         (result, err) = proc.communicate()
         if result != None:
             result = result.decode('utf-8')
@@ -203,7 +202,9 @@ class conf(AbstractView):
             err = err.decode('utf-8')
         else:
             err = ''
+
         if result != "Already up-to-date." and err == '':
             import os
-            os.system('shutdown -r now')
+            print('Neustart')
+            # os.system('shutdown -r now')
         return self.jinjaEnv.get_template("systemUpdate.html").render(info = result, error=err)

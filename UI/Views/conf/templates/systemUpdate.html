@@ -6,6 +6,9 @@
         <h1>System wird neu gestartet.</h1>
         <h2>Informationen zum Update:</h2>
         <p>{{ info|e }}</p>
+        {% if info != 'Already up-to-date.' %}
+            <div class="alert alert-danger" role="alert">System wird neu gestartet!</div>
+        {% endif %}
         {% if error != '' %}
             <h2>Fehler während des Updates</h2>
             <p>{{ error|e }}</p>

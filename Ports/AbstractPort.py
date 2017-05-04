@@ -100,9 +100,9 @@ class AbstractPort(OptionableObject):
         Wird vom Kindobjekt immer aufgerufen. Wird der Konstruktor nicht vom Kindobjekt aufgerufen, wird der Port nicht vollständig richtig gestartet und kann nicht ausgelesen werden.
         
         :param childSettings: Die Einstellungen der von User implementierten Portklasse.
-        :type: childSettings: dict
+        :type childSettings: dict
         :param id: die eindeutige ID des Ports
-        :type: id: str
+        :type id: str
         """
         self.portID = str(id)
         self.superSettings["type"] = self.getType()
@@ -153,7 +153,7 @@ class AbstractPort(OptionableObject):
         Prüft ob ein Port funktionsfähig ist.
         
         :return: True wenn der Port funktionsfähig ist.
-        :type: bool
+        :rtype: bool
         """
         if self.getSetting("logging") == True:
             if self.loggingThread.is_alive() == False:
@@ -170,7 +170,7 @@ class AbstractPort(OptionableObject):
         Funktion kann vom Benutzer überschrieben werden, wenn der Sensor es zulässt seine Funktionalität zu überprüfen. Z.B. ob die Verbindung klappt o.Ä.
         
         :return: True, wenn der Port ordnungsgemäß funktioniert, False sonst.
-        :type: bool
+        :rtype: bool
         """
         return True
 
@@ -185,7 +185,7 @@ class AbstractPort(OptionableObject):
         Gibt den aktuellen Status des Ports zurück. Dies ist der letzte Wert den der Sensor zurückgegeben hat.
         
         :return: Der aktuellste Messwert des Sensors.
-        :type: float
+        :rtype: float
         """
         return self.lastValue
 
@@ -194,7 +194,7 @@ class AbstractPort(OptionableObject):
         Gibt den Wertebereich des Ports zurück. Muss von der Kindklasse implementiert werden!
         
         :return: Ein Tuple mit den Werten (minimalerWert, maximalerWert, Schrittweite zwisachen den einzelnen Werten)
-        :type: tuple
+        :rtype: tuple
         """
         raise NotImplementedError
 
@@ -203,7 +203,7 @@ class AbstractPort(OptionableObject):
         Wird vom WatcherThread aufgerufen um den aktuellen Wert des Sensors auszulesen. Insbesonders muss diese Methode implementiert werden, wenn minRefresehTime gesetzt und ungleich -1 ist.
         
         :return: Den aktuellen Wert des Sensors.
-        :type: float
+        :rtype: float
         """
         pass
 
@@ -225,7 +225,7 @@ class AbstractPort(OptionableObject):
         Statische Methode um die möglichen Optionen eines Ports zurück zu geben. Dies ist für die Oberfläche relevant.
         
         :return: Ein dict mit allen Optionen des Ports.
-        :type: dict
+        :rtype: dict
         """
         return {**super().getOptions(), **cls.superOptions}
 
@@ -234,7 +234,7 @@ class AbstractPort(OptionableObject):
         Gibt den Typ des Ports zurück.
         
         :return: Der Typ des Ports.
-        :type: str
+        :rtype: str
         """
         return str(self.__class__.__name__)
 
@@ -244,7 +244,7 @@ class AbstractPort(OptionableObject):
         Gibt die Anschlussmöglichkeiten des Ports zurück. Sollte überschrieben werden, wenn der Port die Anschlüsse dynamisch nachlädt.
         
         :return: Anschlussmöglichkeiten des Ports.
-        :type: dict
+        :rtype: dict
         """
         if str(cls.__name__) in configIO.loadWiring().keys():
             return configIO.loadWiring()[str(cls.__name__)]
@@ -255,7 +255,7 @@ class AbstractPort(OptionableObject):
         Gibt die minimale Wartezeit für das Aktualisieren eines Ports zurück. Dies ist für den Watcherthread wichtig.
         
         :return: Die minimale Zeit zwischen zwei Anfragen an den Sensor.
-        :type: float
+        :rtype: float
         """
         return self.minRefreshTime
 
@@ -264,7 +264,7 @@ class AbstractPort(OptionableObject):
         Gibt den Namen des Ports zurück.
         
         :return: der Name des Ports
-        :type:: str
+        :rtype:: str
         """
 
         return self.getSetting("name")
@@ -274,7 +274,7 @@ class AbstractPort(OptionableObject):
         Gibt die eindeutige ID des Ports zurück.
         
         :return: die ID des Ports.
-        :type: str
+        :rtype: str
         """
         return self.portID
 
@@ -283,7 +283,7 @@ class AbstractPort(OptionableObject):
         Wenn der Port geloggt werden soll, gibt diese Methode true zurück.
         
         :return: true, wenn der Port geloggt werden soll.
-        :type: bool
+        :rtype: bool
         """
         return self.getSetting("logging")
 
@@ -292,7 +292,7 @@ class AbstractPort(OptionableObject):
         Gibt die Sekunden zwischen zwei Logeinträgen zurück.
         
         :return: die Sekunden zwischen zwei Logzeiten
-        :type: float
+        :rtype: float
         """
         return self.getSetting("logCycle")
 
@@ -301,9 +301,9 @@ class AbstractPort(OptionableObject):
         Prüft ob zwei Ports gleich sind. Zwei Ports sind genau dann gleich, wenn ihre ID übereinstimmt. Diese Methode überschreibt ==
         
         :param other: Der zu vergleichende Port.
-        :type: other: AbstractPort
+        :type other: AbstractPort
         :return: true, wenn die beiden Ports die gleiche ID haben.
-        :type: bool
+        :rtype: bool
         """
         if self.__class__ == other.__class__:
             return self.getID() == other.getID()
@@ -314,7 +314,7 @@ class AbstractPort(OptionableObject):
         Gibt die Beschreibung eines Porttyps zurück. Diese Methode muss von der indklasse übschrieben werden.
         
         :return: Die Beschreibung des Ports.
-        :type: str
+        :rtype: str
         """
         raise NotImplementedError
 
@@ -323,7 +323,7 @@ class AbstractPort(OptionableObject):
         Gibt die aktuellen Einstellungen des Ports zurück. Die Einstellungen sollten mindestens alle möglichen Options enthalten.
         
         :return: Ein dict mit en Einstellungen.
-        :type: dict
+        :rtype: dict
         """
         return self.settings
 
@@ -332,7 +332,7 @@ class AbstractPort(OptionableObject):
         Gibt die Einheit eines Ports zurück.
         
         :return: Die Einheit des Ports.
-        :type: str
+        :rtype: str
         """
         return self.getSetting("unit")
 
@@ -341,7 +341,7 @@ class AbstractPort(OptionableObject):
         Gibt die aktuellen Informationen zurück. Die aktuellen Informationen enthalten die settings, den aktuellen Status und die Gesundheit des Ports.
         
         :return: Ein dict mit den aktuellen Informationen des Ports.
-        :type: dict
+        :rtype: dict
         """
         """Gibt alle Informationen alle Informationen zu einem Port zurück."""
         informations = {}
@@ -355,7 +355,7 @@ class AbstractPort(OptionableObject):
         Gibt die externe Bezeichnung des Ports an. Diese steht z.B. an der Anschlussdose des Ports. er wird in der wiring-Konfigurationen des Systems festgelegt. Die Methode kann bei dynamischen Ports ggf. überschrieben werden.
         
         :return Die externe Bezeichnung des Ports.
-        :type: str
+        :rtype: str
         """
         return self.getSetting("wiring")
 
@@ -365,7 +365,7 @@ class AbstractPort(OptionableObject):
         Die Kindklasse kann diese Methode nutzen um die Ansteuerung des richtigen Senors durchzuführen.
         
         :return Eine Repräsentation des internen Anschluss des Ports.
-        :type: str
+        :rtype: str
         """
         return self.internalPin
 
@@ -374,7 +374,7 @@ class AbstractPort(OptionableObject):
         Der mit dem Port assozierte Service. Dies ist eine Hilfsmethode, nicht überschreiben. Sie kann bei einem Ausbau des System durch weitere Services benutzt werden.
         
         :return: Der Name der Serviceklasse.
-        :type: str
+        :rtype: str
         """
         return "PortService"
 
@@ -383,7 +383,7 @@ class AbstractPort(OptionableObject):
         Gibt den akutellen Wert mit der Einheit aus.
         
         :return: Der aktuelle Wert mit der Einheit
-        :type: str
+        :rtype: str
         """
         return str(self.getState()) + str(self.getUnit())
 
@@ -392,7 +392,7 @@ class AbstractPort(OptionableObject):
         Fügt der Historie einen Wert hinzu. Die Historie eines Ports dient zur bestimmten Auslösung von Triggern. So wird z.B. ein E-Mail Triger so nicht bei jedem Prüfen eines Wertes aufgerufen sondern nur beim ersten Überschreiten eines Schwellwerts.
         
         :param value: der Wert der zur Historie hinzugefügt werden soll.
-        :type: value: float
+        :type value: float
         """
         if len(self.portHistory) >= 100:
             self.portHistory.pop(0)
@@ -403,7 +403,7 @@ class AbstractPort(OptionableObject):
         Gibt die Historie des Ports seit Porgrammstart zurück
         
         :return: Eine Liste der letzten 100 Messwerte des Ports.
-        :type: list
+        :rtype: list
         """
         return self.portHistory
 
@@ -412,6 +412,6 @@ class AbstractPort(OptionableObject):
         Gibt True zurück, wenn der Port fertig initialisiert ist.
         
         :return: True wenn der Port initialisiert ist.
-        :type: bool
+        :rtype: bool
         """
         return self.initialized

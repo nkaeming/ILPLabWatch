@@ -4,18 +4,24 @@ from email.mime.text import MIMEText
 from email.header import Header
 
 class EMailAlert(AbstractAlert):
-    """Diese Klasse gibt eine Nachricht auf der Konsole aus, sobald der Alert aufgerufen wird."""
+    """
+    Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald sie ausgelöst wird.
+    """
 
     lastCalled = 0
+    """der letzte Aufruf des Alerts"""
+
 
     def __init__(self, alertID, settings):
         self.lastCalled = datetime.datetime.now() + datetime.timedelta(minutes=-5)
         super().__init__(alertID, settings)
 
-    # erzeugt einen neuen Alert in der Command Line.
     def throwAlert(self, port, trigger):
-        td = datetime.timedelta(minutes=-5)
-        if self.lastCalled < datetime.datetime.now() + td:
+        """
+        Sendet eine E-Mail an die Empfänger. Eine E-Mail wird erst nach Ablauf der eingestellten Zeit und nach 
+        """
+        td = datetime.timedelta(minutes=-self.getSetting('waitForNextMail'))
+        if self.lastCalled < datetime.datetime.now() + td and trigger.isFirstCalled() == True:
             smtp = smtplib.SMTP()
             smtp.connect(host=self.getSetting('SMTPServerAddress'), port=self.getSetting('SMTPServerPort'))
             if self.getSetting('SMTPUsername') != "":

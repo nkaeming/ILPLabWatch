@@ -1,8 +1,10 @@
 from Models.OptionableObject import OptionableObject
+from Ports.AbstractPort import AbstractPort
+from Models.Trigger import Trigger
 
 
 class AbstractAlert(OptionableObject):
-    """Jeder Alert erbt von dieser Klasse. Jeder Alert ist ein Type der optionierbar vom Benutzer ist."""
+    """Jeder Alert erbt von dieser Klasse. Jeder Alert ist ein Typ der optionierbar vom Benutzer ist."""
 
     superOptions = {
         "name": {
@@ -22,49 +24,109 @@ class AbstractAlert(OptionableObject):
             "length": 200
         }
     }
+    """Einstellungen die jeder Alert haben muss."""
 
-    alertID = 0  # die eindeutige ID des Alerts
+    alertID = 0
+    """Die eindeutige ID des Alerts."""
 
     def __init__(self, alertID, settings):
+        """
+        Initialisiert den Alert.
+        
+        :param alertID: die ID des Alerts.
+        :type alertID: str
+        :param settings: die Einstellungen des Alerts
+        :type settings: dict
+        """
         settings["type"] = self.getType()
         super().__init__(settings)
         self.alertID = alertID
 
-    # Wird vom Trigger Objekt aufgerufen, wenn der Alert auslösen soll.
     def throwAlert(self, port, trigger):
+        """
+        Methode wird von einem Trigger aufgerufen wenn dieser ausgelöst hat. Muss von der Kindklasse implementiert werden.
+        
+        :param port: der Port der den Trigger ausgelöst hat
+        :type port: AbstractPort
+        :param trigger: der Trigger der die Methode aufgerufen hat.
+        :type trigger: Trigger
+        """
         raise NotImplementedError
 
-    # gibt die Beschreibung des Alerttyps zurück.
+    @classmethod
     def getDescription(self):
+        """
+        Gibt die Beschreibung eines Alerttyps zurück. Muss von der Kindklasse implementiert werden.
+        
+        :return: Die Beschreibung des Alerttyp.
+        :rtype: str
+        """
         raise NotImplementedError
 
-    # gibt die Optionen des Alerts zurück. Diese werden dann in der GUI angezeigt. Kann überschrieben werden, sofern nötig.
     @classmethod
     def getOptions(cls):
+        """
+        Gibt die Optionen eines Alerttyps zurück. Kann überschrieben werden wenn notwendig.
+        
+        :return: die Optionen des Alerttyps.
+        :rtype: dict
+        """
         return {**super().getOptions(), **cls.superOptions}
 
-    # gibt die AlertID zurück.
     def getID(self):
+        """
+        Gibt die ID des Alerts zurück.
+        
+        :return: die ID des Alerts
+         :rtype: str
+        """
         return self.alertID
 
-    # gibt den Typ des alerts zurück.
     def getType(self):
+        """
+        Gibt den Typ des Alerts zurück.
+        
+        :return: Klassenname des Alerts.
+         :rtype: str
+        """
         return str(self.__class__.__name__)
 
-    # gibt den Namen eines Alerts zurück.
     def getName(self):
+        """
+        Gibt den Namen eines Alerts zurück.
+        
+        :return: der Name des Alerts
+        :rtype: str
+        """
         return self.getSetting("name")
 
-    # setzt die Beschreibung des Alerts neu.
     def setDescription(self, description):
+        """
+        Setzt die Beschreibung eines Alerts neu
+        
+        :param description: die neue Beschreibung des Alerts.
+        :type description: str
+        """
         self.setSetting("description", description)
 
-    # Gibt den Namen des Services der die Objekte verwaltet zurück.
     def getServiceName(self):
+        """
+        Gibt den Namen des mit dem Alerts assozierten Services zurück.
+        
+        :return: der Name des Services
+        :rtype: str
+        """
         return "AlertService"
 
     def __eq__(self, other):
-        """Prüft zwei Alerts auf Gleichheit. Zwei ALerts sind gleich bei gleicher ID und gleichem Typ"""
+        """
+        Prüft zwei Alerts auf Gleichheit. Zwei Alerts sind genau dann gleich, wenn sie die gleiche ID und den gleichen Typ haben.
+        
+        :param other: das Objekt mit dem verglichen werden soll.
+        :type other: AbstractAlert
+        :return: True, wenn beide Objekte gleich sind.
+        :rtype: bool
+        """
         if other.__class__ == self.__class__:
             return other.getID() == self.getID()
         return False

@@ -1,21 +1,28 @@
 from Alerts.AbstractAlert import AbstractAlert
+from Ports.AbstractPort import AbstractPort
 import datetime, smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 
 class EMailAlert(AbstractAlert):
-    """Diese Klasse gibt eine Nachricht auf der Konsole aus, sobald der Alert aufgerufen wird."""
+    """
+    Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald sie ausgelöst wird.
+    """
 
     lastCalled = 0
+    """der letzte Aufruf des Alerts"""
+
 
     def __init__(self, alertID, settings):
         self.lastCalled = datetime.datetime.now() + datetime.timedelta(minutes=-5)
         super().__init__(alertID, settings)
 
-    # erzeugt einen neuen Alert in der Command Line.
     def throwAlert(self, port, trigger):
-        td = datetime.timedelta(minutes=-5)
-        if self.lastCalled < datetime.datetime.now() + td:
+        """
+        Sendet eine E-Mail an die Empfänger. Eine E-Mail wird erst nach Ablauf der eingestellten Zeit und wenn der Schwellwert zum ersten Mal überschritten wurde versendet.
+        """
+        td = datetime.timedelta(minutes=-self.getSetting('waitForNextMail'))
+        if self.lastCalled < datetime.datetime.now() + td and trigger.isFirstCalled() == True:
             smtp = smtplib.SMTP()
             smtp.connect(host=self.getSetting('SMTPServerAddress'), port=self.getSetting('SMTPServerPort'))
             if self.getSetting('SMTPUsername') != "":
@@ -27,12 +34,20 @@ class EMailAlert(AbstractAlert):
             self.lastCalled = datetime.datetime.now()
             smtp.quit()
 
-    # gibt die Beschreibung des Alerts aus.
     def getDescription(self):
         return "Ein E-Mail-Alert sendet eine E-Mail an einen oder mehre Empfänger, wenn der Trigger das erste Mal auslöst."
 
     def sendMail(self, to, port, smtp):
-        """Sendet eine Email an einen Empfänger"""
+        """
+        Sendet eine E-Mail an einen Empfänger.
+        
+        :param to: die E-Mailadresse des Empfängers.
+        :type to: str
+        :param port: der Port der betroffen ist.
+        :type port: AbstractPort
+        :param smtp: die smtp Verbidnung.
+        :type smtp: smptlib.SMPT
+        """
         content = "Alert vom Port "+port.getName()+" ausgelöst \n Der Wert vom Port betrug: "+port.getStateWithUnit()+" \n Zusätzliche Nachricht: "+self.getSetting('message')+" \n Zeitpunkt: " + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
         message = MIMEText(content.encode('utf-8'), 'plain', 'utf-8')
         message['From'] = 'ILPLabWatch'

@@ -192,4 +192,4 @@ class conf(AbstractView):
     def updateSystem(self):
         """Führt ein Update des gesamten Systems durch."""
         import os
-        os.system('bash ~/ILPLabWatch/update.sh')
+        os.system('bash /home/pi/ILPLabWatch/update.sh')

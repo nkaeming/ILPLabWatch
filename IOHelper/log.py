@@ -1,14 +1,24 @@
+from datetime import datetime as Datetime
 import datetime
 import os
 import time
 
-# das Verzeichnis in dem die Logdateien gespeichert werden sollen. Dieser wird von datetime interpretiert, beachte also die Python-Doku.
 baseDir = "logs/%Y/%m/"
+"""
+Das Hauptverzeichnis der Logdateien. Dies wird von Datetime interpretiert. Alle Python datetime Formate sind zulässig.
+"""
 fileName = "{}_%Y_%m_%d.dat"
+"""
+Der Dateiname den das System für die Logdatei verwenden soll.
+"""
 
-
-# schreibt den Port in eine Logdatei.
 def writeLog(port):
+    """
+    Schreibt einen Logeintrag von einem Port.
+    
+    :param port: der Port von dem der Logeintrag geschrieben werden soll.
+    :type port: AbstractPort
+    """
     data = port.getState()
     name = port.getName()
     logDir = baseDir + fileName
@@ -20,7 +30,13 @@ def writeLog(port):
 
 
 def deleteLog(port):
-    """Löscht alle Logdaten eines Ports."""
+    """
+    Löscht alle Logdaten eines Ports.
+    
+    :param port: Der Port von dem die Logdaten gelöscht werden sollen.
+    :type port: AbstractPort
+    """
+    #TODO: das System funktioniert noch nicht bezogen auf die oeben angegebenen Pfade. Dringend überarbeiten.
     year = datetime.datetime.now().year
     runYear = 2017
     portName = port.getName()
@@ -40,7 +56,21 @@ def deleteLog(port):
 
 
 def readLog(port, start, end, aboutPoints=0):
-    """port ist der Port von dem das Log geladen werde soll. start und end sind datetime objekte."""
+    """
+    Liest die Logdaten eines Ports aus.
+    
+    :param port: der Port von dem die Logdaten ausgelesen werden sollen.
+    :type port: AbstractPort
+    :param start: der Startpunkt ab dem die Daten ausgelesen werden sollen
+    :type start: datetime
+    :param end: der Endpunkt bis dem die Daten ausgelesen werden sollen
+    :type end: datetime
+    :param aboutPoints: Artefakt, vorerst ignorieren...
+    :return: Eine Liste mit allen Logeinträgen mit tupeln aus Datum und Wert
+    :rtype: list
+    """
+
+    #TODO: wird noch nicht durch die oben einstellbaren PFade beeinflusst dringend überarbeiten.
     logData = []
 
     while start <= end:

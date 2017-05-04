@@ -185,7 +185,11 @@ class PortService(Observable, Observer, PersistantObject):
         return portTypes
 
     def getConfigurablePortTypes(self):
-        """Gibt alle Porttypen zurück, welche zurzeit freie Anschlüsse zum Konfigurieren haben."""
+        """
+        Gibt alle Porttypen zurück, welche einen freien Anschluss zum Konfigurieren haben.
+        :return: Eine Liste der Porttypen
+        :type list
+        """
         availablePortTypes = []
         for portType in self.getPortTypes():
             if portType in configIO.loadWiring().keys():
@@ -197,22 +201,44 @@ class PortService(Observable, Observer, PersistantObject):
         return availablePortTypes
 
     def getPortClassByType(self, portType):
-        """Gibt einen Zeiger auf die Klasse zurück, welche den Prot definiert."""
+        """
+        Gibt einen Zeiger auf die Klasse zurück die den Port definiert.
+        :param portType: Der Typ des Ports.
+        :type portType: str
+        :return: Ein Class-Objekt auf die Klasse des Ports.
+        :type AbstractPort
+        """
         return getattr(importlib.import_module("Ports.UserPorts." + portType + "." + portType), portType)
 
     def getFreeInputsOfPortType(self, portType):
-        """Gibt alle freien Anschlüsse eines Ports aus."""
+        """
+        Gibt die freien Anschlüsse eines Porttypen aus.
+        :param portType: Der Typ des Ports.
+        :type portType: str
+        :return: Ein dict mit allen freien Anschlüssen.
+        :type dict
+        """
         freeInputs = self.getPortClassByType(portType).getInputs()
         for port in self.getPortsByType(portType):
             freeInputs.pop(port.getPortBoxName())
         return freeInputs
 
     def doesPortExistByName(self, name):
-        """Prüft ob ein Portname bereits existiert."""
+        """
+        Prüft ob der Name eines Ports existiert.
+        :param name: Der Name des Ports.
+        :type name: str
+        :return: true, wenn ein Port mit diesem Namen existiert.
+        :type bool
+        """
         return len(list(filter(lambda port: port.getName() == name, self.getPorts()))) != 0
 
     def removePort(self, port):
-        """Löscht einen Port"""
+        """
+        Löscht einen Port aus dem Service. Er wird bei erneuten starten auch nicht geladen. Die Überwachung des Ports wird vollständig beendet.
+        :param port: Der Port der gelöscht werden soll.
+        :type port: AbstractPort
+        """
         port.removeAllObservers()
         self.TriggerService.removeTriggersByPort(port)
         port.stopThreads()
@@ -220,7 +246,11 @@ class PortService(Observable, Observer, PersistantObject):
         self.writeConf()
 
     def arePortsOK(self):
-        """Gibt True zurück, wenn alle Ports keine internen schwierigkeiten haben und keine warnTrigger ausgelöst sind."""
+        """
+        Gibt true zurück, wenn alle Ports keine Fehler haben und auch keine WarnTrigger ausgelöst sind. Methode kann z.B. für die WarnLED benutzt werden. Sie ist ein Indikator für die Systemgesundheit und die Gesundheit der zu überwachenden Peripherie.
+        :return: true, wenn alles in Ordnung ist.
+        :type bool
+        """
         for port in self.getPorts():
             if port.isPortOK():
                 triggers = self.TriggerService.getTriggerByPort(port)

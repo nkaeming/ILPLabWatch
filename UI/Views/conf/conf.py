@@ -204,6 +204,5 @@ class conf(AbstractView):
             err = ''
 
         if result != "Already up-to-date." and err == '':
-            import os
-            os.system('shutdown -r now')
+            shutdown = subprocess.Popen(['bash', 'ShutdownDelay.sh'])
         return self.jinjaEnv.get_template("systemUpdate.html").render(info = result, error=err)

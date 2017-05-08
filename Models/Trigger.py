@@ -1,10 +1,10 @@
 from Models.Observer import Observer
 from Models.Observable import Observable
 
-# Ein Trigger dient zur Verbindung zwischen den Ports und den Alerts.
-
 class Trigger(Observer, Observable):
-    """Trigger werden ausgelöst, wenn ein Port kritische Werte erreicht."""
+    """
+    
+    """
 
     triggerRange = [0,
                     0]  # die erste zahl gibt den minimalen Wert an, bei der der Trigger auslöst. Die zweite Zahl gibt die höchste Zahel an, bei der der Trigger auslöst.

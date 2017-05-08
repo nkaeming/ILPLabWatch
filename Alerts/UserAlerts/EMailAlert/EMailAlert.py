@@ -6,7 +6,7 @@ from email.header import Header
 
 class EMailAlert(AbstractAlert):
     """
-    Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald sie ausgelöst wird.
+    Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald er ausgelöst wird.
     """
 
     lastCalled = 0

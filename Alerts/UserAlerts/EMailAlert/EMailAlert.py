@@ -48,11 +48,14 @@ class EMailAlert(AbstractAlert):
         :param smtp: die smtp Verbidnung.
         :type smtp: smptlib.SMPT
         """
+
         content = "Alert vom Port "+port.getName()+" ausgelöst \n Der Wert vom Port betrug: "+port.getStateWithUnit()+" \n Zusätzliche Nachricht: "+self.getSetting('message')+" \n Zeitpunkt: " + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
         message = MIMEText(content.encode('utf-8'), 'plain', 'utf-8')
         message['From'] = 'ILPLabWatch'
         message['To'] = to
         message['Subject'] = Header("ILPLabWatch Alert ausgelöst", 'utf-8')
+
+        print("E-Mail an: " + to + " gesendet.")
 
         try:
             smtp.sendmail('noReply@ILPLabWatch.uni-hamburg.de', to, message.as_string())

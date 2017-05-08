@@ -50,31 +50,34 @@ class addPort(AbstractView):
         optionFields = []
         allOK = True
         for option, setting in options.items():
-            # Prüfen ob der Name bereits existiert.
-            if option == 'name':
-                suggestedName = args['name']
-                if self.PortService.doesPortExistByName(suggestedName):
-                    optionField = OptionField(name=option, settings=setting, value=args['name'],
-                                              warnText="Der Name existiert bereits.")
-                    allOK = False
-                else:
-                    optionField = OptionField(name=option, settings=setting, value=args[option])
-            # prüfen ob der Anschluss noch frei ist.
-            elif option == 'wiring':
-                if not args['wiring'] in self.PortService.getFreeInputsOfPortType(portType):
-                    optionField = OptionField(name=option, settings=setting, value=args['wiring'],
-                                              warnText="Dieser Anschluss ist nicht mehr frei.")
-                    allOK = False
+            if option in args.keys():
+                # Prüfen ob der Name bereits existiert.
+                if option == 'name':
+                    suggestedName = args['name']
+                    if self.PortService.doesPortExistByName(suggestedName):
+                        optionField = OptionField(name=option, settings=setting, value=args['name'],
+                                                  warnText="Der Name existiert bereits.")
+                        allOK = False
+                    else:
+                        optionField = OptionField(name=option, settings=setting, value=args[option])
+                # prüfen ob der Anschluss noch frei ist.
+                elif option == 'wiring':
+                    if not args['wiring'] in self.PortService.getFreeInputsOfPortType(portType):
+                        optionField = OptionField(name=option, settings=setting, value=args['wiring'],
+                                                  warnText="Dieser Anschluss ist nicht mehr frei.")
+                        allOK = False
+                    else:
+                        optionField = OptionField(name=option, settings=setting, value=args[option])
                 else:
                     optionField = OptionField(name=option, settings=setting, value=args[option])
             else:
-                optionField = OptionField(name=option, settings=setting, value=args[option])
+                optionField = OptionField(name=option, settings=setting, value=setting['standard'])
 
             if not optionField.evaluate():
                 allOK = False
             optionFields.append(optionField)
 
-        # Wenn alle Felder ordentlich ausgefüllt waren, wird er Port gespeichert.
+        # Wenn alle Felder ordentlich ausgefüllt waren, wird der Port gespeichert.
         if allOK:
             portSettings = {'type': portType, 'wiring': args['wiring']}
             for optionField in optionFields:

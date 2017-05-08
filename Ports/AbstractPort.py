@@ -209,7 +209,7 @@ class AbstractPort(OptionableObject):
 
     def portChanged(self, newValue):
         """
-        Private Methode die bei einer Änderung des Sensorwertes aufgerufen wird. Sie aktualisiert die Historie des Ports und startet den Triggeraufruf.
+        Private Methode die bei einer Änderung des Sensorwertes aufgerufen wird. Sie aktualisiert die Historie des Ports und startet den Triggeraufruf. Wird immer von einem Thread oder einem Eventlistener der den Port überwacht augerufen. 
         
         :param newValue: Der neue von Sensor ausgelesene Wert.
         :type newValue: float

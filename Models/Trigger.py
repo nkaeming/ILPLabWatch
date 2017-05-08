@@ -98,7 +98,7 @@ class Trigger(Observer, Observable):
         :return: true, wenn der Trigger zum ersten Mal ausgelöst wurde.
         :rtype: bool
         """
-        portHistory = self.port.getHistory()
+        portHistory = self.port.getPortHistory()
         if self.checkValue(portHistory[-1]) == True:
             return False
         return True

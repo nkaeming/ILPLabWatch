@@ -74,18 +74,21 @@ class conf(AbstractView):
         allOK = True
         optionFields = []
         for optionName, optionSettings in alert.getOptions().items():
-            if not 'final' in optionSettings:
-                optionSettings['final'] = False
+            if optionName in args.keys():
+                if not 'final' in optionSettings:
+                    optionSettings['final'] = False
 
-            if optionSettings['final'] == False:
-                optionField = OptionField(optionName, optionSettings, args[optionName])
-                if not optionField.evaluate():
-                    allOK = False
+                if optionSettings['final'] == False:
+                    optionField = OptionField(optionName, optionSettings, args[optionName])
+                    if not optionField.evaluate():
+                        allOK = False
+                    else:
+                        alert.setSetting(optionName, optionField.getValue())
                 else:
-                    alert.setSetting(optionName, optionField.getValue())
+                    optionSettings['type'] = 'finalDsiplayString'
+                    optionField = OptionField(optionName, optionSettings, alert.getSetting(optionName))
             else:
-                optionSettings['type'] = 'finalDsiplayString'
-                optionField = OptionField(optionName, optionSettings, alert.getSetting(optionName))
+                optionField = OptionField(optionName, optionSettings)
 
             optionFields.append(optionField)
 
@@ -137,18 +140,21 @@ class conf(AbstractView):
         allOK = True
         optionFields = []
         for optionName, optionSettings in port.getOptions().items():
-            if not 'final' in optionSettings:
-                optionSettings['final'] = False
+            if optionName in args.keys():
+                if not 'final' in optionSettings:
+                    optionSettings['final'] = False
 
-            if optionSettings['final'] == False:
-                optionField = OptionField(optionName, optionSettings, args[optionName])
-                if not optionField.evaluate():
-                    allOK = False
+                if optionSettings['final'] == False:
+                    optionField = OptionField(optionName, optionSettings, args[optionName])
+                    if not optionField.evaluate():
+                        allOK = False
+                    else:
+                        port.setSetting(optionName, optionField.getValue())
                 else:
-                    port.setSetting(optionName, optionField.getValue())
+                    optionSettings['type'] = 'finalDisplayString'
+                    optionField = OptionField(optionName, optionSettings, port.getSetting(optionName))
             else:
-                optionSettings['type'] = 'finalDsiplayString'
-                optionField = OptionField(optionName, optionSettings, port.getSetting(optionName))
+                optionField = OptionField(optionName, optionSettings)
 
             optionFields.append(optionField)
 

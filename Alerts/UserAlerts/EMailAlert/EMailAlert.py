@@ -6,7 +6,7 @@ from email.header import Header
 
 class EMailAlert(AbstractAlert):
     """
-    Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald sie ausgelöst wird.
+    Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald er ausgelöst wird.
     """
 
     lastCalled = 0
@@ -22,6 +22,7 @@ class EMailAlert(AbstractAlert):
         Sendet eine E-Mail an die Empfänger. Eine E-Mail wird erst nach Ablauf der eingestellten Zeit und wenn der Schwellwert zum ersten Mal überschritten wurde versendet.
         """
         td = datetime.timedelta(minutes=-self.getSetting('waitForNextMail'))
+
         if self.lastCalled < datetime.datetime.now() + td and trigger.isFirstCalled() == True:
             smtp = smtplib.SMTP()
             smtp.connect(host=self.getSetting('SMTPServerAddress'), port=self.getSetting('SMTPServerPort'))
@@ -48,6 +49,7 @@ class EMailAlert(AbstractAlert):
         :param smtp: die smtp Verbidnung.
         :type smtp: smptlib.SMPT
         """
+
         content = "Alert vom Port "+port.getName()+" ausgelöst \n Der Wert vom Port betrug: "+port.getStateWithUnit()+" \n Zusätzliche Nachricht: "+self.getSetting('message')+" \n Zeitpunkt: " + datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
         message = MIMEText(content.encode('utf-8'), 'plain', 'utf-8')
         message['From'] = 'ILPLabWatch'
@@ -56,5 +58,6 @@ class EMailAlert(AbstractAlert):
 
         try:
             smtp.sendmail('noReply@ILPLabWatch.uni-hamburg.de', to, message.as_string())
+            print("E-Mail an: " + to + " gesendet.")
         except:
             print("Senden der E-Mails fehlgeschlagen!")

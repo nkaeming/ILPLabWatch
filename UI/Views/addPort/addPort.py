@@ -71,7 +71,7 @@ class addPort(AbstractView):
                 else:
                     optionField = OptionField(name=option, settings=setting, value=args[option])
             else:
-                optionField = OptionField(name=option, settings=setting, value=setting['standard'])
+                optionField = OptionField(name=option, settings=setting)
 
             if not optionField.evaluate():
                 allOK = False

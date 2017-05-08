@@ -88,7 +88,7 @@ class conf(AbstractView):
                     optionSettings['type'] = 'finalDsiplayString'
                     optionField = OptionField(optionName, optionSettings, alert.getSetting(optionName))
             else:
-                optionField = OptionField(optionName, optionSettings, alert.getOptions()[optionName]['standard'])
+                optionField = OptionField(optionName, optionSettings)
 
             optionFields.append(optionField)
 
@@ -154,7 +154,7 @@ class conf(AbstractView):
                     optionSettings['type'] = 'finalDisplayString'
                     optionField = OptionField(optionName, optionSettings, port.getSetting(optionName))
             else:
-                optionField = OptionField(optionName, optionSettings, port.getOptions()[optionName]['standard'])
+                optionField = OptionField(optionName, optionSettings)
 
             optionFields.append(optionField)
 

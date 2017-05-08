@@ -94,12 +94,12 @@ class Trigger(Observer, Observable):
     def isFirstCalled(self):
         """
         Gibt true zurück, wenn der Trigger zum ersten Mal ausgelöst wurde. D.h. wenn der Wert zum ersten Mal in den Bereich reingelaufen ist.
-        
+
         :return: true, wenn der Trigger zum ersten Mal ausgelöst wurde.
         :rtype: bool
         """
         portHistory = self.port.getPortHistory()
-        if self.checkValue(portHistory[-1]) == True:
+        if self.checkValue(portHistory[-1]):
             return False
         return True
 

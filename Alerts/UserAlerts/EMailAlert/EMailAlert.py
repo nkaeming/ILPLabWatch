@@ -22,6 +22,7 @@ class EMailAlert(AbstractAlert):
         Sendet eine E-Mail an die Empfänger. Eine E-Mail wird erst nach Ablauf der eingestellten Zeit und wenn der Schwellwert zum ersten Mal überschritten wurde versendet.
         """
         td = datetime.timedelta(minutes=-self.getSetting('waitForNextMail'))
+
         if self.lastCalled < datetime.datetime.now() + td and trigger.isFirstCalled() == True:
             smtp = smtplib.SMTP()
             smtp.connect(host=self.getSetting('SMTPServerAddress'), port=self.getSetting('SMTPServerPort'))
@@ -55,9 +56,8 @@ class EMailAlert(AbstractAlert):
         message['To'] = to
         message['Subject'] = Header("ILPLabWatch Alert ausgelöst", 'utf-8')
 
-        print("E-Mail an: " + to + " gesendet.")
-
         try:
             smtp.sendmail('noReply@ILPLabWatch.uni-hamburg.de', to, message.as_string())
+            print("E-Mail an: " + to + " gesendet.")
         except:
             print("Senden der E-Mails fehlgeschlagen!")

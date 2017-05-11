@@ -4,7 +4,9 @@ import IOHelper.log as Logreader
 
 
 class api(AbstractView):
-    """Die API Klasse stellt Funktionen zur Verwalltung für Fremdsoftware zur Verfügung."""
+    """
+    Die API Klasse stellt Funktionen zur Verwalltung für Fremdsoftware zur Verfügung.
+    """
 
     def __init__(self, PortService, TriggerService, AlertService):
         super().__init__(PortService, TriggerService, AlertService)

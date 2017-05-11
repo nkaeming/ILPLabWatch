@@ -13,8 +13,8 @@ class GPIOOutput(AbstractAlert):
         super().__init__(alertID, settings)
 
         self.GPIOPin = self.getSetting('GPIOPin')
-        initialState = self.getSetting('initialState')
-        self.OnIfCalled = self.getSetting('OnIfCalled')
+        initialState = self.getSetting('initialState') == "True"
+        self.OnIfCalled = self.getSetting('OnIfCalled') == "True"
         RPIO.setmode(RPIO.BCM)
 
         if initialState == True:

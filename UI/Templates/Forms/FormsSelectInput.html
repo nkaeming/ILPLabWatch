@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="{{name}}">Anschluss</label>
+    <label for="{{name}}">{{settings['name']|e}}</label>
     <select class="form-control {% if warnText != "" %} has-error {% endif %}" id="{{name}}" name="{{name}}"
     aria-describedby="helpBlock-{{name}}">
     {% for optionValue, display in settings['options'] %}

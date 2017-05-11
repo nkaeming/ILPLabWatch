@@ -48,7 +48,7 @@
 <span class="kn">from</span> <span class="nn">Models.Trigger</span> <span class="k">import</span> <span class="n">Trigger</span>
 
 
-<div class="viewcode-block" id="AbstractAlert"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert">[Doku]</a><span class="k">class</span> <span class="nc">AbstractAlert</span><span class="p">(</span><span class="n">OptionableObject</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert">[Doku]</a><span class="k">class</span> <span class="nc">AbstractAlert</span><span class="p">(</span><span class="n">OptionableObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Jeder Alert erbt von dieser Klasse. Jeder Alert ist ein Typ der optionierbar vom Benutzer ist.&quot;&quot;&quot;</span>
 
     <span class="n">superOptions</span> <span class="o">=</span> <span class="p">{</span>
@@ -87,7 +87,7 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alertID</span> <span class="o">=</span> <span class="n">alertID</span>
 
-<div class="viewcode-block" id="AbstractAlert.throwAlert"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert.throwAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">throwAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">trigger</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert.throwAlert"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.throwAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">throwAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">trigger</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Methode wird von einem Trigger aufgerufen wenn dieser ausgelöst hat. Muss von der Kindklasse implementiert werden.</span>
 <span class="sd">        </span>
@@ -99,7 +99,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="AbstractAlert.getDescription"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert.getDescription"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt die Beschreibung eines Alerttyps zurück. Muss von der Kindklasse implementiert werden.</span>
 <span class="sd">        </span>
@@ -109,7 +109,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="AbstractAlert.getOptions"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert.getOptions">[Doku]</a>    <span class="k">def</span> <span class="nf">getOptions</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert.getOptions"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getOptions">[Doku]</a>    <span class="k">def</span> <span class="nf">getOptions</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt die Optionen eines Alerttyps zurück. Kann überschrieben werden wenn notwendig.</span>
 <span class="sd">        </span>
@@ -118,7 +118,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getOptions</span><span class="p">(),</span> <span class="o">**</span><span class="bp">cls</span><span class="o">.</span><span class="n">superOptions</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="AbstractAlert.getID"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert.getID">[Doku]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert.getID"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getID">[Doku]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt die ID des Alerts zurück.</span>
 <span class="sd">        </span>
@@ -127,7 +127,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">alertID</span></div>
 
-<div class="viewcode-block" id="AbstractAlert.getType"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert.getType">[Doku]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert.getType"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getType">[Doku]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt den Typ des Alerts zurück.</span>
 <span class="sd">        </span>
@@ -136,7 +136,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AbstractAlert.getName"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert.getName">[Doku]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert.getName"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getName">[Doku]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt den Namen eines Alerts zurück.</span>
 <span class="sd">        </span>
@@ -145,7 +145,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AbstractAlert.setDescription"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert.setDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">setDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert.setDescription"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.setDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">setDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Setzt die Beschreibung eines Alerts neu</span>
 <span class="sd">        </span>
@@ -154,7 +154,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setSetting</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AbstractAlert.getServiceName"><a class="viewcode-back" href="../../Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert.getServiceName">[Doku]</a>    <span class="k">def</span> <span class="nf">getServiceName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractAlert.getServiceName"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getServiceName">[Doku]</a>    <span class="k">def</span> <span class="nf">getServiceName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt den Namen des mit dem Alerts assozierten Services zurück.</span>
 <span class="sd">        </span>
@@ -205,7 +205,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

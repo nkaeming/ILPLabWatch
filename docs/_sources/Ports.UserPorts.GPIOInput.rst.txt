@@ -1,0 +1,22 @@
+Ports\.UserPorts\.GPIOInput package
+===================================
+
+Submodules
+----------
+
+Ports\.UserPorts\.GPIOInput\.GPIOInput module
+---------------------------------------------
+
+.. automodule:: Ports.UserPorts.GPIOInput.GPIOInput
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Ports.UserPorts.GPIOInput
+    :members:
+    :undoc-members:
+    :show-inheritance:

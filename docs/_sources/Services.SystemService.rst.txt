@@ -1,7 +1,0 @@
-Services\.SystemService module
-==============================
-
-.. automodule:: Services.SystemService
-    :members:
-    :undoc-members:
-    :show-inheritance:

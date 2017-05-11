@@ -1,7 +1,0 @@
-IOHelper\.log module
-====================
-
-.. automodule:: IOHelper.log
-    :members:
-    :undoc-members:
-    :show-inheritance:

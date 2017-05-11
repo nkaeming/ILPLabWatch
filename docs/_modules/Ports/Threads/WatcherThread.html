@@ -47,7 +47,7 @@
 <span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Thread</span>
 
 
-<div class="viewcode-block" id="WatcherThread"><a class="viewcode-back" href="../../../Ports.Threads.WatcherThread.html#Ports.Threads.WatcherThread.WatcherThread">[Doku]</a><span class="k">class</span> <span class="nc">WatcherThread</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
+<div class="viewcode-block" id="WatcherThread"><a class="viewcode-back" href="../../../Ports.Threads.html#Ports.Threads.WatcherThread.WatcherThread">[Doku]</a><span class="k">class</span> <span class="nc">WatcherThread</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Der WatcherThread wird immer dann benutzt, wenn der Port selber nicht in der lage ist bei Veränderung zu reagieren.&quot;&quot;&quot;</span>
     <span class="n">port</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
@@ -56,7 +56,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-<div class="viewcode-block" id="WatcherThread.run"><a class="viewcode-back" href="../../../Ports.Threads.WatcherThread.html#Ports.Threads.WatcherThread.WatcherThread.run">[Doku]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WatcherThread.run"><a class="viewcode-back" href="../../../Ports.Threads.html#Ports.Threads.WatcherThread.WatcherThread.run">[Doku]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">getMinRefreshTime</span><span class="p">())</span>
@@ -72,7 +72,7 @@
             <span class="k">if</span> <span class="n">lastState</span> <span class="o">!=</span> <span class="n">newState</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">portChanged</span><span class="p">(</span><span class="n">newState</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="WatcherThread.stop"><a class="viewcode-back" href="../../../Ports.Threads.WatcherThread.html#Ports.Threads.WatcherThread.WatcherThread.stop">[Doku]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="WatcherThread.stop"><a class="viewcode-back" href="../../../Ports.Threads.html#Ports.Threads.WatcherThread.WatcherThread.stop">[Doku]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span></div></div>
 </pre></div>
 
@@ -104,7 +104,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

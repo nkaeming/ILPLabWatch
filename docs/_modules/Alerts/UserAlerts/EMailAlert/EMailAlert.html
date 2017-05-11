@@ -49,7 +49,7 @@
 <span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="k">import</span> <span class="n">MIMEText</span>
 <span class="kn">from</span> <span class="nn">email.header</span> <span class="k">import</span> <span class="n">Header</span>
 
-<div class="viewcode-block" id="EMailAlert"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert">[Doku]</a><span class="k">class</span> <span class="nc">EMailAlert</span><span class="p">(</span><span class="n">AbstractAlert</span><span class="p">):</span>
+<div class="viewcode-block" id="EMailAlert"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert">[Doku]</a><span class="k">class</span> <span class="nc">EMailAlert</span><span class="p">(</span><span class="n">AbstractAlert</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald er ausgelöst wird.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -62,7 +62,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lastCalled</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=-</span><span class="mi">5</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">alertID</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EMailAlert.throwAlert"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.throwAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">throwAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">trigger</span><span class="p">):</span>
+<div class="viewcode-block" id="EMailAlert.throwAlert"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.throwAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">throwAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">trigger</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sendet eine E-Mail an die Empfänger. Eine E-Mail wird erst nach Ablauf der eingestellten Zeit und wenn der Schwellwert zum ersten Mal überschritten wurde versendet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -80,10 +80,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">lastCalled</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
             <span class="n">smtp</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="EMailAlert.getDescription"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="EMailAlert.getDescription"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;Ein E-Mail-Alert sendet eine E-Mail an einen oder mehre Empfänger, wenn der Trigger das erste Mal auslöst.&quot;</span></div>
 
-<div class="viewcode-block" id="EMailAlert.sendMail"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.sendMail">[Doku]</a>    <span class="k">def</span> <span class="nf">sendMail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">smtp</span><span class="p">):</span>
+<div class="viewcode-block" id="EMailAlert.sendMail"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.sendMail">[Doku]</a>    <span class="k">def</span> <span class="nf">sendMail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">smtp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sendet eine E-Mail an einen Empfänger.</span>
 <span class="sd">        </span>
@@ -136,7 +136,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

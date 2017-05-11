@@ -1,7 +1,0 @@
-Models\.Observable module
-=========================
-
-.. automodule:: Models.Observable
-    :members:
-    :undoc-members:
-    :show-inheritance:

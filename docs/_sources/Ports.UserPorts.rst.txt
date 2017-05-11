@@ -10,6 +10,7 @@ Subpackages
     Ports.UserPorts.DHT11Temperature
     Ports.UserPorts.DS1822TemperatureOneWire
     Ports.UserPorts.DummyAnalogInputPort
+    Ports.UserPorts.GPIOInput
     Ports.UserPorts.MCP3008AnalogToDigital
 
 Module contents

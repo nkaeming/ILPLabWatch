@@ -1,7 +1,0 @@
-Alerts\.UserAlerts\.CommandLineAlert\.CommandLineAlert module
-=============================================================
-
-.. automodule:: Alerts.UserAlerts.CommandLineAlert.CommandLineAlert
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -57,7 +57,7 @@
 <span class="sd">Der Dateiname den das System für die Logdatei verwenden soll.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="writeLog"><a class="viewcode-back" href="../../IOHelper.log.html#IOHelper.log.writeLog">[Doku]</a><span class="k">def</span> <span class="nf">writeLog</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+<div class="viewcode-block" id="writeLog"><a class="viewcode-back" href="../../IOHelper.html#IOHelper.log.writeLog">[Doku]</a><span class="k">def</span> <span class="nf">writeLog</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Schreibt einen Logeintrag von einem Port.</span>
 <span class="sd">    </span>
@@ -74,7 +74,7 @@
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="deleteLog"><a class="viewcode-back" href="../../IOHelper.log.html#IOHelper.log.deleteLog">[Doku]</a><span class="k">def</span> <span class="nf">deleteLog</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+<div class="viewcode-block" id="deleteLog"><a class="viewcode-back" href="../../IOHelper.html#IOHelper.log.deleteLog">[Doku]</a><span class="k">def</span> <span class="nf">deleteLog</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Löscht alle Logdaten eines Ports.</span>
 <span class="sd">    </span>
@@ -100,7 +100,7 @@
         <span class="n">runYear</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="readLog"><a class="viewcode-back" href="../../IOHelper.log.html#IOHelper.log.readLog">[Doku]</a><span class="k">def</span> <span class="nf">readLog</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">aboutPoints</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="readLog"><a class="viewcode-back" href="../../IOHelper.html#IOHelper.log.readLog">[Doku]</a><span class="k">def</span> <span class="nf">readLog</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">aboutPoints</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Liest die Logdaten eines Ports aus.</span>
 <span class="sd">    </span>
@@ -115,35 +115,41 @@
 <span class="sd">    :rtype: list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#TODO: wird noch nicht durch die oben einstellbaren PFade beeinflusst dringend überarbeiten.</span>
+    <span class="c1">#TODO: wird noch nicht durch die oben einstellbaren Pfade beeinflusst dringend überarbeiten.</span>
     <span class="n">logData</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
-        <span class="n">datei</span> <span class="o">=</span> <span class="p">(</span><span class="n">baseDir</span> <span class="o">+</span> <span class="n">fileName</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
-        <span class="c1"># richtiges Datum einsetzen</span>
-        <span class="n">datei</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">datei</span><span class="p">)</span>
+    <span class="n">portHistory</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">getPortHistory</span><span class="p">()</span>
+    <span class="n">earliestHistoryPoint</span> <span class="o">=</span> <span class="n">portHistory</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="n">earliestHistoryPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="c1"># Wenn die Historiedaten ausreichen, wird aus diesen gelesen.</span>
+        <span class="n">logData</span> <span class="o">=</span> <span class="p">[(</span><span class="n">timeobj</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">timeobj</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">portHistory</span> <span class="k">if</span> <span class="n">timeobj</span> <span class="o">&gt;=</span> <span class="n">start</span> <span class="ow">and</span> <span class="n">timeobj</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">datei</span> <span class="o">=</span> <span class="p">(</span><span class="n">baseDir</span> <span class="o">+</span> <span class="n">fileName</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+            <span class="c1"># richtiges Datum einsetzen</span>
+            <span class="n">datei</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">datei</span><span class="p">)</span>
 
-        <span class="c1"># Prüfen ob die Datei existiert</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">datei</span><span class="p">):</span>
-            <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">datei</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
-                <span class="c1"># Zerteilen der Zeile</span>
-                <span class="n">lineContent</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-                <span class="n">dateString</span> <span class="o">=</span> <span class="n">lineContent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">valueString</span> <span class="o">=</span> <span class="n">lineContent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># Prüfen ob die Datei existiert</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">datei</span><span class="p">):</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">datei</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+                    <span class="c1"># Zerteilen der Zeile</span>
+                    <span class="n">lineContent</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+                    <span class="n">dateString</span> <span class="o">=</span> <span class="n">lineContent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">valueString</span> <span class="o">=</span> <span class="n">lineContent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-                <span class="c1"># Typisierung der Daten</span>
-                <span class="n">logTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">dateString</span><span class="p">,</span> <span class="s2">&quot;%H:%M:%S:</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">totalDate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
-                                              <span class="n">minute</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
-                                              <span class="n">microsecond</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">microsecond</span><span class="p">)</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">valueString</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">totalDate</span> <span class="ow">and</span> <span class="n">totalDate</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
-                    <span class="n">logData</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">totalDate</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
-            <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                    <span class="c1"># Typisierung der Daten</span>
+                    <span class="n">logTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">dateString</span><span class="p">,</span> <span class="s2">&quot;%H:%M:%S:</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">totalDate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+                                                  <span class="n">minute</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
+                                                  <span class="n">microsecond</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">microsecond</span><span class="p">)</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">valueString</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">totalDate</span> <span class="ow">and</span> <span class="n">totalDate</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
+                        <span class="n">logData</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">totalDate</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-        <span class="c1"># Einen Tag dazu zählen, da für jeden Tag eine eigene Datei existiert</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Einen Tag dazu zählen, da für jeden Tag eine eigene Datei existiert</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">logData</span></div>
 </pre></div>
@@ -176,7 +182,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

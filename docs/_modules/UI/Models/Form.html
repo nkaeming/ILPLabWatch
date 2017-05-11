@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>UI.Models.Form &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../../genindex.html" />
+    <link rel="search" title="Suche" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für UI.Models.Form</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">jinja2</span> <span class="k">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">FileSystemLoader</span>
+<span class="kn">from</span> <span class="nn">UI.Models.FormFieldFactory</span> <span class="k">import</span> <span class="n">FormFieldFactory</span>
+
+<div class="viewcode-block" id="Form"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.Form.Form">[Doku]</a><span class="k">class</span> <span class="nc">Form</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Objekte der Klasse Form bilden Formulare in der Benutzeroberfläche ab.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__fields</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="sd">&quot;&quot;&quot;Eine Liste mit allen Formfeldern.&quot;&quot;&quot;</span>
+
+    <span class="n">__method</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Entweder POST oder GET&quot;&quot;&quot;</span>
+
+    <span class="n">__action</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Link zur Auswertung der Seite.&quot;&quot;&quot;</span>
+
+    <span class="n">__buttonText</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Der Text der auf dem Submitbutton stehen soll.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">buttonText</span><span class="o">=</span><span class="s2">&quot;Speichern&quot;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;GET&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__method</span> <span class="o">=</span> <span class="n">method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__action</span> <span class="o">=</span> <span class="n">action</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__buttonText</span> <span class="o">=</span> <span class="n">buttonText</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FormFieldFactory</span><span class="o">.</span><span class="n">makeNewFormField</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">option</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Form.addFormField"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.Form.Form.addFormField">[Doku]</a>    <span class="k">def</span> <span class="nf">addFormField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">FormField</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fügt dem Formular ein Formfeld hinzu. Der Name des Formfeldes muss eindeutig sein. Andernfalls wird ein Fehler geworfen.</span>
+<span class="sd">        </span>
+<span class="sd">        :param FormField: Das Formfeld welches hinzugefügt werden soll.</span>
+<span class="sd">        :type FormField: AbstractFormField</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">doesFormFieldNameExist</span><span class="p">(</span><span class="n">FormField</span><span class="o">.</span><span class="n">getName</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FormField</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s2">&quot;Ein Formular kann nicht zwei Felder gleichen Namens enthalten.&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Form.doesFormFieldNameExist"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.Form.Form.doesFormFieldNameExist">[Doku]</a>    <span class="k">def</span> <span class="nf">doesFormFieldNameExist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft ob der Name eines Formfeldes enthalten ist.</span>
+<span class="sd">        </span>
+<span class="sd">        :param name: der Name des Formfeldes. </span>
+<span class="sd">        :return: true, wenn der Name bereits vergeben ist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">formField</span><span class="p">:</span> <span class="n">formField</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fields</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Form.getHTML"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.Form.Form.getHTML">[Doku]</a>    <span class="k">def</span> <span class="nf">getHTML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den HTML-Code des Formulars zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jinjaEnv</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span>
+            <span class="n">loader</span><span class="o">=</span><span class="n">FileSystemLoader</span><span class="p">([</span><span class="s2">&quot;UI/Templates&quot;</span><span class="p">]))</span>
+
+        <span class="n">template</span> <span class="o">=</span> <span class="n">jinjaEnv</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s2">&quot;form.html&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__method</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__action</span><span class="p">,</span>
+                                    <span class="n">formFields</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__fields</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">formField</span><span class="p">:</span> <span class="n">formField</span><span class="o">.</span><span class="n">getTabIndex</span><span class="p">()),</span>
+                                    <span class="n">buttonText</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__buttonText</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Form.evaluate"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.Form.Form.evaluate">[Doku]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft ob die Eingabe eines Formulars korrekt war. Nach ausführen dieser Methode kann getHTML dazu benutzt werden das Formular erneut mit Hinweisen auszugeben.</span>
+<span class="sd">        </span>
+<span class="sd">        :param inputs: Die Eingabe die Überprüft werden soll. Ist ein Dictionary mit den Feldnamen als Schlüssel und den Werten als Elementen. </span>
+<span class="sd">        :type inputs: dict</span>
+<span class="sd">        :return: true, wenn die das Formular korrekt ausgefüllt wurde.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">formField</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fields</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">formField</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">formField</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="nb">input</span><span class="p">[</span><span class="n">formField</span><span class="o">.</span><span class="n">getName</span><span class="p">()])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">formField</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">formField</span><span class="p">:</span> <span class="n">formField</span><span class="o">.</span><span class="n">correctFilled</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fields</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Universität Hamburg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

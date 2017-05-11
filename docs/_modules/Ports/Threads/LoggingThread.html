@@ -47,7 +47,7 @@
 <span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Thread</span>
 
 
-<div class="viewcode-block" id="LoggingThread"><a class="viewcode-back" href="../../../Ports.Threads.LoggingThread.html#Ports.Threads.LoggingThread.LoggingThread">[Doku]</a><span class="k">class</span> <span class="nc">LoggingThread</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
+<div class="viewcode-block" id="LoggingThread"><a class="viewcode-back" href="../../../Ports.Threads.html#Ports.Threads.LoggingThread.LoggingThread">[Doku]</a><span class="k">class</span> <span class="nc">LoggingThread</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Dieser Thread wird benutzt um einen Port zu loggen.&quot;&quot;&quot;</span>
     <span class="n">port</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
@@ -56,14 +56,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-<div class="viewcode-block" id="LoggingThread.run"><a class="viewcode-back" href="../../../Ports.Threads.LoggingThread.html#Ports.Threads.LoggingThread.LoggingThread.run">[Doku]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LoggingThread.run"><a class="viewcode-back" href="../../../Ports.Threads.html#Ports.Threads.LoggingThread.LoggingThread.run">[Doku]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">isInitialized</span><span class="p">():</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;logCycle&quot;</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">log</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LoggingThread.stop"><a class="viewcode-back" href="../../../Ports.Threads.LoggingThread.html#Ports.Threads.LoggingThread.LoggingThread.stop">[Doku]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="LoggingThread.stop"><a class="viewcode-back" href="../../../Ports.Threads.html#Ports.Threads.LoggingThread.LoggingThread.stop">[Doku]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span></div></div>
 </pre></div>
 
@@ -95,7 +95,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

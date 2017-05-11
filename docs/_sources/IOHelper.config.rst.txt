@@ -1,7 +1,0 @@
-IOHelper\.config module
-=======================
-
-.. automodule:: IOHelper.config
-    :members:
-    :undoc-members:
-    :show-inheritance:

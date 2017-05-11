@@ -1,7 +1,0 @@
-Models\.PersistantObject module
-===============================
-
-.. automodule:: Models.PersistantObject
-    :members:
-    :undoc-members:
-    :show-inheritance:

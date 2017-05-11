@@ -1,0 +1,22 @@
+UI\.Models\.FormFields package
+==============================
+
+Submodules
+----------
+
+UI\.Models\.FormFields\.number module
+-------------------------------------
+
+.. automodule:: UI.Models.FormFields.number
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Models.FormFields
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -47,7 +47,7 @@
 <span class="kn">from</span> <span class="nn">Ports.AbstractPort</span> <span class="k">import</span> <span class="n">AbstractPort</span>
 
 
-<div class="viewcode-block" id="DummyAnalogInputPort"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort">[Doku]</a><span class="k">class</span> <span class="nc">DummyAnalogInputPort</span><span class="p">(</span><span class="n">AbstractPort</span><span class="p">):</span>
+<div class="viewcode-block" id="DummyAnalogInputPort"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort">[Doku]</a><span class="k">class</span> <span class="nc">DummyAnalogInputPort</span><span class="p">(</span><span class="n">AbstractPort</span><span class="p">):</span>
     <span class="n">lastNumber</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
@@ -57,7 +57,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">minRefreshTime</span> <span class="o">=</span> <span class="mi">5</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nachInit</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DummyAnalogInputPort.getPrivateState"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getPrivateState">[Doku]</a>    <span class="k">def</span> <span class="nf">getPrivateState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DummyAnalogInputPort.getPrivateState"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getPrivateState">[Doku]</a>    <span class="k">def</span> <span class="nf">getPrivateState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
         <span class="c1"># generate a realistic value, near the old value.</span>
         <span class="n">shortRangeValue</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
@@ -73,12 +73,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lastNumber</span> <span class="o">=</span> <span class="n">randomNumber</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastNumber</span></div>
 
-<div class="viewcode-block" id="DummyAnalogInputPort.getValueRange"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getValueRange">[Doku]</a>    <span class="k">def</span> <span class="nf">getValueRange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DummyAnalogInputPort.getValueRange"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getValueRange">[Doku]</a>    <span class="k">def</span> <span class="nf">getValueRange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
         <span class="n">interval</span> <span class="o">=</span> <span class="p">[</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">],</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">interval</span></div>
 
-<div class="viewcode-block" id="DummyAnalogInputPort.getDescription"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DummyAnalogInputPort.getDescription"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;Ein Dummyport, der zufällig generierte Zahlen ausgibt.&quot;</span></div></div>
 
 </pre></div>
@@ -111,7 +111,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

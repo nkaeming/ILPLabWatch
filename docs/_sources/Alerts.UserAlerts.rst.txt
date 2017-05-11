@@ -8,6 +8,7 @@ Subpackages
 
     Alerts.UserAlerts.CommandLineAlert
     Alerts.UserAlerts.EMailAlert
+    Alerts.UserAlerts.GPIOOutput
 
 Module contents
 ---------------

@@ -1,0 +1,22 @@
+UI\.Views\.editTrigger package
+==============================
+
+Submodules
+----------
+
+UI\.Views\.editTrigger\.editTrigger module
+------------------------------------------
+
+.. automodule:: UI.Views.editTrigger.editTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.editTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:

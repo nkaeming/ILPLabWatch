@@ -1,0 +1,22 @@
+UI\.Views\.removeAlertFromTrigger package
+=========================================
+
+Submodules
+----------
+
+UI\.Views\.removeAlertFromTrigger\.removeAlertFromTrigger module
+----------------------------------------------------------------
+
+.. automodule:: UI.Views.removeAlertFromTrigger.removeAlertFromTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.removeAlertFromTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:

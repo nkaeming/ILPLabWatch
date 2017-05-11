@@ -1,0 +1,7 @@
+UI\.Views\.addPort\.addPort module
+==================================
+
+.. automodule:: UI.Views.addPort.addPort
+    :members:
+    :undoc-members:
+    :show-inheritance:

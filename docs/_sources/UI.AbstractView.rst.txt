@@ -1,0 +1,7 @@
+UI\.AbstractView module
+=======================
+
+.. automodule:: UI.AbstractView
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,694 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models package &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="genindex.html" />
+    <link rel="search" title="Suche" href="search.html" />
+    <link rel="next" title="Ports package" href="Ports.html" />
+    <link rel="prev" title="IOHelper package" href="IOHelper.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="models-package">
+<h1>Models package<a class="headerlink" href="#models-package" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link zu dieser Überschrift">¶</a></h2>
+</div>
+<div class="section" id="module-Models.Observable">
+<span id="models-observable-module"></span><h2>Models.Observable module<a class="headerlink" href="#module-Models.Observable" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Models.Observable.Observable">
+<em class="property">class </em><code class="descclassname">Models.Observable.</code><code class="descname">Observable</code><a class="reference internal" href="_modules/Models/Observable.html#Observable"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Observable.Observable" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Observable ist eine der zwei abstrakten Klassen die zur Implementation des Beobachtermusters notwendig ist.
+Erbt eine Klasse von Observable, so kann sie von Observern beobachtet werden.</p>
+<dl class="method">
+<dt id="Models.Observable.Observable.addObserver">
+<code class="descname">addObserver</code><span class="sig-paren">(</span><em>observer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Observable.html#Observable.addObserver"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Observable.Observable.addObserver" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Fügt dem Observable einen Beobacter hinzu. Dieser wird informiert, sobald sich am Observable etwas entscheidenes ändert.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>observer</strong> (<a class="reference internal" href="#Models.Observer.Observer" title="Models.Observer.Observer"><em>Observer</em></a>) &#8211; Das Beobachterobjekt welches beobachten soll..</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Observable.Observable.informObserver">
+<code class="descname">informObserver</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Observable.html#Observable.informObserver"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Observable.Observable.informObserver" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Diese Methode wird vom Kindobjekt aufgerufen, wenn sich etwas verändert hat. Es werden dann die Observer benachrichtigt.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Observable.Observable.informObserverOfType">
+<code class="descname">informObserverOfType</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Observable.html#Observable.informObserverOfType"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Observable.Observable.informObserverOfType" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Informiert alle Observer eines bestimmten Typs. Ist im klassischen Beobachtermuster nicht vorgesehen aber besonders in Pyton ziemlich nützlich</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>type</strong> &#8211; der Typ der zu informierenden Observer</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Models.Observable.Observable.observers">
+<code class="descname">observers</code><em class="property"> = []</em><a class="headerlink" href="#Models.Observable.Observable.observers" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Models.Observable.Observable.removeAllObservers">
+<code class="descname">removeAllObservers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Observable.html#Observable.removeAllObservers"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Observable.Observable.removeAllObservers" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Entfernt alle Observer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Observable.Observable.removeObserver">
+<code class="descname">removeObserver</code><span class="sig-paren">(</span><em>observer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Observable.html#Observable.removeObserver"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Observable.Observable.removeObserver" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Entfernt einen Observer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>observer</strong> (<a class="reference internal" href="#Models.Observer.Observer" title="Models.Observer.Observer"><em>Observer</em></a>) &#8211; der Observer der entfernt werden soll.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Models.Observer">
+<span id="models-observer-module"></span><h2>Models.Observer module<a class="headerlink" href="#module-Models.Observer" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Models.Observer.Observer">
+<em class="property">class </em><code class="descclassname">Models.Observer.</code><code class="descname">Observer</code><a class="reference internal" href="_modules/Models/Observer.html#Observer"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Observer.Observer" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Objekte dieser Klasse können Objekte des Typen Observable beobachten.</p>
+<dl class="method">
+<dt id="Models.Observer.Observer.observableChanged">
+<code class="descname">observableChanged</code><span class="sig-paren">(</span><em>observable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Observer.html#Observer.observableChanged"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Observer.Observer.observableChanged" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Wird vom Observable aufgerufen wen es sich veränert hat. Muss von der Kindklasse implementiert werden.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>observable</strong> (<a class="reference internal" href="#module-Models.Observable" title="Models.Observable"><em>Observable</em></a>) &#8211; die veränerte Observable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Models.OptionableObject">
+<span id="models-optionableobject-module"></span><h2>Models.OptionableObject module<a class="headerlink" href="#module-Models.OptionableObject" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Models.OptionableObject.OptionableObject">
+<em class="property">class </em><code class="descclassname">Models.OptionableObject.</code><code class="descname">OptionableObject</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/OptionableObject.html#OptionableObject"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.OptionableObject.OptionableObject" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Models.Observable.Observable" title="Models.Observable.Observable"><code class="xref py py-class docutils literal"><span class="pre">Models.Observable.Observable</span></code></a></p>
+<p>Klassen die diese Klasse erweitern können durch Optionen eingestellt werden.
+Sie müssen dazu im selben Modulordner wie die Kalsse selbst eine Datei mit dem Namen options.cfg enthalten.
+Ports und Alerts sind OptionableObjects. Besonders sinnvoll ist der Einsatz von OptionableObjects, wenn gewünscht ist, dass diese
+über die Oberfläche einstellbar sein sollen. Objekte können mit der Funktion getSetting auf die Einstellungen zurückgreifen.</p>
+<dl class="classmethod">
+<dt id="Models.OptionableObject.OptionableObject.getOptions">
+<em class="property">classmethod </em><code class="descname">getOptions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/OptionableObject.html#OptionableObject.getOptions"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.OptionableObject.OptionableObject.getOptions" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die möglichen Optionen einer Klasse zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">die Optionen der Klasse</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.OptionableObject.OptionableObject.getServiceName">
+<code class="descname">getServiceName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/OptionableObject.html#OptionableObject.getServiceName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.OptionableObject.OptionableObject.getServiceName" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Objekte die von einem Service verwaltet werden müssen kenntlich machen zu welchem Service sie gehören. Nur dann wird beim Ändern einer Einstellung dieser korrekt informiert.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">den Namen der Serviceklasse</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.OptionableObject.OptionableObject.getSetting">
+<code class="descname">getSetting</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/OptionableObject.html#OptionableObject.getSetting"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.OptionableObject.OptionableObject.getSetting" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt den Wert einer Einstellung zurück. Ist eine Einstellung nicht definiert, so wird versucht den Standardwert zu benutzen.
+Sollte es keinen Standardwert geben wird ein IndexError geworfen.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>name</strong> (<em>str</em>) &#8211; der Name der Einstellung</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">die Einstellung</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body">str, float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.OptionableObject.OptionableObject.getSettings">
+<code class="descname">getSettings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/OptionableObject.html#OptionableObject.getSettings"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.OptionableObject.OptionableObject.getSettings" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die Einstellungen des Objektes zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">Einstellungen des Objekts.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.OptionableObject.OptionableObject.setSetting">
+<code class="descname">setSetting</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/OptionableObject.html#OptionableObject.setSetting"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.OptionableObject.OptionableObject.setSetting" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Setzt eine Einstellung neu.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; der Name der Einstellung</li>
+<li><strong>value</strong> (<em>str</em><em>, </em><em>float</em><em>, </em><em>int</em>) &#8211; der Wert den die Einstelung bekommen soll.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Models.OptionableObject.OptionableObject.settings">
+<code class="descname">settings</code><em class="property"> = {}</em><a class="headerlink" href="#Models.OptionableObject.OptionableObject.settings" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Die Einstellungen die vorgenommen wurden.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Models.PersistantObject">
+<span id="models-persistantobject-module"></span><h2>Models.PersistantObject module<a class="headerlink" href="#module-Models.PersistantObject" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Models.PersistantObject.PersistantObject">
+<em class="property">class </em><code class="descclassname">Models.PersistantObject.</code><code class="descname">PersistantObject</code><a class="reference internal" href="_modules/Models/PersistantObject.html#PersistantObject"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.PersistantObject.PersistantObject" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Klassen die von dieser Klasse erben sind Persistent und können ihre Einstellungen im Konfigurationsordner speichern.
+Diese Möglichkeit sollte von Singeltons wie Services benutzt werden.</p>
+<dl class="method">
+<dt id="Models.PersistantObject.PersistantObject.appendMainConfigKey">
+<code class="descname">appendMainConfigKey</code><span class="sig-paren">(</span><em>key</em>, <em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/PersistantObject.html#PersistantObject.appendMainConfigKey"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.PersistantObject.PersistantObject.appendMainConfigKey" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Fügt in der obersten Ebene einen Mutterknoten für eine Einstellung hinzu.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> (<em>str</em>) &#8211; der Name des Mutterknotens der Einstellung</li>
+<li><strong>settings</strong> (<em>dict</em>) &#8211; die Einstellungen die unter diesem Muttknoten gespeichert werden sollen.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.PersistantObject.PersistantObject.getConf">
+<code class="descname">getConf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/PersistantObject.html#PersistantObject.getConf"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.PersistantObject.PersistantObject.getConf" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Lädt die gespeicherte Konfiguration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">die Knfiguration</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.PersistantObject.PersistantObject.getConfigFileName">
+<code class="descname">getConfigFileName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/PersistantObject.html#PersistantObject.getConfigFileName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.PersistantObject.PersistantObject.getConfigFileName" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt den Dateinamen der Konfigurationsdatei zurück. Sollte normalerweise überschrieben werden.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">den Dateinamen der Konfigurationsdatei.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Models.PersistantObject.PersistantObject.pathToConf">
+<code class="descname">pathToConf</code><em class="property"> = 'conf'</em><a class="headerlink" href="#Models.PersistantObject.PersistantObject.pathToConf" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Der Pfad zum Konfigurationsordner</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.PersistantObject.PersistantObject.writeConf">
+<code class="descname">writeConf</code><span class="sig-paren">(</span><em>conf</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/PersistantObject.html#PersistantObject.writeConf"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.PersistantObject.PersistantObject.writeConf" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Speichert die Konfiguration des Objektes .</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>conf</strong> (<em>dict</em>) &#8211; die Konfiguration des Objektes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Models.Trigger">
+<span id="models-trigger-module"></span><h2>Models.Trigger module<a class="headerlink" href="#module-Models.Trigger" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Models.Trigger.Trigger">
+<em class="property">class </em><code class="descclassname">Models.Trigger.</code><code class="descname">Trigger</code><span class="sig-paren">(</span><em>triggerID</em>, <em>minimal</em>, <em>maximal</em>, <em>port</em>, <em>warnTrigger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a>, <a class="reference internal" href="#Models.Observable.Observable" title="Models.Observable.Observable"><code class="xref py py-class docutils literal"><span class="pre">Models.Observable.Observable</span></code></a></p>
+<p>Trigger sind ein wesentlicher Bestandteil des Systems. Sie sind die Verbindung zwischen den Alerts und den Ports.
+Ein Trigger wird immer informiert, wenn sich der Wert eines Ports verändert hat. Er prüft dann, ob dieser Wert innerhalb der gewählten Grenzen zum Auslösen liegt.
+Ist dies der Fall, so werden alle Alerts informiert, die mit dem Trigger verbunden sind. Die strickte Trenung zwischen Alerts und Ports
+durch Trigger erlaubt es so eine 1 zu n Relation zwischen Ports und Alerts herzustellen.</p>
+<dl class="attribute">
+<dt id="Models.Trigger.Trigger.alerts">
+<code class="descname">alerts</code><em class="property"> = []</em><a class="headerlink" href="#Models.Trigger.Trigger.alerts" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Eine Liste mit Alertinstanzen, die informiert werden sollen, wenn der Trigger auslöst.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.appendAlert">
+<code class="descname">appendAlert</code><span class="sig-paren">(</span><em>alert</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.appendAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.appendAlert" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Fügt dem Trigger einen neuen Alert hinzu. Der Alert wird dann beim nächsten Aus lösen des Triggers informiert.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>alert</strong> (<a class="reference internal" href="Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert" title="Alerts.AbstractAlert.AbstractAlert"><em>AbstractAlert</em></a>) &#8211; Der Alert der hinzugefügt werden soll.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.callAlerts">
+<code class="descname">callAlerts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.callAlerts"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.callAlerts" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Löst alle Alerts aus.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.check">
+<code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.check"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.check" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Prüft ob der aktuelle Wert des Ports innerhalb der Grenzen liegt.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">true, wenn der aktuelle Wert innerhalb der Grenzen liegt.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.checkAndCall">
+<code class="descname">checkAndCall</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.checkAndCall"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.checkAndCall" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Prüft ob der Wert des Port innerhalb der Grenzen liegt und uft dann alle Alerts auf. Sollte generell aufgerufen werden.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.checkValue">
+<code class="descname">checkValue</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.checkValue"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.checkValue" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Prüft ob ein bestimmter Wert den Trigger auslösen würde. Informiert jedoch nicht die Alerts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>value</strong> (<em>float</em>) &#8211; der Wert der überprüft werden soll.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">true, wenn der Wert den Trigger auslösen würde.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.getAlerts">
+<code class="descname">getAlerts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.getAlerts"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.getAlerts" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt alle Alerts zurück mit denen der Trigger verbunden ist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">Eine Liste aller Alerts.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.getID">
+<code class="descname">getID</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.getID"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.getID" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Getter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">die ID des Trigger</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.getMaximalValue">
+<code class="descname">getMaximalValue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.getMaximalValue"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.getMaximalValue" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt den maximalen Wert zurück, bei dem der Trigger auslöst.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">die obere Schrnake des bereiches bei dem der Trigger auslöst.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.getMinimalValue">
+<code class="descname">getMinimalValue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.getMinimalValue"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.getMinimalValue" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt den minimalen Wert zurück, bei dem der Trigger auslöst.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">die untere Schrnake des bereiches bei dem der Trigger auslöst.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.getPort">
+<code class="descname">getPort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.getPort"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.getPort" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die Instanz des Ports zurück der den Trigger auslöst.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">den Port den der Trigger auslöst.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.AbstractPort.html#Ports.AbstractPort.AbstractPort" title="Ports.AbstractPort.AbstractPort">AbstractPort</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.getSettings">
+<code class="descname">getSettings</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.getSettings"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.getSettings" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die Einstellungen des Triggers zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">die Einstellugen des Triggers</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.informTriggerService">
+<code class="descname">informTriggerService</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.informTriggerService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.informTriggerService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Private Methode um den Triggerservice zu informieren</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.isFirstCalled">
+<code class="descname">isFirstCalled</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.isFirstCalled"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.isFirstCalled" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt true zurück, wenn der Trigger zum ersten Mal ausgelöst wurde. D.h. wenn der Wert zum ersten Mal in den Bereich reingelaufen ist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">true, wenn der Trigger zum ersten Mal ausgelöst wurde.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.isWarnTrigger">
+<code class="descname">isWarnTrigger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.isWarnTrigger"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.isWarnTrigger" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt true zurück, wenn der Trigger als Warnung  im UI auftauchen soll.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">warnTrigger</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.observableChanged">
+<code class="descname">observableChanged</code><span class="sig-paren">(</span><em>observable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.observableChanged"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.observableChanged" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Von Observer geerbt. Wird ausgelöst, wenn sich das Portobjekt verändert hat.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>observable</strong> &#8211; die Instanz die sich verändert hat. (wird ier nicht benötigt.)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Models.Trigger.Trigger.port">
+<code class="descname">port</code><em class="property"> = None</em><a class="headerlink" href="#Models.Trigger.Trigger.port" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Die Instanz des Ports mit dem der Trigger verknüpft ist,</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.removeAlert">
+<code class="descname">removeAlert</code><span class="sig-paren">(</span><em>alert</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.removeAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.removeAlert" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Entfernt einen Alert vom Trigger.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>alert</strong> (<a class="reference internal" href="Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert" title="Alerts.AbstractAlert.AbstractAlert"><em>AbstractAlert</em></a>) &#8211; Der Alert der entfernt werden soll.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.setInterval">
+<code class="descname">setInterval</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.setInterval"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.setInterval" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Stellt das Intervall ein in dem der Trigger auslösen soll.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>value</strong> (<em>tuple</em>) &#8211; Ein Tupel aus dem minimalen und maximalen Wert. (Minimum, Maximum)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Models.Trigger.Trigger.setWarntrigger">
+<code class="descname">setWarntrigger</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Models/Trigger.html#Trigger.setWarntrigger"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Models.Trigger.Trigger.setWarntrigger" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Legt fest ob ein Trigger ein Warntrigger ist oder nicht.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>value</strong> (<em>bool</em>) &#8211; true, wenn der Trigger ein Warntrigger werden soll.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Models.Trigger.Trigger.triggerID">
+<code class="descname">triggerID</code><em class="property"> = 0</em><a class="headerlink" href="#Models.Trigger.Trigger.triggerID" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Die Eindeutige TriggerID</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Models.Trigger.Trigger.triggerRange">
+<code class="descname">triggerRange</code><em class="property"> = [0, 0]</em><a class="headerlink" href="#Models.Trigger.Trigger.triggerRange" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Der Bereich in dem der Trigger auslösen soll. Die erste Zahl ist das Minimum und die zweite Zahl das Maximum.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Models.Trigger.Trigger.warnTrigger">
+<code class="descname">warnTrigger</code><em class="property"> = False</em><a class="headerlink" href="#Models.Trigger.Trigger.warnTrigger" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Legt fest pb es sich um einen WarnTrigger handelt. Ist diese Einstellung True, so gibt es einen optischen Indikator für das Auslösen.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Models">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Models" title="Link zu dieser Überschrift">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Models package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-Models.Observable">Models.Observable module</a></li>
+<li><a class="reference internal" href="#module-Models.Observer">Models.Observer module</a></li>
+<li><a class="reference internal" href="#module-Models.OptionableObject">Models.OptionableObject module</a></li>
+<li><a class="reference internal" href="#module-Models.PersistantObject">Models.PersistantObject module</a></li>
+<li><a class="reference internal" href="#module-Models.Trigger">Models.Trigger module</a></li>
+<li><a class="reference internal" href="#module-Models">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="IOHelper.html" title="vorheriges Kapitel">IOHelper package</a></li>
+      <li>Next: <a href="Ports.html" title="nächstes Kapitel">Ports package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Models.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/Models.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

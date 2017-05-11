@@ -1,0 +1,22 @@
+UI\.Views\.addAlert package
+===========================
+
+Submodules
+----------
+
+UI\.Views\.addAlert\.addAlert module
+------------------------------------
+
+.. automodule:: UI.Views.addAlert.addAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.addAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+Ports\.UserPorts\.DummyAnalogInputPort\.DummyAnalogInputPort module
+===================================================================
+
+.. automodule:: Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort
+    :members:
+    :undoc-members:
+    :show-inheritance:

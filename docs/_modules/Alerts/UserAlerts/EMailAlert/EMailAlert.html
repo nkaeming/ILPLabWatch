@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alerts.UserAlerts.EMailAlert.EMailAlert &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../../../genindex.html" />
+    <link rel="search" title="Suche" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für Alerts.UserAlerts.EMailAlert.EMailAlert</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">Alerts.AbstractAlert</span> <span class="k">import</span> <span class="n">AbstractAlert</span>
+<span class="kn">from</span> <span class="nn">Ports.AbstractPort</span> <span class="k">import</span> <span class="n">AbstractPort</span>
+<span class="kn">import</span> <span class="nn">datetime</span><span class="o">,</span> <span class="nn">smtplib</span>
+<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="k">import</span> <span class="n">MIMEText</span>
+<span class="kn">from</span> <span class="nn">email.header</span> <span class="k">import</span> <span class="n">Header</span>
+
+<div class="viewcode-block" id="EMailAlert"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert">[Doku]</a><span class="k">class</span> <span class="nc">EMailAlert</span><span class="p">(</span><span class="n">AbstractAlert</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald er ausgelöst wird.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">lastCalled</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="sd">&quot;&quot;&quot;der letzte Aufruf des Alerts&quot;&quot;&quot;</span>
+
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alertID</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lastCalled</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=-</span><span class="mi">5</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">alertID</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+<div class="viewcode-block" id="EMailAlert.throwAlert"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.throwAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">throwAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">trigger</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sendet eine E-Mail an die Empfänger. Eine E-Mail wird erst nach Ablauf der eingestellten Zeit und wenn der Schwellwert zum ersten Mal überschritten wurde versendet.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">td</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s1">&#39;waitForNextMail&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastCalled</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">td</span> <span class="ow">and</span> <span class="n">trigger</span><span class="o">.</span><span class="n">isFirstCalled</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">smtp</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">()</span>
+            <span class="n">smtp</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s1">&#39;SMTPServerAddress&#39;</span><span class="p">),</span> <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s1">&#39;SMTPServerPort&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s1">&#39;SMTPUsername&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">smtp</span><span class="o">.</span><span class="n">login</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s1">&#39;SMTPUsername&#39;</span><span class="p">),</span> <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s1">&#39;SMTPPassword&#39;</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s1">&#39;sendTo&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">):</span>
+                <span class="n">to</span> <span class="o">=</span> <span class="n">address</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sendMail</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">smtp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lastCalled</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="n">smtp</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="EMailAlert.getDescription"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Ein E-Mail-Alert sendet eine E-Mail an einen oder mehre Empfänger, wenn der Trigger das erste Mal auslöst.&quot;</span></div>
+
+<div class="viewcode-block" id="EMailAlert.sendMail"><a class="viewcode-back" href="../../../../Alerts.UserAlerts.EMailAlert.EMailAlert.html#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.sendMail">[Doku]</a>    <span class="k">def</span> <span class="nf">sendMail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">smtp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sendet eine E-Mail an einen Empfänger.</span>
+<span class="sd">        </span>
+<span class="sd">        :param to: die E-Mailadresse des Empfängers.</span>
+<span class="sd">        :type to: str</span>
+<span class="sd">        :param port: der Port der betroffen ist.</span>
+<span class="sd">        :type port: AbstractPort</span>
+<span class="sd">        :param smtp: die smtp Verbidnung.</span>
+<span class="sd">        :type smtp: smptlib.SMPT</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">content</span> <span class="o">=</span> <span class="s2">&quot;Alert vom Port &quot;</span><span class="o">+</span><span class="n">port</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot; ausgelöst </span><span class="se">\n</span><span class="s2"> Der Wert vom Port betrug: &quot;</span><span class="o">+</span><span class="n">port</span><span class="o">.</span><span class="n">getStateWithUnit</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot; </span><span class="se">\n</span><span class="s2"> Zusätzliche Nachricht: &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; </span><span class="se">\n</span><span class="s2"> Zeitpunkt: &quot;</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">.%m.%Y %H:%M:%S&quot;</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="s1">&#39;plain&#39;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;From&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ILPLabWatch&#39;</span>
+        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;To&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to</span>
+        <span class="n">message</span><span class="p">[</span><span class="s1">&#39;Subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Header</span><span class="p">(</span><span class="s2">&quot;ILPLabWatch Alert ausgelöst&quot;</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">smtp</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="s1">&#39;noReply@ILPLabWatch.uni-hamburg.de&#39;</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">as_string</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;E-Mail an: &quot;</span> <span class="o">+</span> <span class="n">to</span> <span class="o">+</span> <span class="s2">&quot; gesendet.&quot;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Senden der E-Mails fehlgeschlagen!&quot;</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

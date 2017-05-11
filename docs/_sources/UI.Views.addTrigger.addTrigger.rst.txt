@@ -1,0 +1,7 @@
+UI\.Views\.addTrigger\.addTrigger module
+========================================
+
+.. automodule:: UI.Views.addTrigger.addTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:

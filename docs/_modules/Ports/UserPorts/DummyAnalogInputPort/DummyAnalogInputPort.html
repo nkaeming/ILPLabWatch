@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../../../genindex.html" />
+    <link rel="search" title="Suche" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">Ports.AbstractPort</span> <span class="k">import</span> <span class="n">AbstractPort</span>
+
+
+<div class="viewcode-block" id="DummyAnalogInputPort"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort">[Doku]</a><span class="k">class</span> <span class="nc">DummyAnalogInputPort</span><span class="p">(</span><span class="n">AbstractPort</span><span class="p">):</span>
+    <span class="n">lastNumber</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;randomSeed&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lastNumber</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;max&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minRefreshTime</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nachInit</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DummyAnalogInputPort.getPrivateState"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getPrivateState">[Doku]</a>    <span class="k">def</span> <span class="nf">getPrivateState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
+        <span class="c1"># generate a realistic value, near the old value.</span>
+        <span class="n">shortRangeValue</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">randomNumber</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">shortRangeValue</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">randomNumber</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastNumber</span> <span class="o">+</span> <span class="n">randomNumber</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">randomNumber</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastNumber</span> <span class="o">-</span> <span class="n">randomNumber</span>
+        <span class="k">if</span> <span class="n">randomNumber</span> <span class="o">&gt;</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]:</span>
+            <span class="n">randomNumber</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">randomNumber</span> <span class="o">&lt;</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]:</span>
+            <span class="n">randomNumber</span> <span class="o">=</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lastNumber</span> <span class="o">=</span> <span class="n">randomNumber</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastNumber</span></div>
+
+<div class="viewcode-block" id="DummyAnalogInputPort.getValueRange"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getValueRange">[Doku]</a>    <span class="k">def</span> <span class="nf">getValueRange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
+        <span class="n">interval</span> <span class="o">=</span> <span class="p">[</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">],</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;max&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">interval</span></div>
+
+<div class="viewcode-block" id="DummyAnalogInputPort.getDescription"><a class="viewcode-back" href="../../../../Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.html#Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort.DummyAnalogInputPort.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Ein Dummyport, der zufällig generierte Zahlen ausgibt.&quot;</span></div></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

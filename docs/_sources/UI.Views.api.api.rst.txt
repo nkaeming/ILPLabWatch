@@ -1,0 +1,7 @@
+UI\.Views\.api\.api module
+==========================
+
+.. automodule:: UI.Views.api.api
+    :members:
+    :undoc-members:
+    :show-inheritance:

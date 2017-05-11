@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Services.AlertService &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../genindex.html" />
+    <link rel="search" title="Suche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für Services.AlertService</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">Models.PersistantObject</span> <span class="k">import</span> <span class="n">PersistantObject</span>
+<span class="kn">from</span> <span class="nn">Models.Observer</span> <span class="k">import</span> <span class="n">Observer</span>
+<span class="kn">from</span> <span class="nn">Alerts.AbstractAlert</span> <span class="k">import</span> <span class="n">AbstractAlert</span>
+<span class="kn">import</span> <span class="nn">importlib</span><span class="o">,</span> <span class="nn">uuid</span><span class="o">,</span> <span class="nn">pkgutil</span>
+
+
+<div class="viewcode-block" id="AlertService"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService">[Doku]</a><span class="k">class</span> <span class="nc">AlertService</span><span class="p">(</span><span class="n">PersistantObject</span><span class="p">,</span> <span class="n">Observer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Der Alertservcie verwaltet und erzeugt alle Alerts.&quot;&quot;&quot;</span>
+
+    <span class="n">alerts</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># eine Liste aller alert Objekte.</span>
+    <span class="n">TriggerService</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AlertService.setTriggerService"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.setTriggerService">[Doku]</a>    <span class="k">def</span> <span class="nf">setTriggerService</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setzt den Trigger Service&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TriggerService</span> <span class="o">=</span> <span class="n">TS</span></div>
+
+    <span class="c1"># erzeugt alle alerts für das erste mal. Protected nicht von außen aufrufen.</span>
+<div class="viewcode-block" id="AlertService.setUp"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.setUp">[Doku]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getConf</span><span class="p">()</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">settings</span> <span class="ow">in</span> <span class="n">conf</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">alertObject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAlertObject</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+            <span class="n">alertObject</span><span class="o">.</span><span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alertObject</span><span class="p">)</span></div>
+
+    <span class="c1"># erzeugt ein neues alert Objekt. Ähnlich einer Fabrik. Wurde ein Port mit dieser Id bereits erzegt, so wird dieses Objekt zurückgegeben.</span>
+<div class="viewcode-block" id="AlertService.getAlertObject"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.getAlertObject">[Doku]</a>    <span class="k">def</span> <span class="nf">getAlertObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="n">alertById</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAlertByID</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">alertById</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">classPointer</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;Alerts.UserAlerts.&quot;</span> <span class="o">+</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]),</span>
+                                   <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">classPointer</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">alertById</span></div>
+
+    <span class="c1"># gibt einen Alert nach seiner ID aus.</span>
+<div class="viewcode-block" id="AlertService.getAlertByID"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.getAlertByID">[Doku]</a>    <span class="k">def</span> <span class="nf">getAlertByID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">alert</span><span class="p">:</span> <span class="n">alert</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="o">==</span> <span class="nb">id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+    <span class="c1"># gibt einen Alert nach seiner ID aus.</span>
+<div class="viewcode-block" id="AlertService.getAlertByName"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.getAlertByName">[Doku]</a>    <span class="k">def</span> <span class="nf">getAlertByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">alert</span><span class="p">:</span> <span class="n">alert</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+    <span class="c1"># schreibt die Konfiguration des Services neu. conf ist ein redunanter Parameter</span>
+<div class="viewcode-block" id="AlertService.writeConf"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.writeConf">[Doku]</a>    <span class="k">def</span> <span class="nf">writeConf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">alert</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span>
+            <span class="n">settings</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
+            <span class="n">conf</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">writeConf</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span></div>
+
+    <span class="c1"># gibt den Dateinamen für die conf Datei zurück.</span>
+<div class="viewcode-block" id="AlertService.getConfigFileName"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.getConfigFileName">[Doku]</a>    <span class="k">def</span> <span class="nf">getConfigFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;alertConf.cfg&quot;</span></div>
+
+    <span class="c1"># wird aufggerufen, wenn sich ein Observable geändert hat.</span>
+<div class="viewcode-block" id="AlertService.observableChanged"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.observableChanged">[Doku]</a>    <span class="k">def</span> <span class="nf">observableChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="p">):</span>
+        <span class="c1"># wenn das zu überwachende Objekt ein alert ist, dann hat sich die Konfiguration geändert.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observable</span><span class="p">,</span> <span class="n">AbstractAlert</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">writeConf</span><span class="p">()</span></div>
+
+    <span class="c1"># fügt einen neuen alert hinzu und speicht ihn dauerhaft und gibt das gerade erzegte Alertobjekt zurück.</span>
+<div class="viewcode-block" id="AlertService.addAlert"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.addAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">addAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="n">alertID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="n">alert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAlertObject</span><span class="p">(</span><span class="n">alertID</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alert</span><span class="p">)</span>
+        <span class="n">alert</span><span class="o">.</span><span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeConf</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">alert</span></div>
+
+<div class="viewcode-block" id="AlertService.getAlerts"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.getAlerts">[Doku]</a>    <span class="k">def</span> <span class="nf">getAlerts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gibt alle Alerts zurück.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">alert</span><span class="p">:</span> <span class="n">alert</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="n">setting</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AlertService.getAlertTypes"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.getAlertTypes">[Doku]</a>    <span class="k">def</span> <span class="nf">getAlertTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gibt alle Porttypen zurück die konfigurierbar sind&quot;&quot;&quot;</span>
+        <span class="n">alertTypes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">alertType</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">iter_modules</span><span class="p">([</span><span class="s1">&#39;Alerts/UserAlerts&#39;</span><span class="p">]):</span>
+            <span class="n">alertTypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alertType</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">alertTypes</span></div>
+
+<div class="viewcode-block" id="AlertService.getAlertClassByType"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.getAlertClassByType">[Doku]</a>    <span class="k">def</span> <span class="nf">getAlertClassByType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alertType</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gibt einen Zeiger auf die Klasse zurück, welche den Alert definiert.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;Alerts.UserAlerts.&quot;</span> <span class="o">+</span> <span class="n">alertType</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">alertType</span><span class="p">),</span> <span class="n">alertType</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AlertService.doesAlertExistByName"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.doesAlertExistByName">[Doku]</a>    <span class="k">def</span> <span class="nf">doesAlertExistByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prüft ob ein Portname bereits existiert.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">alert</span><span class="p">:</span> <span class="n">alert</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAlerts</span><span class="p">())))</span> <span class="o">!=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="AlertService.generateAndAddNewAlert"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.generateAndAddNewAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">generateAndAddNewAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Erzeugt einen neuen Alert und fügt diesen hinzu.&quot;&quot;&quot;</span>
+        <span class="n">alertID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
+        <span class="n">alertInstance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAlertObject</span><span class="p">(</span><span class="n">alertID</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+        <span class="n">alertInstance</span><span class="o">.</span><span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alertInstance</span><span class="p">)</span>
+        <span class="c1"># die Konfigurationsdatei neu schreiben</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeConf</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">alertID</span></div>
+
+<div class="viewcode-block" id="AlertService.removeAlert"><a class="viewcode-back" href="../../Services.html#Services.AlertService.AlertService.removeAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">removeAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alert</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Löscht einen Alert&quot;&quot;&quot;</span>
+        <span class="n">alert</span><span class="o">.</span><span class="n">removeAllObservers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TriggerService</span><span class="o">.</span><span class="n">removeTriggersByAlert</span><span class="p">(</span><span class="n">alert</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">alert</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">writeConf</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

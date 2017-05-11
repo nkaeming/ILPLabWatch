@@ -1,0 +1,7 @@
+Models\.OptionableObject module
+===============================
+
+.. automodule:: Models.OptionableObject
+    :members:
+    :undoc-members:
+    :show-inheritance:

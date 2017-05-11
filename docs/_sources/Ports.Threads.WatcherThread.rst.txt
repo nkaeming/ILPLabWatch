@@ -1,0 +1,7 @@
+Ports\.Threads\.WatcherThread module
+====================================
+
+.. automodule:: Ports.Threads.WatcherThread
+    :members:
+    :undoc-members:
+    :show-inheritance:

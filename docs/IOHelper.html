@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>IOHelper package &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="genindex.html" />
+    <link rel="search" title="Suche" href="search.html" />
+    <link rel="next" title="Models package" href="Models.html" />
+    <link rel="prev" title="Alerts.UserAlerts.EMailAlert package" href="Alerts.UserAlerts.EMailAlert.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="iohelper-package">
+<h1>IOHelper package<a class="headerlink" href="#iohelper-package" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link zu dieser Überschrift">¶</a></h2>
+</div>
+<div class="section" id="module-IOHelper.config">
+<span id="iohelper-config-module"></span><h2>IOHelper.config module<a class="headerlink" href="#module-IOHelper.config" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="function">
+<dt id="IOHelper.config.loadConfig">
+<code class="descclassname">IOHelper.config.</code><code class="descname">loadConfig</code><span class="sig-paren">(</span><em>configLink</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/IOHelper/config.html#loadConfig"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#IOHelper.config.loadConfig" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Lädt eine Einstellungsdatei</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>configLink</strong> (<em>str</em>) &#8211; der Pfad zur Einstellungsdatei</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">die Einstellungen</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="IOHelper.config.loadWiring">
+<code class="descclassname">IOHelper.config.</code><code class="descname">loadWiring</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/IOHelper/config.html#loadWiring"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#IOHelper.config.loadWiring" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die Verbindungseinstellungen zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">die Verbindungseinstellungen</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="IOHelper.config.saveConfig">
+<code class="descclassname">IOHelper.config.</code><code class="descname">saveConfig</code><span class="sig-paren">(</span><em>configLink</em>, <em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/IOHelper/config.html#saveConfig"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#IOHelper.config.saveConfig" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Speichert die Einstellungen in einer Datei</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><ul class="first simple">
+<li><strong>configLink</strong> &#8211; er Pfad zur Einstellungsdatei</li>
+<li><strong>content</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="data">
+<dt id="IOHelper.config.wiringConf">
+<code class="descclassname">IOHelper.config.</code><code class="descname">wiringConf</code><em class="property"> = 'conf/wiringConf.cfg'</em><a class="headerlink" href="#IOHelper.config.wiringConf" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Speicherort der Verbindungseinstellungen</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-IOHelper.log">
+<span id="iohelper-log-module"></span><h2>IOHelper.log module<a class="headerlink" href="#module-IOHelper.log" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="data">
+<dt id="IOHelper.log.baseDir">
+<code class="descclassname">IOHelper.log.</code><code class="descname">baseDir</code><em class="property"> = 'logs/%Y/%m/'</em><a class="headerlink" href="#IOHelper.log.baseDir" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Das Hauptverzeichnis der Logdateien. Dies wird von Datetime interpretiert. Alle Python datetime Formate sind zulässig.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="IOHelper.log.deleteLog">
+<code class="descclassname">IOHelper.log.</code><code class="descname">deleteLog</code><span class="sig-paren">(</span><em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/IOHelper/log.html#deleteLog"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#IOHelper.log.deleteLog" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Löscht alle Logdaten eines Ports.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>port</strong> (<a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort"><em>AbstractPort</em></a>) &#8211; Der Port von dem die Logdaten gelöscht werden sollen.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="data">
+<dt id="IOHelper.log.fileName">
+<code class="descclassname">IOHelper.log.</code><code class="descname">fileName</code><em class="property"> = '{}_%Y_%m_%d.dat'</em><a class="headerlink" href="#IOHelper.log.fileName" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Der Dateiname den das System für die Logdatei verwenden soll.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="IOHelper.log.readLog">
+<code class="descclassname">IOHelper.log.</code><code class="descname">readLog</code><span class="sig-paren">(</span><em>port</em>, <em>start</em>, <em>end</em>, <em>aboutPoints=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/IOHelper/log.html#readLog"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#IOHelper.log.readLog" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Liest die Logdaten eines Ports aus.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><ul class="first simple">
+<li><strong>port</strong> (<a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort"><em>AbstractPort</em></a>) &#8211; der Port von dem die Logdaten ausgelesen werden sollen.</li>
+<li><strong>start</strong> (<em>datetime</em>) &#8211; der Startpunkt ab dem die Daten ausgelesen werden sollen</li>
+<li><strong>end</strong> (<em>datetime</em>) &#8211; der Endpunkt bis dem die Daten ausgelesen werden sollen</li>
+<li><strong>aboutPoints</strong> &#8211; Artefakt, vorerst ignorieren...</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body"><p class="first">Eine Liste mit allen Logeinträgen mit tupeln aus Datum und Wert</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="IOHelper.log.writeLog">
+<code class="descclassname">IOHelper.log.</code><code class="descname">writeLog</code><span class="sig-paren">(</span><em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/IOHelper/log.html#writeLog"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#IOHelper.log.writeLog" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Schreibt einen Logeintrag von einem Port.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>port</strong> (<a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort"><em>AbstractPort</em></a>) &#8211; der Port von dem der Logeintrag geschrieben werden soll.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-IOHelper">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-IOHelper" title="Link zu dieser Überschrift">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">IOHelper package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-IOHelper.config">IOHelper.config module</a></li>
+<li><a class="reference internal" href="#module-IOHelper.log">IOHelper.log module</a></li>
+<li><a class="reference internal" href="#module-IOHelper">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Alerts.UserAlerts.EMailAlert.html" title="vorheriges Kapitel">Alerts.UserAlerts.EMailAlert package</a></li>
+      <li>Next: <a href="Models.html" title="nächstes Kapitel">Models package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/IOHelper.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/IOHelper.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

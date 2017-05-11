@@ -1,0 +1,30 @@
+Ports\.Threads package
+======================
+
+Submodules
+----------
+
+Ports\.Threads\.LoggingThread module
+------------------------------------
+
+.. automodule:: Ports.Threads.LoggingThread
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Ports\.Threads\.WatcherThread module
+------------------------------------
+
+.. automodule:: Ports.Threads.WatcherThread
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Ports.Threads
+    :members:
+    :undoc-members:
+    :show-inheritance:

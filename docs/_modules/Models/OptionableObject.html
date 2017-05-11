@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models.OptionableObject &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../genindex.html" />
+    <link rel="search" title="Suche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für Models.OptionableObject</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">inspect</span><span class="o">,</span> <span class="nn">importlib</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">IOHelper.config</span> <span class="k">as</span> <span class="nn">configIO</span>
+<span class="kn">from</span> <span class="nn">Models.Observable</span> <span class="k">import</span> <span class="n">Observable</span>
+
+
+<div class="viewcode-block" id="OptionableObject"><a class="viewcode-back" href="../../Models.html#Models.OptionableObject.OptionableObject">[Doku]</a><span class="k">class</span> <span class="nc">OptionableObject</span><span class="p">(</span><span class="n">Observable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Klassen die diese Klasse erweitern können durch Optionen eingestellt werden.</span>
+<span class="sd">    Sie müssen dazu im selben Modulordner wie die Kalsse selbst eine Datei mit dem Namen options.cfg enthalten.</span>
+<span class="sd">    Ports und Alerts sind OptionableObjects. Besonders sinnvoll ist der Einsatz von OptionableObjects, wenn gewünscht ist, dass diese</span>
+<span class="sd">    über die Oberfläche einstellbar sein sollen. Objekte können mit der Funktion getSetting auf die Einstellungen zurückgreifen.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="sd">&quot;&quot;&quot;Die Einstellungen die vorgenommen wurden.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="n">settings</span>
+
+<div class="viewcode-block" id="OptionableObject.getSettings"><a class="viewcode-back" href="../../Models.html#Models.OptionableObject.OptionableObject.getSettings">[Doku]</a>    <span class="k">def</span> <span class="nf">getSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Einstellungen des Objektes zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Einstellungen des Objekts.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span></div>
+
+    <span class="c1"># gibt eine Einstellung zurück.</span>
+<div class="viewcode-block" id="OptionableObject.getSetting"><a class="viewcode-back" href="../../Models.html#Models.OptionableObject.OptionableObject.getSetting">[Doku]</a>    <span class="k">def</span> <span class="nf">getSetting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den Wert einer Einstellung zurück. Ist eine Einstellung nicht definiert, so wird versucht den Standardwert zu benutzen.</span>
+<span class="sd">        Sollte es keinen Standardwert geben wird ein IndexError geworfen.</span>
+<span class="sd">        </span>
+<span class="sd">        :param name: der Name der Einstellung</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: die Einstellung</span>
+<span class="sd">        :rtype: str, float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOptions</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="s1">&#39;standard&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOptions</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOptions</span><span class="p">()[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;standard&#39;</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Setting not defined.&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="OptionableObject.getOptions"><a class="viewcode-back" href="../../Models.html#Models.OptionableObject.OptionableObject.getOptions">[Doku]</a>    <span class="k">def</span> <span class="nf">getOptions</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die möglichen Optionen einer Klasse zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: die Optionen der Klasse</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">configLink</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span><span class="bp">cls</span><span class="p">)))</span> <span class="o">+</span> <span class="s2">&quot;/options.cfg&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">configLink</span><span class="p">):</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="n">configIO</span><span class="o">.</span><span class="n">loadConfig</span><span class="p">(</span><span class="n">configLink</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">options</span></div>
+
+<div class="viewcode-block" id="OptionableObject.setSetting"><a class="viewcode-back" href="../../Models.html#Models.OptionableObject.OptionableObject.setSetting">[Doku]</a>    <span class="k">def</span> <span class="nf">setSetting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Setzt eine Einstellung neu.</span>
+<span class="sd">        </span>
+<span class="sd">        :param name: der Name der Einstellung</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param value: der Wert den die Einstelung bekommen soll.</span>
+<span class="sd">        :type value: str, float, int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getServiceName</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">serviceClass</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;Services.&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">getServiceName</span><span class="p">()),</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">getServiceName</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">informObserverOfType</span><span class="p">(</span><span class="n">serviceClass</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
+    <span class="c1"># wenn das Objekt zu einem Service gehört, so muss der Service bei Änderungen informiert werden. Gibt diese Funktion einen Servicenamen zurück, so wird dieser informiert.</span>
+<div class="viewcode-block" id="OptionableObject.getServiceName"><a class="viewcode-back" href="../../Models.html#Models.OptionableObject.OptionableObject.getServiceName">[Doku]</a>    <span class="k">def</span> <span class="nf">getServiceName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objekte die von einem Service verwaltet werden müssen kenntlich machen zu welchem Service sie gehören. Nur dann wird beim Ändern einer Einstellung dieser korrekt informiert.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: den Namen der Serviceklasse</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

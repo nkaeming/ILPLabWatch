@@ -1,0 +1,7 @@
+Models\.Trigger module
+======================
+
+.. automodule:: Models.Trigger
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,22 @@
+UI\.Models package
+==================
+
+Submodules
+----------
+
+UI\.Models\.OptionField module
+------------------------------
+
+.. automodule:: UI.Models.OptionField
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Models
+    :members:
+    :undoc-members:
+    :show-inheritance:

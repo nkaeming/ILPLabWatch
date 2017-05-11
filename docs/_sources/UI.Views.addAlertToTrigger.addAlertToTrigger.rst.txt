@@ -1,0 +1,7 @@
+UI\.Views\.addAlertToTrigger\.addAlertToTrigger module
+======================================================
+
+.. automodule:: UI.Views.addAlertToTrigger.addAlertToTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:

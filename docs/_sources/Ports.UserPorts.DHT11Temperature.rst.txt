@@ -1,0 +1,22 @@
+Ports\.UserPorts\.DHT11Temperature package
+==========================================
+
+Submodules
+----------
+
+Ports\.UserPorts\.DHT11Temperature\.DHT11Temperature module
+-----------------------------------------------------------
+
+.. automodule:: Ports.UserPorts.DHT11Temperature.DHT11Temperature
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Ports.UserPorts.DHT11Temperature
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,22 @@
+UI\.Views\.addTrigger package
+=============================
+
+Submodules
+----------
+
+UI\.Views\.addTrigger\.addTrigger module
+----------------------------------------
+
+.. automodule:: UI.Views.addTrigger.addTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.addTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:

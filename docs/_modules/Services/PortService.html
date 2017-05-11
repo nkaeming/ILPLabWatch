@@ -52,7 +52,7 @@
 <span class="kn">from</span> <span class="nn">Services.TriggerService</span> <span class="k">import</span> <span class="n">TriggerService</span>
 
 
-<div class="viewcode-block" id="PortService"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService">[Doku]</a><span class="k">class</span> <span class="nc">PortService</span><span class="p">(</span><span class="n">Observable</span><span class="p">,</span> <span class="n">Observer</span><span class="p">,</span> <span class="n">PersistantObject</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService">[Doku]</a><span class="k">class</span> <span class="nc">PortService</span><span class="p">(</span><span class="n">Observable</span><span class="p">,</span> <span class="n">Observer</span><span class="p">,</span> <span class="n">PersistantObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Der Portservice ist der zentrale Service für die Ports. Er verwaltet sie, erstellt sie und ist die einzige Scnittstelle zu anderen Programmteilen der in der Lage ist Referenzen auf die Ports zurück zu geben. Im System soll es nur einen Portservice geben.&quot;&quot;&quot;</span>
     <span class="c1"># alle Ports</span>
     <span class="n">ports</span> <span class="o">=</span> <span class="p">[]</span>
@@ -63,7 +63,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
 
     <span class="c1"># setzte den Configfilename für den Service</span>
-<div class="viewcode-block" id="PortService.getConfigFileName"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getConfigFileName">[Doku]</a>    <span class="k">def</span> <span class="nf">getConfigFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getConfigFileName"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getConfigFileName">[Doku]</a>    <span class="k">def</span> <span class="nf">getConfigFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt den Namen der Konfigurationsdatei zurück.</span>
 <span class="sd">        </span>
@@ -72,7 +72,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;portsConf.cfg&quot;</span></div>
 
-<div class="viewcode-block" id="PortService.setTriggerService"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.setTriggerService">[Doku]</a>    <span class="k">def</span> <span class="nf">setTriggerService</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">triggerService</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.setTriggerService"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.setTriggerService">[Doku]</a>    <span class="k">def</span> <span class="nf">setTriggerService</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">triggerService</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Legt den TriggerService fest. Es handelt sich um eine DependencyInjection. </span>
 <span class="sd">        :param triggerService: Der Triggerservice mit dem der Portservice zusammenarbeiten soll.</span>
@@ -80,7 +80,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">TriggerService</span> <span class="o">=</span> <span class="n">triggerService</span></div>
 
-<div class="viewcode-block" id="PortService.setUp"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.setUp">[Doku]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.setUp"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.setUp">[Doku]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Erzeugt die Instanzen der Portklassen. Wird immer vom Konstruktor aufgerufen und ist eine private Hilfsfunktion.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -89,7 +89,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generatePort</span><span class="p">(</span><span class="n">portID</span><span class="p">,</span> <span class="n">settings</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">informObserver</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="PortService.generateAndAddNewPort"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.generateAndAddNewPort">[Doku]</a>    <span class="k">def</span> <span class="nf">generateAndAddNewPort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.generateAndAddNewPort"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.generateAndAddNewPort">[Doku]</a>    <span class="k">def</span> <span class="nf">generateAndAddNewPort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Erzeugt eine neue Portinstanz und füt diese dem Service hinzu.</span>
 <span class="sd">        </span>
@@ -110,7 +110,7 @@
 
         <span class="k">return</span> <span class="n">portID</span></div>
 
-<div class="viewcode-block" id="PortService.generatePort"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.generatePort">[Doku]</a>    <span class="k">def</span> <span class="nf">generatePort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portID</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.generatePort"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.generatePort">[Doku]</a>    <span class="k">def</span> <span class="nf">generatePort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portID</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Erzeugt eine Portinstanz und fügt diese nicht dem PortService hinzu. Gibt die Instanz stattdessen zurück. Vergleicbar mit einer Fabrikmethode. </span>
 <span class="sd">        </span>
@@ -127,7 +127,7 @@
         <span class="k">return</span> <span class="n">port</span></div>
 
     <span class="c1"># gibt eine Liste der Ports zurück. Zulässig sind alle abstrakten settings (name, description, logCycle, logging und unit)</span>
-<div class="viewcode-block" id="PortService.getPorts"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getPorts">[Doku]</a>    <span class="k">def</span> <span class="nf">getPorts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getPorts"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getPorts">[Doku]</a>    <span class="k">def</span> <span class="nf">getPorts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt eine sortierte Liste der Ports zurück.</span>
 <span class="sd">        </span>
@@ -139,7 +139,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">port</span><span class="p">:</span> <span class="n">port</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="n">setting</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PortService.getPortsByType"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getPortsByType">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortsByType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getPortsByType"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getPortsByType">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortsByType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt die Ports eines bestimmten Typs zurück.</span>
 <span class="sd">        </span>
@@ -151,7 +151,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">port</span><span class="p">:</span> <span class="n">port</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span> <span class="o">==</span> <span class="nb">type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPorts</span><span class="p">())</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PortService.getPortByID"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getPortByID">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortByID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portID</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getPortByID"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getPortByID">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortByID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portID</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt die Instanz eines Ports nach seiner ID zurück.</span>
 <span class="sd">        </span>
@@ -163,7 +163,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">port</span><span class="p">:</span> <span class="n">port</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="o">==</span> <span class="n">portID</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PortService.getPortByName"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getPortByName">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portName</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getPortByName"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getPortByName">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portName</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt die Instanz eines Ports nach seinem Namen zurück.</span>
 <span class="sd">        </span>
@@ -175,7 +175,7 @@
         <span class="n">result</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">port</span><span class="p">:</span> <span class="n">port</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">==</span> <span class="n">portName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PortService.getPortsLogged"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getPortsLogged">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortsLogged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getPortsLogged"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getPortsLogged">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortsLogged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt eine Liste der Ports zurück die geloggt werden.</span>
 <span class="sd">        </span>
@@ -184,7 +184,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">port</span><span class="p">:</span> <span class="n">port</span><span class="o">.</span><span class="n">isPortLogged</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="PortService.getInterruptPorts"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getInterruptPorts">[Doku]</a>    <span class="k">def</span> <span class="nf">getInterruptPorts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getInterruptPorts"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getInterruptPorts">[Doku]</a>    <span class="k">def</span> <span class="nf">getInterruptPorts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt eine Liste der Ports zurück die nicht mehr ordnungsgemäß ausgeführt werden.</span>
 <span class="sd">        </span>
@@ -193,7 +193,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">port</span><span class="p">:</span> <span class="n">port</span><span class="o">.</span><span class="n">isPortOK</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="PortService.observableChanged"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.observableChanged">[Doku]</a>    <span class="k">def</span> <span class="nf">observableChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.observableChanged"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.observableChanged">[Doku]</a>    <span class="k">def</span> <span class="nf">observableChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Wird ausgerufen wenn eine Observable sich geändert hat. Geerbt von Observer.        </span>
 <span class="sd">        </span>
@@ -204,7 +204,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observable</span><span class="p">,</span> <span class="n">AbstractPort</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">writeConf</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="PortService.writeConf"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.writeConf">[Doku]</a>    <span class="k">def</span> <span class="nf">writeConf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.writeConf"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.writeConf">[Doku]</a>    <span class="k">def</span> <span class="nf">writeConf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conf</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Schreibt die persistente Konfiguration.</span>
 <span class="sd">        </span>
@@ -219,7 +219,7 @@
             <span class="n">config</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">writeConf</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PortService.getCurrentPortsInformations"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getCurrentPortsInformations">[Doku]</a>    <span class="k">def</span> <span class="nf">getCurrentPortsInformations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getCurrentPortsInformations"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getCurrentPortsInformations">[Doku]</a>    <span class="k">def</span> <span class="nf">getCurrentPortsInformations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt alle aktuellen Informationen zu allen Ports als dict zurück. Dies ist z.B. für die Benutzeroberfläche relevant.</span>
 <span class="sd">        </span>
@@ -231,7 +231,7 @@
             <span class="n">status</span><span class="p">[</span><span class="n">port</span><span class="o">.</span><span class="n">getID</span><span class="p">()]</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">getCurrentInformations</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">status</span></div>
 
-<div class="viewcode-block" id="PortService.getPortTypes"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getPortTypes">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getPortTypes"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getPortTypes">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt alle verfügbaren PortTypen zurück.</span>
 <span class="sd">        </span>
@@ -243,7 +243,7 @@
             <span class="n">portTypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">portType</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">portTypes</span></div>
 
-<div class="viewcode-block" id="PortService.getConfigurablePortTypes"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getConfigurablePortTypes">[Doku]</a>    <span class="k">def</span> <span class="nf">getConfigurablePortTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getConfigurablePortTypes"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getConfigurablePortTypes">[Doku]</a>    <span class="k">def</span> <span class="nf">getConfigurablePortTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt alle Porttypen zurück, welche einen freien Anschluss zum Konfigurieren haben.</span>
 <span class="sd">        </span>
@@ -260,7 +260,7 @@
                     <span class="n">availablePortTypes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">portType</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">availablePortTypes</span></div>
 
-<div class="viewcode-block" id="PortService.getPortClassByType"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getPortClassByType">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortClassByType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portType</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getPortClassByType"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getPortClassByType">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortClassByType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portType</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt einen Zeiger auf die Klasse zurück die den Port definiert.</span>
 <span class="sd">        </span>
@@ -271,7 +271,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;Ports.UserPorts.&quot;</span> <span class="o">+</span> <span class="n">portType</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">portType</span><span class="p">),</span> <span class="n">portType</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PortService.getFreeInputsOfPortType"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.getFreeInputsOfPortType">[Doku]</a>    <span class="k">def</span> <span class="nf">getFreeInputsOfPortType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portType</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.getFreeInputsOfPortType"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.getFreeInputsOfPortType">[Doku]</a>    <span class="k">def</span> <span class="nf">getFreeInputsOfPortType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portType</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt die freien Anschlüsse eines Porttypen aus.</span>
 <span class="sd">        </span>
@@ -285,7 +285,7 @@
             <span class="n">freeInputs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">port</span><span class="o">.</span><span class="n">getPortBoxName</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">freeInputs</span></div>
 
-<div class="viewcode-block" id="PortService.doesPortExistByName"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.doesPortExistByName">[Doku]</a>    <span class="k">def</span> <span class="nf">doesPortExistByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.doesPortExistByName"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.doesPortExistByName">[Doku]</a>    <span class="k">def</span> <span class="nf">doesPortExistByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prüft ob der Name eines Ports existiert.</span>
 <span class="sd">        </span>
@@ -296,7 +296,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">port</span><span class="p">:</span> <span class="n">port</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPorts</span><span class="p">())))</span> <span class="o">!=</span> <span class="mi">0</span></div>
 
-<div class="viewcode-block" id="PortService.removePort"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.removePort">[Doku]</a>    <span class="k">def</span> <span class="nf">removePort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.removePort"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.removePort">[Doku]</a>    <span class="k">def</span> <span class="nf">removePort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Löscht einen Port aus dem Service. Er wird bei erneuten starten auch nicht geladen. Die Überwachung des Ports wird vollständig beendet.</span>
 <span class="sd">        </span>
@@ -309,7 +309,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">writeConf</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="PortService.arePortsOK"><a class="viewcode-back" href="../../Services.PortService.html#Services.PortService.PortService.arePortsOK">[Doku]</a>    <span class="k">def</span> <span class="nf">arePortsOK</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PortService.arePortsOK"><a class="viewcode-back" href="../../Services.html#Services.PortService.PortService.arePortsOK">[Doku]</a>    <span class="k">def</span> <span class="nf">arePortsOK</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gibt true zurück, wenn alle Ports keine Fehler haben und auch keine WarnTrigger ausgelöst sind. Methode kann z.B. für die WarnLED benutzt werden. Sie ist ein Indikator für die Systemgesundheit und die Gesundheit der zu überwachenden Peripherie.</span>
 <span class="sd">        </span>
@@ -355,7 +355,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

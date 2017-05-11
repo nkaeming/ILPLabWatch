@@ -1,7 +1,0 @@
-Ports\.UserPorts\.DHT11Humidity\.DHT11Humidity module
-=====================================================
-
-.. automodule:: Ports.UserPorts.DHT11Humidity.DHT11Humidity
-    :members:
-    :undoc-members:
-    :show-inheritance:

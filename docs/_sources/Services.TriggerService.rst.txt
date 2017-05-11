@@ -1,7 +1,0 @@
-Services\.TriggerService module
-===============================
-
-.. automodule:: Services.TriggerService
-    :members:
-    :undoc-members:
-    :show-inheritance:

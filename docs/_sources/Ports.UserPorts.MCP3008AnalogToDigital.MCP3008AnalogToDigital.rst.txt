@@ -1,7 +1,0 @@
-Ports\.UserPorts\.MCP3008AnalogToDigital\.MCP3008AnalogToDigital module
-=======================================================================
-
-.. automodule:: Ports.UserPorts.MCP3008AnalogToDigital.MCP3008AnalogToDigital
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,7 +1,0 @@
-UI\.Views\.removeAlertFromTrigger\.removeAlertFromTrigger module
-================================================================
-
-.. automodule:: UI.Views.removeAlertFromTrigger.removeAlertFromTrigger
-    :members:
-    :undoc-members:
-    :show-inheritance:

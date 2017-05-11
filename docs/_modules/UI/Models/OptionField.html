@@ -46,7 +46,7 @@
 <span></span><span class="kn">from</span> <span class="nn">jinja2</span> <span class="k">import</span> <span class="n">FileSystemLoader</span><span class="p">,</span> <span class="n">Environment</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
-<div class="viewcode-block" id="OptionField"><a class="viewcode-back" href="../../../UI.Models.OptionField.html#UI.Models.OptionField.OptionField">[Doku]</a><span class="k">class</span> <span class="nc">OptionField</span><span class="p">:</span>
+<div class="viewcode-block" id="OptionField"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.OptionField.OptionField">[Doku]</a><span class="k">class</span> <span class="nc">OptionField</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Diese Klasse repräsentiert die Optionsfelder die in den Ports und Alerts eingestellt sind. Sie konvertiert die Typen zu den im System u.Ä.&quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -85,7 +85,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">jinjaEnv</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">loader</span><span class="o">=</span><span class="n">FileSystemLoader</span><span class="p">([</span><span class="s2">&quot;UI/Templates/Forms&quot;</span><span class="p">]))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
 
-<div class="viewcode-block" id="OptionField.prepare"><a class="viewcode-back" href="../../../UI.Models.OptionField.html#UI.Models.OptionField.OptionField.prepare">[Doku]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionField.prepare"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.OptionField.OptionField.prepare">[Doku]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Bereitet das Optionsfeld vor.&quot;&quot;&quot;</span>
         <span class="n">inType</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
         <span class="n">settingKeys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -128,19 +128,19 @@
             <span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jinjaEnv</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s1">&#39;FormsType404.html&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">template</span></div>
 
-<div class="viewcode-block" id="OptionField.getHtml"><a class="viewcode-back" href="../../../UI.Models.OptionField.html#UI.Models.OptionField.OptionField.getHtml">[Doku]</a>    <span class="k">def</span> <span class="nf">getHtml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionField.getHtml"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.OptionField.OptionField.getHtml">[Doku]</a>    <span class="k">def</span> <span class="nf">getHtml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gibt den HTML Code für dieses Formelement zurück.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">warnText</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">warnText</span><span class="p">,</span>
                                     <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OptionField.getTabIndex"><a class="viewcode-back" href="../../../UI.Models.OptionField.html#UI.Models.OptionField.OptionField.getTabIndex">[Doku]</a>    <span class="k">def</span> <span class="nf">getTabIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionField.getTabIndex"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.OptionField.OptionField.getTabIndex">[Doku]</a>    <span class="k">def</span> <span class="nf">getTabIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gibt den Tabindex des Formelements zurück.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;tab&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">return</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;tab&#39;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="OptionField.evaluate"><a class="viewcode-back" href="../../../UI.Models.OptionField.html#UI.Models.OptionField.OptionField.evaluate">[Doku]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionField.evaluate"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.OptionField.OptionField.evaluate">[Doku]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Prüft ob die value der Option gegen die Standardtests zulässig ist.&quot;&quot;&quot;</span>
         <span class="nb">type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
         <span class="n">ok</span> <span class="o">=</span> <span class="kc">True</span>
@@ -171,10 +171,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">warnText</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">warnText</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ok</span></div>
 
-<div class="viewcode-block" id="OptionField.getName"><a class="viewcode-back" href="../../../UI.Models.OptionField.html#UI.Models.OptionField.OptionField.getName">[Doku]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionField.getName"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.OptionField.OptionField.getName">[Doku]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
-<div class="viewcode-block" id="OptionField.getValue"><a class="viewcode-back" href="../../../UI.Models.OptionField.html#UI.Models.OptionField.OptionField.getValue">[Doku]</a>    <span class="k">def</span> <span class="nf">getValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionField.getValue"><a class="viewcode-back" href="../../../UI.Models.html#UI.Models.OptionField.OptionField.getValue">[Doku]</a>    <span class="k">def</span> <span class="nf">getValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;number&#39;</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -209,7 +209,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

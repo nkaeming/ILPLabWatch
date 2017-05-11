@@ -46,7 +46,7 @@
 <span></span><span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Thread</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="c1">#TODO: Service Notwendigkeit überprüfen?? Erfüllt dieser Service einen zweck?</span>
-<div class="viewcode-block" id="SystemServiceThread"><a class="viewcode-back" href="../../Services.SystemService.html#Services.SystemService.SystemServiceThread">[Doku]</a><span class="k">class</span> <span class="nc">SystemServiceThread</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
+<div class="viewcode-block" id="SystemServiceThread"><a class="viewcode-back" href="../../Services.html#Services.SystemService.SystemServiceThread">[Doku]</a><span class="k">class</span> <span class="nc">SystemServiceThread</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Service zum überprüfen des aktuellen Systemstatus. Er muss als eigener Thread gestartet werden, da er nur so den Systemthread prüfen kann.&quot;&quot;&quot;</span>
 
     <span class="n">portService</span> <span class="o">=</span> <span class="kc">None</span>
@@ -74,12 +74,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">uiServer</span> <span class="o">=</span> <span class="n">UI</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-<div class="viewcode-block" id="SystemServiceThread.run"><a class="viewcode-back" href="../../Services.SystemService.html#Services.SystemService.SystemServiceThread.run">[Doku]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SystemServiceThread.run"><a class="viewcode-back" href="../../Services.html#Services.SystemService.SystemServiceThread.run">[Doku]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SystemServiceThread.check"><a class="viewcode-back" href="../../Services.SystemService.html#Services.SystemService.SystemServiceThread.check">[Doku]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SystemServiceThread.check"><a class="viewcode-back" href="../../Services.html#Services.SystemService.SystemServiceThread.check">[Doku]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prüft den aktuellen Systemzustand. Gibt False zurück, wenn das System nicht mehr ordentlich funktioniert.</span>
 <span class="sd">        </span>
@@ -117,7 +117,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

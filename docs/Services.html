@@ -54,7 +54,7 @@
 <dl class="class">
 <dt id="Services.AlertService.AlertService">
 <em class="property">class </em><code class="descclassname">Services.AlertService.</code><code class="descname">AlertService</code><a class="reference internal" href="_modules/Services/AlertService.html#AlertService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService" title="Link zu dieser Definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="Models.PersistantObject.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a>, <a class="reference internal" href="Models.Observer.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="Models.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a>, <a class="reference internal" href="Models.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a></p>
 <p>Der Alertservcie verwaltet und erzeugt alle Alerts.</p>
 <dl class="attribute">
 <dt id="Services.AlertService.AlertService.TriggerService">
@@ -156,7 +156,7 @@
 <dl class="class">
 <dt id="Services.PortService.PortService">
 <em class="property">class </em><code class="descclassname">Services.PortService.</code><code class="descname">PortService</code><a class="reference internal" href="_modules/Services/PortService.html#PortService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService" title="Link zu dieser Definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="Models.Observable.html#Models.Observable.Observable" title="Models.Observable.Observable"><code class="xref py py-class docutils literal"><span class="pre">Models.Observable.Observable</span></code></a>, <a class="reference internal" href="Models.Observer.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a>, <a class="reference internal" href="Models.PersistantObject.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="Models.html#Models.Observable.Observable" title="Models.Observable.Observable"><code class="xref py py-class docutils literal"><span class="pre">Models.Observable.Observable</span></code></a>, <a class="reference internal" href="Models.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a>, <a class="reference internal" href="Models.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a></p>
 <p>Der Portservice ist der zentrale Service für die Ports. Er verwaltet sie, erstellt sie und ist die einzige Scnittstelle zu anderen Programmteilen der in der Lage ist Referenzen auf die Ports zurück zu geben. Im System soll es nur einen Portservice geben.</p>
 <dl class="attribute">
 <dt id="Services.PortService.PortService.TriggerService">
@@ -232,7 +232,7 @@
 <tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body"><p class="first">Die Instanz des Ports.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><p class="first last"><a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></p>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><p class="first last"><a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></p>
 </td>
 </tr>
 </tbody>
@@ -333,7 +333,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">eine Portklasse die zu der ID gehört. Existiert der Port nicht im Service, so wird None zurückgegeben.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
 </tr>
 </tbody>
 </table>
@@ -351,7 +351,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">eine Portklasse die zu dem Namen gehört. Existiert der Port nicht im Service, so wird None zurückgegeben.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
 </tr>
 </tbody>
 </table>
@@ -369,7 +369,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">Ein Class-Objekt auf die Klasse des Ports.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
 </tr>
 </tbody>
 </table>
@@ -457,7 +457,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>observable</strong> (<a class="reference internal" href="Models.Observable.html#module-Models.Observable" title="Models.Observable"><em>Observable</em></a>) &#8211; die Observable die sich geändert hat.</td>
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>observable</strong> (<a class="reference internal" href="Models.html#module-Models.Observable" title="Models.Observable"><em>Observable</em></a>) &#8211; die Observable die sich geändert hat.</td>
 </tr>
 </tbody>
 </table>
@@ -476,7 +476,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>port</strong> (<a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort"><em>AbstractPort</em></a>) &#8211; Der Port der gelöscht werden soll.</td>
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>port</strong> (<a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort"><em>AbstractPort</em></a>) &#8211; Der Port der gelöscht werden soll.</td>
 </tr>
 </tbody>
 </table>
@@ -571,7 +571,7 @@
 <dl class="class">
 <dt id="Services.TriggerService.TriggerService">
 <em class="property">class </em><code class="descclassname">Services.TriggerService.</code><code class="descname">TriggerService</code><span class="sig-paren">(</span><em>portService</em>, <em>alertService</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService" title="Link zu dieser Definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="Models.PersistantObject.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a>, <a class="reference internal" href="Models.Observer.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="Models.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a>, <a class="reference internal" href="Models.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a></p>
 <p>Der Triggerservice verwaltet alle Trigger</p>
 <dl class="method">
 <dt id="Services.TriggerService.TriggerService.addTrigger">
@@ -704,7 +704,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

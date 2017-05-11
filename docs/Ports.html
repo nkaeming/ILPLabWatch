@@ -83,6 +83,12 @@
 <li class="toctree-l4"><a class="reference internal" href="Ports.UserPorts.DummyAnalogInputPort.html#module-Ports.UserPorts.DummyAnalogInputPort">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="Ports.UserPorts.GPIOInput.html">Ports.UserPorts.GPIOInput package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Ports.UserPorts.GPIOInput.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ports.UserPorts.GPIOInput.html#ports-userports-gpioinput-gpioinput-module">Ports.UserPorts.GPIOInput.GPIOInput module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Ports.UserPorts.GPIOInput.html#module-Ports.UserPorts.GPIOInput">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="Ports.UserPorts.MCP3008AnalogToDigital.html">Ports.UserPorts.MCP3008AnalogToDigital package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="Ports.UserPorts.MCP3008AnalogToDigital.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="Ports.UserPorts.MCP3008AnalogToDigital.html#ports-userports-mcp3008analogtodigital-mcp3008analogtodigital-module">Ports.UserPorts.MCP3008AnalogToDigital.MCP3008AnalogToDigital module</a></li>
@@ -110,7 +116,8 @@
 <dl class="method">
 <dt id="Ports.AbstractPort.AbstractPort.addValueToHistory">
 <code class="descname">addValueToHistory</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Ports/AbstractPort.html#AbstractPort.addValueToHistory"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Ports.AbstractPort.AbstractPort.addValueToHistory" title="Link zu dieser Definition">¶</a></dt>
-<dd><p>Fügt der Historie einen Wert hinzu. Die Historie eines Ports dient zur bestimmten Auslösung von Triggern. So wird z.B. ein E-Mail Triger so nicht bei jedem Prüfen eines Wertes aufgerufen sondern nur beim ersten Überschreiten eines Schwellwerts.</p>
+<dd><p>Fügt der Historie einen Wert hinzu. Die Historie eines Ports dient zur bestimmten Auslösung von Triggern. So wird z.B. ein E-Mail Triger so nicht bei jedem Prüfen eines Wertes aufgerufen sondern nur beim ersten Überschreiten eines Schwellwerts.
+Außerdem bietet die History die möglichkeit Messdaten im RAM schneller abzurufen.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -268,12 +275,12 @@ Die Kindklasse kann diese Methode nutzen um die Ansteuerung des richtigen Senors
 <dl class="method">
 <dt id="Ports.AbstractPort.AbstractPort.getPortHistory">
 <code class="descname">getPortHistory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Ports/AbstractPort.html#AbstractPort.getPortHistory"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Ports.AbstractPort.AbstractPort.getPortHistory" title="Link zu dieser Definition">¶</a></dt>
-<dd><p>Gibt die Historie des Ports seit Porgrammstart zurück</p>
+<dd><p>Gibt die Historie des Ports seit Porgrammstart zurück.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">Eine Liste der letzten 100 Messwerte des Ports.</td>
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">Eine Liste der letzten Messwerte des Ports.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">list</td>
 </tr>
@@ -573,7 +580,7 @@ Die Kindklasse kann diese Methode nutzen um die Ansteuerung des richtigen Senors
 
 <dl class="attribute">
 <dt id="Ports.AbstractPort.AbstractPort.superOptions">
-<code class="descname">superOptions</code><em class="property"> = {'logCycle': {'description': 'Das Logintervall in Sekunden.', 'standard': 5, 'max': 3600, 'required': True, 'type': 'number', 'tab': -3, 'step': 1, 'name': 'Logintervall', 'final': False, 'min': 1}, 'description': {'description': 'Eine Beschreibung des Ports.', 'type': 'text', 'tab': -1, 'name': 'Beschreibung', 'length': 200}, 'logging': {'description': 'Wenn diese Einstellung aus ist, so wird der Port nicht geloggt.', 'standard': True, 'type': 'boolean', 'tab': -4, 'name': 'Logging', 'final': False}, 'name': {'description': 'Der Name des Ports bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.', 'standard': '', 'regex': '[A-Za-z0-9]+', 'required': True, 'type': 'text', 'tab': -5, 'name': 'Portbezeichnung', 'final': True}, 'unit': {'description': 'Die Einheit die der Port haben soll.', 'standard': '', 'required': False, 'type': 'text', 'tab': -2, 'name': 'Einheit', 'final': False}}</em><a class="headerlink" href="#Ports.AbstractPort.AbstractPort.superOptions" title="Link zu dieser Definition">¶</a></dt>
+<code class="descname">superOptions</code><em class="property"> = {'description': {'description': 'Eine Beschreibung des Ports.', 'tab': -1, 'type': 'text', 'name': 'Beschreibung', 'length': 200}, 'logCycle': {'step': 1, 'min': 1, 'tab': -3, 'type': 'number', 'required': True, 'description': 'Das Logintervall in Sekunden.', 'final': False, 'max': 3600, 'name': 'Logintervall', 'standard': 5}, 'name': {'required': True, 'tab': -5, 'type': 'text', 'description': 'Der Name des Ports bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.', 'regex': '[A-Za-z0-9]+', 'final': True, 'name': 'Portbezeichnung', 'standard': ''}, 'logging': {'tab': -4, 'type': 'boolean', 'description': 'Wenn diese Einstellung aus ist, so wird der Port nicht geloggt.', 'final': False, 'name': 'Logging', 'standard': True}, 'unit': {'required': False, 'tab': -2, 'type': 'text', 'description': 'Die Einheit die der Port haben soll.', 'final': False, 'name': 'Einheit', 'standard': ''}}</em><a class="headerlink" href="#Ports.AbstractPort.AbstractPort.superOptions" title="Link zu dieser Definition">¶</a></dt>
 <dd><p>Einstellungsoption die jeder Port hat. Können in der indklasse erweitert werden.</p>
 </dd></dl>
 
@@ -659,7 +666,7 @@ Die Kindklasse kann diese Methode nutzen um die Ansteuerung des richtigen Senors
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

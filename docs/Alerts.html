@@ -64,6 +64,12 @@
 <li class="toctree-l4"><a class="reference internal" href="Alerts.UserAlerts.EMailAlert.html#module-Alerts.UserAlerts.EMailAlert">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="Alerts.UserAlerts.GPIOOutput.html">Alerts.UserAlerts.GPIOOutput package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="Alerts.UserAlerts.GPIOOutput.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Alerts.UserAlerts.GPIOOutput.html#alerts-useralerts-gpiooutput-gpiooutput-module">Alerts.UserAlerts.GPIOOutput.GPIOOutput module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="Alerts.UserAlerts.GPIOOutput.html#module-Alerts.UserAlerts.GPIOOutput">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="Alerts.UserAlerts.html#module-Alerts.UserAlerts">Module contents</a></li>
@@ -80,7 +86,7 @@
 <dl class="class">
 <dt id="Alerts.AbstractAlert.AbstractAlert">
 <em class="property">class </em><code class="descclassname">Alerts.AbstractAlert.</code><code class="descname">AbstractAlert</code><span class="sig-paren">(</span><em>alertID</em>, <em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Alerts/AbstractAlert.html#AbstractAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Alerts.AbstractAlert.AbstractAlert" title="Link zu dieser Definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="Models.OptionableObject.html#Models.OptionableObject.OptionableObject" title="Models.OptionableObject.OptionableObject"><code class="xref py py-class docutils literal"><span class="pre">Models.OptionableObject.OptionableObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="Models.html#Models.OptionableObject.OptionableObject" title="Models.OptionableObject.OptionableObject"><code class="xref py py-class docutils literal"><span class="pre">Models.OptionableObject.OptionableObject</span></code></a></p>
 <p>Jeder Alert erbt von dieser Klasse. Jeder Alert ist ein Typ der optionierbar vom Benutzer ist.</p>
 <dl class="attribute">
 <dt id="Alerts.AbstractAlert.AbstractAlert.alertID">
@@ -198,7 +204,7 @@
 
 <dl class="attribute">
 <dt id="Alerts.AbstractAlert.AbstractAlert.superOptions">
-<code class="descname">superOptions</code><em class="property"> = {'name': {'final': True, 'tab': -1, 'regex': '[A-Za-z0-9]+', 'name': 'Alertbezeichnung', 'type': 'text', 'required': True, 'description': 'Der Name des Alerts bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.'}, 'description': {'length': 200, 'name': 'Beschreibung', 'type': 'text', 'description': 'Eine Beschreibung des Alerts.', 'tab': 0}}</em><a class="headerlink" href="#Alerts.AbstractAlert.AbstractAlert.superOptions" title="Link zu dieser Definition">¶</a></dt>
+<code class="descname">superOptions</code><em class="property"> = {'description': {'description': 'Eine Beschreibung des Alerts.', 'tab': 0, 'type': 'text', 'name': 'Beschreibung', 'length': 200}, 'name': {'required': True, 'tab': -1, 'type': 'text', 'description': 'Der Name des Alerts bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.', 'regex': '[A-Za-z0-9]+', 'name': 'Alertbezeichnung', 'final': True}}</em><a class="headerlink" href="#Alerts.AbstractAlert.AbstractAlert.superOptions" title="Link zu dieser Definition">¶</a></dt>
 <dd><p>Einstellungen die jeder Alert haben muss.</p>
 </dd></dl>
 
@@ -211,8 +217,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><ul class="first last simple">
-<li><strong>port</strong> (<a class="reference internal" href="Ports.AbstractPort.html#module-Ports.AbstractPort" title="Ports.AbstractPort"><em>AbstractPort</em></a>) &#8211; der Port der den Trigger ausgelöst hat</li>
-<li><strong>trigger</strong> (<a class="reference internal" href="Models.Trigger.html#Models.Trigger.Trigger" title="Models.Trigger.Trigger"><em>Trigger</em></a>) &#8211; der Trigger der die Methode aufgerufen hat.</li>
+<li><strong>port</strong> (<a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort"><em>AbstractPort</em></a>) &#8211; der Port der den Trigger ausgelöst hat</li>
+<li><strong>trigger</strong> (<a class="reference internal" href="Models.html#Models.Trigger.Trigger" title="Models.Trigger.Trigger"><em>Trigger</em></a>) &#8211; der Trigger der die Methode aufgerufen hat.</li>
 </ul>
 </td>
 </tr>
@@ -275,7 +281,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Author.
+      &copy;2017, Universität Hamburg.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>

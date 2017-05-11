@@ -1,7 +1,0 @@
-Ports\.Threads\.LoggingThread module
-====================================
-
-.. automodule:: Ports.Threads.LoggingThread
-    :members:
-    :undoc-members:
-    :show-inheritance:

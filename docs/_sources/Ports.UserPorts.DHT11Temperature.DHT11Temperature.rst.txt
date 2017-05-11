@@ -1,7 +1,0 @@
-Ports\.UserPorts\.DHT11Temperature\.DHT11Temperature module
-===========================================================
-
-.. automodule:: Ports.UserPorts.DHT11Temperature.DHT11Temperature
-    :members:
-    :undoc-members:
-    :show-inheritance:

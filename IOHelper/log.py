@@ -75,10 +75,8 @@ def readLog(port, start, end, aboutPoints=0):
 
     portHistory = port.getPortHistory()
     earliestHistoryPoint = portHistory[0]
-
     if start > earliestHistoryPoint[0]:
         # Wenn die Historiedaten ausreichen, wird aus diesen gelesen.
-        print("Aus RAM!!!")
         logData = [(timeobj, value) for (timeobj, value) in portHistory if timeobj >= start and timeobj <= end]
     else:
         while start <= end:

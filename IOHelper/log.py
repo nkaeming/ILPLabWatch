@@ -70,34 +70,40 @@ def readLog(port, start, end, aboutPoints=0):
     :rtype: list
     """
 
-    #TODO: wird noch nicht durch die oben einstellbaren PFade beeinflusst dringend überarbeiten.
+    #TODO: wird noch nicht durch die oben einstellbaren Pfade beeinflusst dringend überarbeiten.
     logData = []
 
-    while start <= end:
-        datei = (baseDir + fileName).format(port.getName())
-        # richtiges Datum einsetzen
-        datei = start.strftime(datei)
+    portHistory = port.getPortHistory()
+    earliestHistoryPoint = portHistory[0]
+    if start > earliestHistoryPoint[0]:
+        # Wenn die Historiedaten ausreichen, wird aus diesen gelesen.
+        logData = [(timeobj, value) for (timeobj, value) in portHistory if timeobj >= start and timeobj <= end]
+    else:
+        while start <= end:
+            datei = (baseDir + fileName).format(port.getName())
+            # richtiges Datum einsetzen
+            datei = start.strftime(datei)
 
-        # Prüfen ob die Datei existiert
-        if os.path.isfile(datei):
-            file = open(datei, "r")
-            for line in file:
-                # Zerteilen der Zeile
-                lineContent = line.split(" ")
-                dateString = lineContent[0]
-                valueString = lineContent[1]
+            # Prüfen ob die Datei existiert
+            if os.path.isfile(datei):
+                file = open(datei, "r")
+                for line in file:
+                    # Zerteilen der Zeile
+                    lineContent = line.split(" ")
+                    dateString = lineContent[0]
+                    valueString = lineContent[1]
 
-                # Typisierung der Daten
-                logTime = datetime.datetime.strptime(dateString, "%H:%M:%S:%f")
-                totalDate = datetime.datetime(year=start.year, month=start.month, day=start.day, hour=logTime.hour,
-                                              minute=logTime.minute, second=logTime.second,
-                                              microsecond=logTime.microsecond)
-                value = float(valueString)
-                if start <= totalDate and totalDate <= end:
-                    logData.append((totalDate, value))
-            file.close()
+                    # Typisierung der Daten
+                    logTime = datetime.datetime.strptime(dateString, "%H:%M:%S:%f")
+                    totalDate = datetime.datetime(year=start.year, month=start.month, day=start.day, hour=logTime.hour,
+                                                  minute=logTime.minute, second=logTime.second,
+                                                  microsecond=logTime.microsecond)
+                    value = float(valueString)
+                    if start <= totalDate and totalDate <= end:
+                        logData.append((totalDate, value))
+                file.close()
 
-        # Einen Tag dazu zählen, da für jeden Tag eine eigene Datei existiert
-        start = start + datetime.timedelta(days=1)
+            # Einen Tag dazu zählen, da für jeden Tag eine eigene Datei existiert
+            start = start + datetime.timedelta(days=1)
 
     return logData

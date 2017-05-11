@@ -1,0 +1,7 @@
+Ports\.UserPorts\.DS1822TemperatureOneWire\.DS1822TemperatureOneWire module
+===========================================================================
+
+.. automodule:: Ports.UserPorts.DS1822TemperatureOneWire.DS1822TemperatureOneWire
+    :members:
+    :undoc-members:
+    :show-inheritance:

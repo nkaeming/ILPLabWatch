@@ -1,0 +1,7 @@
+UI\.UIServer module
+===================
+
+.. automodule:: UI.UIServer
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,21 @@
+Ports\.UserPorts package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    Ports.UserPorts.DHT11Humidity
+    Ports.UserPorts.DHT11Temperature
+    Ports.UserPorts.DS1822TemperatureOneWire
+    Ports.UserPorts.DummyAnalogInputPort
+    Ports.UserPorts.MCP3008AnalogToDigital
+
+Module contents
+---------------
+
+.. automodule:: Ports.UserPorts
+    :members:
+    :undoc-members:
+    :show-inheritance:

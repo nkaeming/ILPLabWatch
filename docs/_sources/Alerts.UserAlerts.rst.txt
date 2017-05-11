@@ -1,0 +1,18 @@
+Alerts\.UserAlerts package
+==========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    Alerts.UserAlerts.CommandLineAlert
+    Alerts.UserAlerts.EMailAlert
+
+Module contents
+---------------
+
+.. automodule:: Alerts.UserAlerts
+    :members:
+    :undoc-members:
+    :show-inheritance:

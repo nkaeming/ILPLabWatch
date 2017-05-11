@@ -343,7 +343,6 @@ class AbstractPort(OptionableObject):
         :return: Ein dict mit den aktuellen Informationen des Ports.
         :rtype: dict
         """
-        """Gibt alle Informationen alle Informationen zu einem Port zurück."""
         informations = {}
         informations['settings'] = self.getSettings()
         informations['state'] = self.getState()

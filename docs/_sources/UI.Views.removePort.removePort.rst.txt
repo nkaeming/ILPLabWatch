@@ -1,0 +1,7 @@
+UI\.Views\.removePort\.removePort module
+========================================
+
+.. automodule:: UI.Views.removePort.removePort
+    :members:
+    :undoc-members:
+    :show-inheritance:

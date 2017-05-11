@@ -1,0 +1,7 @@
+Alerts\.UserAlerts\.EMailAlert\.EMailAlert module
+=================================================
+
+.. automodule:: Alerts.UserAlerts.EMailAlert.EMailAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:

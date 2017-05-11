@@ -1,0 +1,7 @@
+UI\.Views\.addAlert\.addAlert module
+====================================
+
+.. automodule:: UI.Views.addAlert.addAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:

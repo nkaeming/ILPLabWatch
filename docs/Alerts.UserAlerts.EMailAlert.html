@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alerts.UserAlerts.EMailAlert package &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="genindex.html" />
+    <link rel="search" title="Suche" href="search.html" />
+    <link rel="next" title="IOHelper package" href="IOHelper.html" />
+    <link rel="prev" title="Alerts.UserAlerts.CommandLineAlert package" href="Alerts.UserAlerts.CommandLineAlert.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="alerts-useralerts-emailalert-package">
+<h1>Alerts.UserAlerts.EMailAlert package<a class="headerlink" href="#alerts-useralerts-emailalert-package" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link zu dieser Überschrift">¶</a></h2>
+</div>
+<div class="section" id="module-Alerts.UserAlerts.EMailAlert.EMailAlert">
+<span id="alerts-useralerts-emailalert-emailalert-module"></span><h2>Alerts.UserAlerts.EMailAlert.EMailAlert module<a class="headerlink" href="#module-Alerts.UserAlerts.EMailAlert.EMailAlert" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert">
+<em class="property">class </em><code class="descclassname">Alerts.UserAlerts.EMailAlert.EMailAlert.</code><code class="descname">EMailAlert</code><span class="sig-paren">(</span><em>alertID</em>, <em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Alerts/UserAlerts/EMailAlert/EMailAlert.html#EMailAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Alerts.AbstractAlert.html#Alerts.AbstractAlert.AbstractAlert" title="Alerts.AbstractAlert.AbstractAlert"><code class="xref py py-class docutils literal"><span class="pre">Alerts.AbstractAlert.AbstractAlert</span></code></a></p>
+<p>Dieser Alert sendet eine E-Mail Nachricht an die eingesetllten Empfänger, sobald er ausgelöst wird.</p>
+<dl class="method">
+<dt id="Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.getDescription">
+<code class="descname">getDescription</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Alerts/UserAlerts/EMailAlert/EMailAlert.html#EMailAlert.getDescription"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.getDescription" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.lastCalled">
+<code class="descname">lastCalled</code><em class="property"> = 0</em><a class="headerlink" href="#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.lastCalled" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>der letzte Aufruf des Alerts</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.sendMail">
+<code class="descname">sendMail</code><span class="sig-paren">(</span><em>to</em>, <em>port</em>, <em>smtp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Alerts/UserAlerts/EMailAlert/EMailAlert.html#EMailAlert.sendMail"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.sendMail" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Sendet eine E-Mail an einen Empfänger.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><ul class="first last simple">
+<li><strong>to</strong> (<em>str</em>) &#8211; die E-Mailadresse des Empfängers.</li>
+<li><strong>port</strong> (<a class="reference internal" href="Ports.AbstractPort.html#Ports.AbstractPort.AbstractPort" title="Ports.AbstractPort.AbstractPort"><em>AbstractPort</em></a>) &#8211; der Port der betroffen ist.</li>
+<li><strong>smtp</strong> (<em>smptlib.SMPT</em>) &#8211; die smtp Verbidnung.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.throwAlert">
+<code class="descname">throwAlert</code><span class="sig-paren">(</span><em>port</em>, <em>trigger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Alerts/UserAlerts/EMailAlert/EMailAlert.html#EMailAlert.throwAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Alerts.UserAlerts.EMailAlert.EMailAlert.EMailAlert.throwAlert" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Sendet eine E-Mail an die Empfänger. Eine E-Mail wird erst nach Ablauf der eingestellten Zeit und wenn der Schwellwert zum ersten Mal überschritten wurde versendet.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Alerts.UserAlerts.EMailAlert">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Alerts.UserAlerts.EMailAlert" title="Link zu dieser Überschrift">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Alerts.UserAlerts.EMailAlert package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-Alerts.UserAlerts.EMailAlert.EMailAlert">Alerts.UserAlerts.EMailAlert.EMailAlert module</a></li>
+<li><a class="reference internal" href="#module-Alerts.UserAlerts.EMailAlert">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="Alerts.html">Alerts package</a><ul>
+  <li><a href="Alerts.UserAlerts.html">Alerts.UserAlerts package</a><ul>
+      <li>Previous: <a href="Alerts.UserAlerts.CommandLineAlert.html" title="vorheriges Kapitel">Alerts.UserAlerts.CommandLineAlert package</a></li>
+      <li>Next: <a href="IOHelper.html" title="nächstes Kapitel">IOHelper package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Alerts.UserAlerts.EMailAlert.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Author.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/Alerts.UserAlerts.EMailAlert.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

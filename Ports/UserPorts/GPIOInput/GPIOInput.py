@@ -8,16 +8,15 @@ class GPIOInput(AbstractPort):
 
     def __init__(self, settings, id):
         super().__init__(settings, id)
-        self.__setupConnecttions()
+        self.__setupConnections()
         self.nachInit()
 
-    def __setupConnecttions(self):
+    def __setupConnections(self):
         pin = self.getInternalPin()
         RPIO.add_interrupt_callback(pin, self.__callbackFunction)
         RPIO.wait_for_interrupts(threaded=True)
 
     def __callbackFunction(self, gpioID, value):
-        print(value)
         self.portChanged(value)
 
     def getValueRange(self):

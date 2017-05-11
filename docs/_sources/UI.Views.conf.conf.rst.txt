@@ -1,0 +1,7 @@
+UI\.Views\.conf\.conf module
+============================
+
+.. automodule:: UI.Views.conf.conf
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,22 @@
+UI\.Views\.addAlertToTrigger package
+====================================
+
+Submodules
+----------
+
+UI\.Views\.addAlertToTrigger\.addAlertToTrigger module
+------------------------------------------------------
+
+.. automodule:: UI.Views.addAlertToTrigger.addAlertToTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.addAlertToTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,22 @@
+UI\.Views\.removeAlert package
+==============================
+
+Submodules
+----------
+
+UI\.Views\.removeAlert\.removeAlert module
+------------------------------------------
+
+.. automodule:: UI.Views.removeAlert.removeAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.removeAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:

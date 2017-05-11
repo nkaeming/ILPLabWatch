@@ -1,0 +1,22 @@
+Alerts\.UserAlerts\.CommandLineAlert package
+============================================
+
+Submodules
+----------
+
+Alerts\.UserAlerts\.CommandLineAlert\.CommandLineAlert module
+-------------------------------------------------------------
+
+.. automodule:: Alerts.UserAlerts.CommandLineAlert.CommandLineAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Alerts.UserAlerts.CommandLineAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:

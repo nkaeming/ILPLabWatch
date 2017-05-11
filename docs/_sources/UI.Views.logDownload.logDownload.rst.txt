@@ -1,0 +1,7 @@
+UI\.Views\.logDownload\.logDownload module
+==========================================
+
+.. automodule:: UI.Views.logDownload.logDownload
+    :members:
+    :undoc-members:
+    :show-inheritance:

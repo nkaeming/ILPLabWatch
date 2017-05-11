@@ -1,0 +1,27 @@
+UI\.Views package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    UI.Views.addAlert
+    UI.Views.addAlertToTrigger
+    UI.Views.addPort
+    UI.Views.addTrigger
+    UI.Views.api
+    UI.Views.conf
+    UI.Views.editTrigger
+    UI.Views.logDownload
+    UI.Views.removeAlert
+    UI.Views.removeAlertFromTrigger
+    UI.Views.removePort
+
+Module contents
+---------------
+
+.. automodule:: UI.Views
+    :members:
+    :undoc-members:
+    :show-inheritance:

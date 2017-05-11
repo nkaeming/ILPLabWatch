@@ -1,0 +1,54 @@
+Models package
+==============
+
+Submodules
+----------
+
+Models\.Observable module
+-------------------------
+
+.. automodule:: Models.Observable
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Models\.Observer module
+-----------------------
+
+.. automodule:: Models.Observer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Models\.OptionableObject module
+-------------------------------
+
+.. automodule:: Models.OptionableObject
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Models\.PersistantObject module
+-------------------------------
+
+.. automodule:: Models.PersistantObject
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Models\.Trigger module
+----------------------
+
+.. automodule:: Models.Trigger
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Models
+    :members:
+    :undoc-members:
+    :show-inheritance:

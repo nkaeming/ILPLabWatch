@@ -1,0 +1,7 @@
+UI\.Views\.editTrigger\.editTrigger module
+==========================================
+
+.. automodule:: UI.Views.editTrigger.editTrigger
+    :members:
+    :undoc-members:
+    :show-inheritance:

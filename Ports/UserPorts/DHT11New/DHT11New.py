@@ -14,7 +14,7 @@ class DHT11New(AbstractPort):
     def getPrivateState(self):
         """Gibt den aktuellen State des Ports zurück."""
         sensor = Adafruit_DHT.DHT11
-        pin = self.getInternalPort()
+        pin = self.getInternalPin()
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
         return temperature
 

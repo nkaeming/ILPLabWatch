@@ -360,7 +360,7 @@ class AbstractPort(OptionableObject):
 
     def getInternalPin(self):
         """
-        Gibt die interne räpresentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt.
+        Gibt die interne Repräsentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt.
         Die Kindklasse kann diese Methode nutzen um die Ansteuerung des richtigen Senors durchzuführen.
         
         :return Eine Repräsentation des internen Anschluss des Ports.

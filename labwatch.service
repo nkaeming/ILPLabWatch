@@ -1,0 +1,15 @@
+# Systemd unit file for ILPLabWatch service. 
+# Put this file in /etc/systemd/system/ and run the following three commands:
+# sudo systemctl daemon-reload
+# sudo systemctl enable labwatch
+# sudo systemctl enable labwatch
+[Unit]
+Description=ILP Labwatch - Monitor Sensor Values in the Lab
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/ILPLabWatch
+ExecStart=/usr/local/bin/python3.6 /home/pi/ILPLabWatch/main.py
+
+[Install]
+WantedBy=multi-user.target

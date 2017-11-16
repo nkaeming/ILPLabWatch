@@ -15,6 +15,7 @@ class MCP3008AnalogToDigital(AbstractPort):
     def __init__(self, settings, id):
         super().__init__(settings, id)
         self.wandlerID = self.getInternalPin().split("-")[0]
+        self.adPin = int(self.getInternalPin().split("-")[1])
         self.minRefreshTime = self.getSetting("timeResolution") * 1/1000
         self.setUpConnection()
         self.nachInit()
@@ -41,7 +42,7 @@ class MCP3008AnalogToDigital(AbstractPort):
         if str(cls.__name__) in configIO.loadWiring().keys():
             wiring = configIO.loadWiring()[str(cls.__name__)]
             for wandler in wiring.keys():
-                for i in range(1,9):
+                for i in range(0,8):
                     connectors["Wandler:" + str(wandler) + " Anschluss: " + str(i)] = str(wandler) + "-" + str(i)
             return connectors
         return {}

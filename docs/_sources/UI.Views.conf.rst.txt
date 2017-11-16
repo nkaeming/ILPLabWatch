@@ -1,0 +1,22 @@
+UI\.Views\.conf package
+=======================
+
+Submodules
+----------
+
+UI\.Views\.conf\.conf module
+----------------------------
+
+.. automodule:: UI.Views.conf.conf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.conf
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,5 +1,5 @@
 from Alerts.AbstractAlert import AbstractAlert
-import RPi.GPIO as GPIO
+import RPIO
 
 
 class GPIOOutput(AbstractAlert):
@@ -10,22 +10,26 @@ class GPIOOutput(AbstractAlert):
     OnIfCalled = True
 
     def __init__(self, alertID, settings):
-        self.GPIOPin = self.getSetting('GPIOPin')
-        initialState = self.getSetting('initialState')
-        self.OnIfCalled = self.getSetting('OnIfCalled')
-        if initialState == True:
-            initialState = GPIO.HIGH
-        else:
-            initialState = GPIO.LOW
-        GPIO.setup(self.GPIOPin, GPIO.OUT, initial=initialState)
-
         super().__init__(alertID, settings)
+
+        self.GPIOPin = self.getSetting('GPIOPin')
+        initialState = self.getSetting('initialState') == "True"
+        self.OnIfCalled = self.getSetting('OnIfCalled') == "True"
+        RPIO.setmode(RPIO.BCM)
+
+        if initialState == True:
+            initialState = RPIO.HIGH
+        else:
+            initialState = RPIO.LOW
+
+        RPIO.setup(self.GPIOPin, RPIO.OUT)
+        RPIO.output(self.GPIOPin, RPIO.LOW)
 
     def throwAlert(self, port, trigger):
         if self.OnIfCalled:
-            GPIO.output(self.GPIOPin, True)
+            RPIO.output(self.GPIOPin, RPIO.HIGH)
         else:
-            GPIO.output(self.GPIOPin, False)
+            RPIO.output(self.GPIOPin, RPIO.LOW)
 
     def getDescription(self):
         return "Ein Alert der einen digitalen GPIO Port schaltet."

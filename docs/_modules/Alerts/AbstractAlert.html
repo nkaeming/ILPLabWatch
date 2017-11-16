@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Alerts.AbstractAlert &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../genindex.html" />
+    <link rel="search" title="Suche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für Alerts.AbstractAlert</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">Models.OptionableObject</span> <span class="k">import</span> <span class="n">OptionableObject</span>
+<span class="kn">from</span> <span class="nn">Ports.AbstractPort</span> <span class="k">import</span> <span class="n">AbstractPort</span>
+<span class="kn">from</span> <span class="nn">Models.Trigger</span> <span class="k">import</span> <span class="n">Trigger</span>
+
+
+<div class="viewcode-block" id="AbstractAlert"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert">[Doku]</a><span class="k">class</span> <span class="nc">AbstractAlert</span><span class="p">(</span><span class="n">OptionableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Jeder Alert erbt von dieser Klasse. Jeder Alert ist ein Typ der optionierbar vom Benutzer ist.&quot;&quot;&quot;</span>
+
+    <span class="n">superOptions</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tab&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Alertbezeichnung&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Der Name des Alerts bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;final&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="s2">&quot;[A-Za-z0-9]+&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tab&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Beschreibung&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Eine Beschreibung des Alerts.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">200</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Einstellungen die jeder Alert haben muss.&quot;&quot;&quot;</span>
+
+    <span class="n">alertID</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="sd">&quot;&quot;&quot;Die eindeutige ID des Alerts.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alertID</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialisiert den Alert.</span>
+<span class="sd">        </span>
+<span class="sd">        :param alertID: die ID des Alerts.</span>
+<span class="sd">        :type alertID: str</span>
+<span class="sd">        :param settings: die Einstellungen des Alerts</span>
+<span class="sd">        :type settings: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alertID</span> <span class="o">=</span> <span class="n">alertID</span>
+
+<div class="viewcode-block" id="AbstractAlert.throwAlert"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.throwAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">throwAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">trigger</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Methode wird von einem Trigger aufgerufen wenn dieser ausgelöst hat. Muss von der Kindklasse implementiert werden.</span>
+<span class="sd">        </span>
+<span class="sd">        :param port: der Port der den Trigger ausgelöst hat</span>
+<span class="sd">        :type port: AbstractPort</span>
+<span class="sd">        :param trigger: der Trigger der die Methode aufgerufen hat.</span>
+<span class="sd">        :type trigger: Trigger</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AbstractAlert.getDescription"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Beschreibung eines Alerttyps zurück. Muss von der Kindklasse implementiert werden.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Die Beschreibung des Alerttyp.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AbstractAlert.getOptions"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getOptions">[Doku]</a>    <span class="k">def</span> <span class="nf">getOptions</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Optionen eines Alerttyps zurück. Kann überschrieben werden wenn notwendig.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: die Optionen des Alerttyps.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getOptions</span><span class="p">(),</span> <span class="o">**</span><span class="bp">cls</span><span class="o">.</span><span class="n">superOptions</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="AbstractAlert.getID"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getID">[Doku]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die ID des Alerts zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: die ID des Alerts</span>
+<span class="sd">         :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">alertID</span></div>
+
+<div class="viewcode-block" id="AbstractAlert.getType"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getType">[Doku]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den Typ des Alerts zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Klassenname des Alerts.</span>
+<span class="sd">         :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractAlert.getName"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getName">[Doku]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den Namen eines Alerts zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: der Name des Alerts</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractAlert.setDescription"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.setDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">setDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Setzt die Beschreibung eines Alerts neu</span>
+<span class="sd">        </span>
+<span class="sd">        :param description: die neue Beschreibung des Alerts.</span>
+<span class="sd">        :type description: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setSetting</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractAlert.getServiceName"><a class="viewcode-back" href="../../Alerts.html#Alerts.AbstractAlert.AbstractAlert.getServiceName">[Doku]</a>    <span class="k">def</span> <span class="nf">getServiceName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den Namen des mit dem Alerts assozierten Services zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: der Name des Services</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;AlertService&quot;</span></div>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft zwei Alerts auf Gleichheit. Zwei Alerts sind genau dann gleich, wenn sie die gleiche ID und den gleichen Typ haben.</span>
+<span class="sd">        </span>
+<span class="sd">        :param other: das Objekt mit dem verglichen werden soll.</span>
+<span class="sd">        :type other: AbstractAlert</span>
+<span class="sd">        :return: True, wenn beide Objekte gleich sind.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Universität Hamburg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

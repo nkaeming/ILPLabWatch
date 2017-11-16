@@ -4,7 +4,7 @@ from Models.OptionableObject import OptionableObject
 from Ports.Threads.LoggingThread import LoggingThread
 from Ports.Threads.WatcherThread import WatcherThread
 from Models.Trigger import Trigger
-
+from datetime import datetime
 
 class AbstractPort(OptionableObject):
     """
@@ -343,7 +343,6 @@ class AbstractPort(OptionableObject):
         :return: Ein dict mit den aktuellen Informationen des Ports.
         :rtype: dict
         """
-        """Gibt alle Informationen alle Informationen zu einem Port zurück."""
         informations = {}
         informations['settings'] = self.getSettings()
         informations['state'] = self.getState()
@@ -390,19 +389,23 @@ class AbstractPort(OptionableObject):
     def addValueToHistory(self, value):
         """
         Fügt der Historie einen Wert hinzu. Die Historie eines Ports dient zur bestimmten Auslösung von Triggern. So wird z.B. ein E-Mail Triger so nicht bei jedem Prüfen eines Wertes aufgerufen sondern nur beim ersten Überschreiten eines Schwellwerts.
+        Außerdem bietet die History die möglichkeit Messdaten im RAM schneller abzurufen.
         
         :param value: der Wert der zur Historie hinzugefügt werden soll.
         :type value: float
         """
-        if len(self.portHistory) >= 100:
+        # Die maximale Größe der Historie in byte.
+        sizeOfHistory = 5000000
+
+        if self.portHistory.__sizeof__() >= sizeOfHistory:
             self.portHistory.pop(0)
-        self.portHistory.append(value)
+        self.portHistory.append((datetime.now(), value))
 
     def getPortHistory(self):
         """
-        Gibt die Historie des Ports seit Porgrammstart zurück
+        Gibt die Historie des Ports seit Porgrammstart zurück.
         
-        :return: Eine Liste der letzten 100 Messwerte des Ports.
+        :return: Eine Liste der letzten Messwerte des Ports.
         :rtype: list
         """
         return self.portHistory

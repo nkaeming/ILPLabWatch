@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models.Trigger &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../genindex.html" />
+    <link rel="search" title="Suche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für Models.Trigger</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">Models.Observer</span> <span class="k">import</span> <span class="n">Observer</span>
+<span class="kn">from</span> <span class="nn">Models.Observable</span> <span class="k">import</span> <span class="n">Observable</span>
+
+<div class="viewcode-block" id="Trigger"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger">[Doku]</a><span class="k">class</span> <span class="nc">Trigger</span><span class="p">(</span><span class="n">Observer</span><span class="p">,</span> <span class="n">Observable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Trigger sind ein wesentlicher Bestandteil des Systems. Sie sind die Verbindung zwischen den Alerts und den Ports.</span>
+<span class="sd">    Ein Trigger wird immer informiert, wenn sich der Wert eines Ports verändert hat. Er prüft dann, ob dieser Wert innerhalb der gewählten Grenzen zum Auslösen liegt.</span>
+<span class="sd">    Ist dies der Fall, so werden alle Alerts informiert, die mit dem Trigger verbunden sind. Die strickte Trenung zwischen Alerts und Ports</span>
+<span class="sd">    durch Trigger erlaubt es so eine 1 zu n Relation zwischen Ports und Alerts herzustellen.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">triggerRange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span>
+                    <span class="mi">0</span><span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot;Der Bereich in dem der Trigger auslösen soll. Die erste Zahl ist das Minimum und die zweite Zahl das Maximum.&quot;&quot;&quot;</span>
+
+    <span class="n">port</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Die Instanz des Ports mit dem der Trigger verknüpft ist,&quot;&quot;&quot;</span>
+
+    <span class="n">alerts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="sd">&quot;&quot;&quot;Eine Liste mit Alertinstanzen, die informiert werden sollen, wenn der Trigger auslöst.&quot;&quot;&quot;</span>
+
+    <span class="n">warnTrigger</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="sd">&quot;&quot;&quot;Legt fest pb es sich um einen WarnTrigger handelt. Ist diese Einstellung True, so gibt es einen optischen Indikator für das Auslösen.&quot;&quot;&quot;</span>
+
+    <span class="n">triggerID</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="sd">&quot;&quot;&quot;Die Eindeutige TriggerID&quot;&quot;&quot;</span>
+
+    <span class="c1"># min ist die untere Schranke des Triggers und max die obere.</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">triggerID</span><span class="p">,</span> <span class="n">minimal</span><span class="p">,</span> <span class="n">maximal</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">warnTrigger</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Erzeugt einen neuen Trigger.</span>
+<span class="sd">        </span>
+<span class="sd">        :param triggerID: die eindeutige ID des Triggers</span>
+<span class="sd">        :type triggerID: str</span>
+<span class="sd">        :param minimal: die unter Schranke ab der der Trigger auslösen soll.</span>
+<span class="sd">        :type minimal: float</span>
+<span class="sd">        :param maximal: die obere Schranke bis die der Trigger auslösen soll.</span>
+<span class="sd">        :type maximal: float</span>
+<span class="sd">        :param port: die Instanz des Ports mit der ein Trigger verbunden ist.</span>
+<span class="sd">        :type port: AbstractPort</span>
+<span class="sd">        :param warnTrigger: die Einstellung ob es sich um einen WarnTrigger handelt.</span>
+<span class="sd">        :type warnTrigger: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">triggerRange</span> <span class="o">=</span> <span class="p">[</span><span class="n">minimal</span><span class="p">,</span> <span class="n">maximal</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">triggerID</span> <span class="o">=</span> <span class="n">triggerID</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">warnTrigger</span> <span class="o">=</span> <span class="n">warnTrigger</span>
+
+<div class="viewcode-block" id="Trigger.observableChanged"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.observableChanged">[Doku]</a>    <span class="k">def</span> <span class="nf">observableChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Von Observer geerbt. Wird ausgelöst, wenn sich das Portobjekt verändert hat.</span>
+<span class="sd">        </span>
+<span class="sd">        :param observable: die Instanz die sich verändert hat. (wird ier nicht benötigt.)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkAndCall</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Trigger.checkAndCall"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.checkAndCall">[Doku]</a>    <span class="k">def</span> <span class="nf">checkAndCall</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft ob der Wert des Port innerhalb der Grenzen liegt und uft dann alle Alerts auf. Sollte generell aufgerufen werden.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">callAlerts</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Trigger.check"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.check">[Doku]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft ob der aktuelle Wert des Ports innerhalb der Grenzen liegt.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: true, wenn der aktuelle Wert innerhalb der Grenzen liegt.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkValue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">getState</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Trigger.checkValue"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.checkValue">[Doku]</a>    <span class="k">def</span> <span class="nf">checkValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft ob ein bestimmter Wert den Trigger auslösen würde. Informiert jedoch nicht die Alerts.</span>
+<span class="sd">        </span>
+<span class="sd">        :param value: der Wert der überprüft werden soll.</span>
+<span class="sd">        :type value: float</span>
+<span class="sd">        :return: true, wenn der Wert den Trigger auslösen würde.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggerRange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggerRange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Trigger.callAlerts"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.callAlerts">[Doku]</a>    <span class="k">def</span> <span class="nf">callAlerts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Löst alle Alerts aus.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">alert</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="p">:</span>
+            <span class="n">alert</span><span class="o">.</span><span class="n">throwAlert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Trigger.isFirstCalled"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.isFirstCalled">[Doku]</a>    <span class="k">def</span> <span class="nf">isFirstCalled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt true zurück, wenn der Trigger zum ersten Mal ausgelöst wurde. D.h. wenn der Wert zum ersten Mal in den Bereich reingelaufen ist.</span>
+
+<span class="sd">        :return: true, wenn der Trigger zum ersten Mal ausgelöst wurde.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lastPortValue</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="o">.</span><span class="n">getPortHistory</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">checkValue</span><span class="p">(</span><span class="n">lastPortValue</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Trigger.getMinimalValue"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.getMinimalValue">[Doku]</a>    <span class="k">def</span> <span class="nf">getMinimalValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den minimalen Wert zurück, bei dem der Trigger auslöst.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: die untere Schrnake des bereiches bei dem der Trigger auslöst.</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggerRange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Trigger.getMaximalValue"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.getMaximalValue">[Doku]</a>    <span class="k">def</span> <span class="nf">getMaximalValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den maximalen Wert zurück, bei dem der Trigger auslöst.</span>
+
+<span class="sd">        :return: die obere Schrnake des bereiches bei dem der Trigger auslöst.</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggerRange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+
+    <span class="c1"># fügt ein neues alert Objekt hinzu.</span>
+<div class="viewcode-block" id="Trigger.appendAlert"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.appendAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">appendAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alert</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fügt dem Trigger einen neuen Alert hinzu. Der Alert wird dann beim nächsten Aus lösen des Triggers informiert.</span>
+<span class="sd">        </span>
+<span class="sd">        :param alert: Der Alert der hinzugefügt werden soll.</span>
+<span class="sd">        :type alert: AbstractAlert</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alert</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">informTriggerService</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Trigger.informTriggerService"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.informTriggerService">[Doku]</a>    <span class="k">def</span> <span class="nf">informTriggerService</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Private Methode um den Triggerservice zu informieren</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">Services.TriggerService</span> <span class="k">import</span> <span class="n">TriggerService</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">informObserverOfType</span><span class="p">(</span><span class="n">TriggerService</span><span class="p">)</span></div>
+
+    <span class="c1"># gibt true zurück, wenn der Trigger als Warnung im UI auftauchen soll.</span>
+<div class="viewcode-block" id="Trigger.isWarnTrigger"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.isWarnTrigger">[Doku]</a>    <span class="k">def</span> <span class="nf">isWarnTrigger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt true zurück, wenn der Trigger als Warnung  im UI auftauchen soll.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: warnTrigger</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">warnTrigger</span></div>
+
+<div class="viewcode-block" id="Trigger.getPort"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.getPort">[Doku]</a>    <span class="k">def</span> <span class="nf">getPort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Instanz des Ports zurück der den Trigger auslöst.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: den Port den der Trigger auslöst.</span>
+<span class="sd">        :rtype: AbstractPort</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span></div>
+
+<div class="viewcode-block" id="Trigger.getID"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.getID">[Doku]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Getter</span>
+<span class="sd">        </span>
+<span class="sd">        :return: die ID des Trigger</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggerID</span></div>
+
+<div class="viewcode-block" id="Trigger.getAlerts"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.getAlerts">[Doku]</a>    <span class="k">def</span> <span class="nf">getAlerts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt alle Alerts zurück mit denen der Trigger verbunden ist.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Eine Liste aller Alerts.</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span></div>
+
+<div class="viewcode-block" id="Trigger.removeAlert"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.removeAlert">[Doku]</a>    <span class="k">def</span> <span class="nf">removeAlert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alert</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Entfernt einen Alert vom Trigger.</span>
+<span class="sd">        </span>
+<span class="sd">        :param alert: Der Alert der entfernt werden soll.</span>
+<span class="sd">        :type alert: AbstractAlert</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">alert</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alerts</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">alert</span><span class="p">)</span>
+            <span class="kn">from</span> <span class="nn">Services.TriggerService</span> <span class="k">import</span> <span class="n">TriggerService</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">informObserverOfType</span><span class="p">(</span><span class="n">TriggerService</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Trigger.getSettings"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.getSettings">[Doku]</a>    <span class="k">def</span> <span class="nf">getSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Einstellungen des Triggers zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: die Einstellugen des Triggers</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;portID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPort</span><span class="p">()</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span>
+        <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;warnTrigger&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">isWarnTrigger</span><span class="p">()</span>
+        <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggerRange</span>
+
+        <span class="n">alertList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">alert</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAlerts</span><span class="p">():</span>
+            <span class="n">alertList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alert</span><span class="o">.</span><span class="n">getID</span><span class="p">())</span>
+        <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;alerts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alertList</span>
+
+        <span class="k">return</span> <span class="n">conf</span></div>
+
+<div class="viewcode-block" id="Trigger.setWarntrigger"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.setWarntrigger">[Doku]</a>    <span class="k">def</span> <span class="nf">setWarntrigger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Legt fest ob ein Trigger ein Warntrigger ist oder nicht.</span>
+<span class="sd">        </span>
+<span class="sd">        :param value: true, wenn der Trigger ein Warntrigger werden soll.</span>
+<span class="sd">        :type value: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">warnTrigger</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">informTriggerService</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Trigger.setInterval"><a class="viewcode-back" href="../../Models.html#Models.Trigger.Trigger.setInterval">[Doku]</a>    <span class="k">def</span> <span class="nf">setInterval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stellt das Intervall ein in dem der Trigger auslösen soll.</span>
+<span class="sd">        </span>
+<span class="sd">        :param value: Ein Tupel aus dem minimalen und maximalen Wert. (Minimum, Maximum)</span>
+<span class="sd">        :type value: tuple </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">triggerRange</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">informTriggerService</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft ob zwei Trigger gleich sind. Zwei Trigger sind genau dann gleich, wenn ihre ID übereinstimmt.</span>
+<span class="sd">        </span>
+<span class="sd">        :param other: das zu vergleichende Objekt.</span>
+<span class="sd">        :type other: object</span>
+<span class="sd">        :return: true, wenn es sich um den gleichen Trigger handelt, false sonst.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">getID</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Universität Hamburg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

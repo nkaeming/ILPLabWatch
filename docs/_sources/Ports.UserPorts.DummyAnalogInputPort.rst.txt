@@ -1,0 +1,22 @@
+Ports\.UserPorts\.DummyAnalogInputPort package
+==============================================
+
+Submodules
+----------
+
+Ports\.UserPorts\.DummyAnalogInputPort\.DummyAnalogInputPort module
+-------------------------------------------------------------------
+
+.. automodule:: Ports.UserPorts.DummyAnalogInputPort.DummyAnalogInputPort
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Ports.UserPorts.DummyAnalogInputPort
+    :members:
+    :undoc-members:
+    :show-inheritance:

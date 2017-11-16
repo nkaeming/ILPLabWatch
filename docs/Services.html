@@ -1,0 +1,722 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Services package &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="genindex.html" />
+    <link rel="search" title="Suche" href="search.html" />
+    <link rel="next" title="UI package" href="UI.html" />
+    <link rel="prev" title="Ports.UserPorts.MCP3008AnalogToDigital package" href="Ports.UserPorts.MCP3008AnalogToDigital.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="services-package">
+<h1>Services package<a class="headerlink" href="#services-package" title="Link zu dieser Überschrift">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link zu dieser Überschrift">¶</a></h2>
+</div>
+<div class="section" id="module-Services.AlertService">
+<span id="services-alertservice-module"></span><h2>Services.AlertService module<a class="headerlink" href="#module-Services.AlertService" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Services.AlertService.AlertService">
+<em class="property">class </em><code class="descclassname">Services.AlertService.</code><code class="descname">AlertService</code><a class="reference internal" href="_modules/Services/AlertService.html#AlertService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Models.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a>, <a class="reference internal" href="Models.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a></p>
+<p>Der Alertservcie verwaltet und erzeugt alle Alerts.</p>
+<dl class="attribute">
+<dt id="Services.AlertService.AlertService.TriggerService">
+<code class="descname">TriggerService</code><em class="property"> = None</em><a class="headerlink" href="#Services.AlertService.AlertService.TriggerService" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.addAlert">
+<code class="descname">addAlert</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.addAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.addAlert" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Services.AlertService.AlertService.alerts">
+<code class="descname">alerts</code><em class="property"> = []</em><a class="headerlink" href="#Services.AlertService.AlertService.alerts" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.doesAlertExistByName">
+<code class="descname">doesAlertExistByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.doesAlertExistByName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.doesAlertExistByName" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Prüft ob ein Portname bereits existiert.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.generateAndAddNewAlert">
+<code class="descname">generateAndAddNewAlert</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.generateAndAddNewAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.generateAndAddNewAlert" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Erzeugt einen neuen Alert und fügt diesen hinzu.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.getAlertByID">
+<code class="descname">getAlertByID</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.getAlertByID"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.getAlertByID" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.getAlertByName">
+<code class="descname">getAlertByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.getAlertByName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.getAlertByName" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.getAlertClassByType">
+<code class="descname">getAlertClassByType</code><span class="sig-paren">(</span><em>alertType</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.getAlertClassByType"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.getAlertClassByType" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt einen Zeiger auf die Klasse zurück, welche den Alert definiert.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.getAlertObject">
+<code class="descname">getAlertObject</code><span class="sig-paren">(</span><em>id</em>, <em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.getAlertObject"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.getAlertObject" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.getAlertTypes">
+<code class="descname">getAlertTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.getAlertTypes"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.getAlertTypes" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt alle Porttypen zurück die konfigurierbar sind</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.getAlerts">
+<code class="descname">getAlerts</code><span class="sig-paren">(</span><em>setting='name'</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.getAlerts"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.getAlerts" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt alle Alerts zurück.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.getConfigFileName">
+<code class="descname">getConfigFileName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.getConfigFileName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.getConfigFileName" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.observableChanged">
+<code class="descname">observableChanged</code><span class="sig-paren">(</span><em>observable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.observableChanged"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.observableChanged" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.removeAlert">
+<code class="descname">removeAlert</code><span class="sig-paren">(</span><em>alert</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.removeAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.removeAlert" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Löscht einen Alert</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.setTriggerService">
+<code class="descname">setTriggerService</code><span class="sig-paren">(</span><em>TS</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.setTriggerService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.setTriggerService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Setzt den Trigger Service</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.setUp"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.setUp" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.AlertService.AlertService.writeConf">
+<code class="descname">writeConf</code><span class="sig-paren">(</span><em>conf=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/AlertService.html#AlertService.writeConf"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.AlertService.AlertService.writeConf" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Services.PortService">
+<span id="services-portservice-module"></span><h2>Services.PortService module<a class="headerlink" href="#module-Services.PortService" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Services.PortService.PortService">
+<em class="property">class </em><code class="descclassname">Services.PortService.</code><code class="descname">PortService</code><a class="reference internal" href="_modules/Services/PortService.html#PortService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Models.html#Models.Observable.Observable" title="Models.Observable.Observable"><code class="xref py py-class docutils literal"><span class="pre">Models.Observable.Observable</span></code></a>, <a class="reference internal" href="Models.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a>, <a class="reference internal" href="Models.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a></p>
+<p>Der Portservice ist der zentrale Service für die Ports. Er verwaltet sie, erstellt sie und ist die einzige Scnittstelle zu anderen Programmteilen der in der Lage ist Referenzen auf die Ports zurück zu geben. Im System soll es nur einen Portservice geben.</p>
+<dl class="attribute">
+<dt id="Services.PortService.PortService.TriggerService">
+<code class="descname">TriggerService</code><em class="property"> = None</em><a class="headerlink" href="#Services.PortService.PortService.TriggerService" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.arePortsOK">
+<code class="descname">arePortsOK</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.arePortsOK"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.arePortsOK" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt true zurück, wenn alle Ports keine Fehler haben und auch keine WarnTrigger ausgelöst sind. Methode kann z.B. für die WarnLED benutzt werden. Sie ist ein Indikator für die Systemgesundheit und die Gesundheit der zu überwachenden Peripherie.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">true, wenn alles in Ordnung ist.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.doesPortExistByName">
+<code class="descname">doesPortExistByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.doesPortExistByName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.doesPortExistByName" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Prüft ob der Name eines Ports existiert.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>name</strong> (<em>str</em>) &#8211; Der Name des Ports.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">true, wenn ein Port mit diesem Namen existiert.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.generateAndAddNewPort">
+<code class="descname">generateAndAddNewPort</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.generateAndAddNewPort"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.generateAndAddNewPort" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Erzeugt eine neue Portinstanz und füt diese dem Service hinzu.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>settings</strong> (<em>dict</em>) &#8211; Die Einstellungen des neuen Ports.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">Die PortID des erstellten Ports</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.generatePort">
+<code class="descname">generatePort</code><span class="sig-paren">(</span><em>portID</em>, <em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.generatePort"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.generatePort" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Erzeugt eine Portinstanz und fügt diese nicht dem PortService hinzu. Gibt die Instanz stattdessen zurück. Vergleicbar mit einer Fabrikmethode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><ul class="first simple">
+<li><strong>portID</strong> (<em>str</em>) &#8211; die ID die der Port erhalten soll.</li>
+<li><strong>settings</strong> (<em>dict</em>) &#8211; Die Einstellungen des Ports.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body"><p class="first">Die Instanz des Ports.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><p class="first last"><a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getConfigFileName">
+<code class="descname">getConfigFileName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getConfigFileName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getConfigFileName" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt den Namen der Konfigurationsdatei zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">der Dateiname der Konfigurationsdatei</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getConfigurablePortTypes">
+<code class="descname">getConfigurablePortTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getConfigurablePortTypes"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getConfigurablePortTypes" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt alle Porttypen zurück, welche einen freien Anschluss zum Konfigurieren haben.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">Eine Liste der Porttypen</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getCurrentPortsInformations">
+<code class="descname">getCurrentPortsInformations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getCurrentPortsInformations"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getCurrentPortsInformations" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt alle aktuellen Informationen zu allen Ports als dict zurück. Dies ist z.B. für die Benutzeroberfläche relevant.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">eine Sammlung aller Informationen zu den aktuellen Ports.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getFreeInputsOfPortType">
+<code class="descname">getFreeInputsOfPortType</code><span class="sig-paren">(</span><em>portType</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getFreeInputsOfPortType"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getFreeInputsOfPortType" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die freien Anschlüsse eines Porttypen aus.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>portType</strong> (<em>str</em>) &#8211; Der Typ des Ports.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">Ein dict mit allen freien Anschlüssen.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getInterruptPorts">
+<code class="descname">getInterruptPorts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getInterruptPorts"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getInterruptPorts" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt eine Liste der Ports zurück die nicht mehr ordnungsgemäß ausgeführt werden.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">eine unsortierte Liste von Prots</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getPortByID">
+<code class="descname">getPortByID</code><span class="sig-paren">(</span><em>portID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getPortByID"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getPortByID" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die Instanz eines Ports nach seiner ID zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>portID</strong> (<em>str</em>) &#8211; die ID des Ports.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">eine Portklasse die zu der ID gehört. Existiert der Port nicht im Service, so wird None zurückgegeben.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getPortByName">
+<code class="descname">getPortByName</code><span class="sig-paren">(</span><em>portName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getPortByName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getPortByName" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die Instanz eines Ports nach seinem Namen zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>portName</strong> (<em>str</em>) &#8211; der Name des Ports</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">eine Portklasse die zu dem Namen gehört. Existiert der Port nicht im Service, so wird None zurückgegeben.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getPortClassByType">
+<code class="descname">getPortClassByType</code><span class="sig-paren">(</span><em>portType</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getPortClassByType"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getPortClassByType" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt einen Zeiger auf die Klasse zurück die den Port definiert.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>portType</strong> (<em>str</em>) &#8211; Der Typ des Ports.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">Ein Class-Objekt auf die Klasse des Ports.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort">AbstractPort</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getPortTypes">
+<code class="descname">getPortTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getPortTypes"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getPortTypes" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt alle verfügbaren PortTypen zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">eine Liste aller Porttypen als Module.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getPorts">
+<code class="descname">getPorts</code><span class="sig-paren">(</span><em>setting='name'</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getPorts"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getPorts" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt eine sortierte Liste der Ports zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><ul class="first simple">
+<li><strong>setting</strong> (<em>str</em>) &#8211; das Merkmal nach dem sortiert werden soll.</li>
+<li><strong>reverse</strong> &#8211; Gibt an ob die Liste in die gegensätzliche Richtung sortiert werden soll.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body"><p class="first">eine sortierte Liste von Ports</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getPortsByType">
+<code class="descname">getPortsByType</code><span class="sig-paren">(</span><em>type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getPortsByType"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getPortsByType" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt die Ports eines bestimmten Typs zurück.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>type</strong> (<em>str</em>) &#8211; der Typ des Ports.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabe:</th><td class="field-body">eine unsortierte Liste von Ports.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rückgabetyp:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.getPortsLogged">
+<code class="descname">getPortsLogged</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.getPortsLogged"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.getPortsLogged" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Gibt eine Liste der Ports zurück die geloggt werden.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">Eine unsortierte Liste von Ports.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rückgabetyp:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.observableChanged">
+<code class="descname">observableChanged</code><span class="sig-paren">(</span><em>observable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.observableChanged"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.observableChanged" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Wird ausgerufen wenn eine Observable sich geändert hat. Geerbt von Observer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>observable</strong> (<a class="reference internal" href="Models.html#module-Models.Observable" title="Models.Observable"><em>Observable</em></a>) &#8211; die Observable die sich geändert hat.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Services.PortService.PortService.ports">
+<code class="descname">ports</code><em class="property"> = []</em><a class="headerlink" href="#Services.PortService.PortService.ports" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.removePort">
+<code class="descname">removePort</code><span class="sig-paren">(</span><em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.removePort"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.removePort" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Löscht einen Port aus dem Service. Er wird bei erneuten starten auch nicht geladen. Die Überwachung des Ports wird vollständig beendet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>port</strong> (<a class="reference internal" href="Ports.html#module-Ports.AbstractPort" title="Ports.AbstractPort"><em>AbstractPort</em></a>) &#8211; Der Port der gelöscht werden soll.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.setTriggerService">
+<code class="descname">setTriggerService</code><span class="sig-paren">(</span><em>triggerService</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.setTriggerService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.setTriggerService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Legt den TriggerService fest. Es handelt sich um eine DependencyInjection. 
+:param triggerService: Der Triggerservice mit dem der Portservice zusammenarbeiten soll.
+:type triggerService: TriggerService</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.setUp"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.setUp" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Erzeugt die Instanzen der Portklassen. Wird immer vom Konstruktor aufgerufen und ist eine private Hilfsfunktion.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.PortService.PortService.writeConf">
+<code class="descname">writeConf</code><span class="sig-paren">(</span><em>conf=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/PortService.html#PortService.writeConf"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.PortService.PortService.writeConf" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Schreibt die persistente Konfiguration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameter:</th><td class="field-body"><strong>conf</strong> (<em>None</em>) &#8211; ein redundanter Parameter. Aus technsichen Gründen in Python ist darauf nicht zu verzichten.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Services.SystemService">
+<span id="services-systemservice-module"></span><h2>Services.SystemService module<a class="headerlink" href="#module-Services.SystemService" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Services.SystemService.SystemServiceThread">
+<em class="property">class </em><code class="descclassname">Services.SystemService.</code><code class="descname">SystemServiceThread</code><span class="sig-paren">(</span><em>PS</em>, <em>TS</em>, <em>AS</em>, <em>UI</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/SystemService.html#SystemServiceThread"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.SystemService.SystemServiceThread" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></p>
+<p>Service zum überprüfen des aktuellen Systemstatus. Er muss als eigener Thread gestartet werden, da er nur so den Systemthread prüfen kann.</p>
+<dl class="attribute">
+<dt id="Services.SystemService.SystemServiceThread.alertService">
+<code class="descname">alertService</code><em class="property"> = None</em><a class="headerlink" href="#Services.SystemService.SystemServiceThread.alertService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Der Alertservice der im System verwendet wird.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.SystemService.SystemServiceThread.check">
+<code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/SystemService.html#SystemServiceThread.check"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.SystemService.SystemServiceThread.check" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Prüft den aktuellen Systemzustand. Gibt False zurück, wenn das System nicht mehr ordentlich funktioniert.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rückgabe:</th><td class="field-body">True, wenn der Systemzustand in Ordnung ist.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Services.SystemService.SystemServiceThread.portService">
+<code class="descname">portService</code><em class="property"> = None</em><a class="headerlink" href="#Services.SystemService.SystemServiceThread.portService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Der PortService der im System verwendet wird.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.SystemService.SystemServiceThread.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/SystemService.html#SystemServiceThread.run"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.SystemService.SystemServiceThread.run" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Services.SystemService.SystemServiceThread.triggerService">
+<code class="descname">triggerService</code><em class="property"> = None</em><a class="headerlink" href="#Services.SystemService.SystemServiceThread.triggerService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Der Triggerservice der im System verwendet wird.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Services.SystemService.SystemServiceThread.uiServer">
+<code class="descname">uiServer</code><em class="property"> = None</em><a class="headerlink" href="#Services.SystemService.SystemServiceThread.uiServer" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Der UI-Server der im System verwendet wird.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Services.TriggerService">
+<span id="services-triggerservice-module"></span><h2>Services.TriggerService module<a class="headerlink" href="#module-Services.TriggerService" title="Link zu dieser Überschrift">¶</a></h2>
+<dl class="class">
+<dt id="Services.TriggerService.TriggerService">
+<em class="property">class </em><code class="descclassname">Services.TriggerService.</code><code class="descname">TriggerService</code><span class="sig-paren">(</span><em>portService</em>, <em>alertService</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="Models.html#Models.PersistantObject.PersistantObject" title="Models.PersistantObject.PersistantObject"><code class="xref py py-class docutils literal"><span class="pre">Models.PersistantObject.PersistantObject</span></code></a>, <a class="reference internal" href="Models.html#Models.Observer.Observer" title="Models.Observer.Observer"><code class="xref py py-class docutils literal"><span class="pre">Models.Observer.Observer</span></code></a></p>
+<p>Der Triggerservice verwaltet alle Trigger</p>
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.addTrigger">
+<code class="descname">addTrigger</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.addTrigger"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.addTrigger" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Services.TriggerService.TriggerService.alertServcie">
+<code class="descname">alertServcie</code><em class="property"> = None</em><a class="headerlink" href="#Services.TriggerService.TriggerService.alertServcie" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.getConfigFileName">
+<code class="descname">getConfigFileName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.getConfigFileName"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.getConfigFileName" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.getTriggerByID">
+<code class="descname">getTriggerByID</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.getTriggerByID"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.getTriggerByID" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.getTriggerByPort">
+<code class="descname">getTriggerByPort</code><span class="sig-paren">(</span><em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.getTriggerByPort"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.getTriggerByPort" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.getTriggerObject">
+<code class="descname">getTriggerObject</code><span class="sig-paren">(</span><em>id</em>, <em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.getTriggerObject"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.getTriggerObject" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Erzeugt ein neues Triggerobjekt</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.observableChanged">
+<code class="descname">observableChanged</code><span class="sig-paren">(</span><em>observable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.observableChanged"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.observableChanged" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Services.TriggerService.TriggerService.portService">
+<code class="descname">portService</code><em class="property"> = None</em><a class="headerlink" href="#Services.TriggerService.TriggerService.portService" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.removeTrigger">
+<code class="descname">removeTrigger</code><span class="sig-paren">(</span><em>triggerID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.removeTrigger"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.removeTrigger" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Entfernt einen Trigger permanent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.removeTriggersByAlert">
+<code class="descname">removeTriggersByAlert</code><span class="sig-paren">(</span><em>alert</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.removeTriggersByAlert"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.removeTriggersByAlert" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Löscht alle Trigger eines Alerts</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.removeTriggersByPort">
+<code class="descname">removeTriggersByPort</code><span class="sig-paren">(</span><em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.removeTriggersByPort"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.removeTriggersByPort" title="Link zu dieser Definition">¶</a></dt>
+<dd><p>Löscht alle Trigger eines bestimmten Ports</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.setUp"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.setUp" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Services.TriggerService.TriggerService.triggers">
+<code class="descname">triggers</code><em class="property"> = []</em><a class="headerlink" href="#Services.TriggerService.TriggerService.triggers" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Services.TriggerService.TriggerService.writeConf">
+<code class="descname">writeConf</code><span class="sig-paren">(</span><em>conf=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Services/TriggerService.html#TriggerService.writeConf"><span class="viewcode-link">[Quellcode]</span></a><a class="headerlink" href="#Services.TriggerService.TriggerService.writeConf" title="Link zu dieser Definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Services">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Services" title="Link zu dieser Überschrift">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Inhalt</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Services package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-Services.AlertService">Services.AlertService module</a></li>
+<li><a class="reference internal" href="#module-Services.PortService">Services.PortService module</a></li>
+<li><a class="reference internal" href="#module-Services.SystemService">Services.SystemService module</a></li>
+<li><a class="reference internal" href="#module-Services.TriggerService">Services.TriggerService module</a></li>
+<li><a class="reference internal" href="#module-Services">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Ports.UserPorts.MCP3008AnalogToDigital.html" title="vorheriges Kapitel">Ports.UserPorts.MCP3008AnalogToDigital package</a></li>
+      <li>Next: <a href="UI.html" title="nächstes Kapitel">UI package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Diese Seite</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Services.rst.txt"
+            rel="nofollow">Quellcode anzeigen</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Universität Hamburg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/Services.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

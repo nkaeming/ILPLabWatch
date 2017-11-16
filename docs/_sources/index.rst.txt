@@ -1,0 +1,28 @@
+.. ILPLabWatch documentation master file, created by
+   sphinx-quickstart on Thu May 11 17:15:21 2017.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to ILPLabWatch's documentation!
+=======================================
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Contents:
+
+   Alerts
+   IOHelper
+   Models
+   Ports
+   Services
+   UI
+   main
+   statusLED
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

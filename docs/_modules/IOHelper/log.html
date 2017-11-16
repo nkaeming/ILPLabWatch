@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>IOHelper.log &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../genindex.html" />
+    <link rel="search" title="Suche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für IOHelper.log</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">Datetime</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">baseDir</span> <span class="o">=</span> <span class="s2">&quot;logs/%Y/%m/&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Das Hauptverzeichnis der Logdateien. Dies wird von Datetime interpretiert. Alle Python datetime Formate sind zulässig.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">fileName</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_%Y_%m_</span><span class="si">%d</span><span class="s2">.dat&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Der Dateiname den das System für die Logdatei verwenden soll.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="writeLog"><a class="viewcode-back" href="../../IOHelper.html#IOHelper.log.writeLog">[Doku]</a><span class="k">def</span> <span class="nf">writeLog</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Schreibt einen Logeintrag von einem Port.</span>
+<span class="sd">    </span>
+<span class="sd">    :param port: der Port von dem der Logeintrag geschrieben werden soll.</span>
+<span class="sd">    :type port: AbstractPort</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+    <span class="n">logDir</span> <span class="o">=</span> <span class="n">baseDir</span> <span class="o">+</span> <span class="n">fileName</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">logDir</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filepath</span><span class="p">),</span> <span class="mo">0o0777</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S:</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="deleteLog"><a class="viewcode-back" href="../../IOHelper.html#IOHelper.log.deleteLog">[Doku]</a><span class="k">def</span> <span class="nf">deleteLog</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Löscht alle Logdaten eines Ports.</span>
+<span class="sd">    </span>
+<span class="sd">    :param port: Der Port von dem die Logdaten gelöscht werden sollen.</span>
+<span class="sd">    :type port: AbstractPort</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#TODO: das System funktioniert noch nicht bezogen auf die oeben angegebenen Pfade. Dringend überarbeiten.</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">year</span>
+    <span class="n">runYear</span> <span class="o">=</span> <span class="mi">2017</span>
+    <span class="n">portName</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">runYear</span> <span class="o">&lt;=</span> <span class="n">year</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">runMonth</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">&#39;02&#39;</span><span class="p">,</span> <span class="s1">&#39;03&#39;</span><span class="p">,</span> <span class="s1">&#39;04&#39;</span><span class="p">,</span> <span class="s1">&#39;05&#39;</span><span class="p">,</span> <span class="s1">&#39;06&#39;</span><span class="p">,</span> <span class="s1">&#39;07&#39;</span><span class="p">,</span> <span class="s1">&#39;08&#39;</span><span class="p">,</span> <span class="s1">&#39;09&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="s1">&#39;12&#39;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;logs/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">runYear</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">runMonth</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;logs/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">runYear</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">runMonth</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fn</span><span class="p">)):</span>
+                        <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;logs/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">runYear</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">runMonth</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+                        <span class="n">logFileParts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+                        <span class="n">name</span> <span class="o">=</span> <span class="n">logFileParts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">portName</span><span class="p">:</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">runYear</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="readLog"><a class="viewcode-back" href="../../IOHelper.html#IOHelper.log.readLog">[Doku]</a><span class="k">def</span> <span class="nf">readLog</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">aboutPoints</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Liest die Logdaten eines Ports aus.</span>
+<span class="sd">    </span>
+<span class="sd">    :param port: der Port von dem die Logdaten ausgelesen werden sollen.</span>
+<span class="sd">    :type port: AbstractPort</span>
+<span class="sd">    :param start: der Startpunkt ab dem die Daten ausgelesen werden sollen</span>
+<span class="sd">    :type start: datetime</span>
+<span class="sd">    :param end: der Endpunkt bis dem die Daten ausgelesen werden sollen</span>
+<span class="sd">    :type end: datetime</span>
+<span class="sd">    :param aboutPoints: Artefakt, vorerst ignorieren...</span>
+<span class="sd">    :return: Eine Liste mit allen Logeinträgen mit tupeln aus Datum und Wert</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#TODO: wird noch nicht durch die oben einstellbaren Pfade beeinflusst dringend überarbeiten.</span>
+    <span class="n">logData</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">portHistory</span> <span class="o">=</span> <span class="n">port</span><span class="o">.</span><span class="n">getPortHistory</span><span class="p">()</span>
+    <span class="n">earliestHistoryPoint</span> <span class="o">=</span> <span class="n">portHistory</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="n">earliestHistoryPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="c1"># Wenn die Historiedaten ausreichen, wird aus diesen gelesen.</span>
+        <span class="n">logData</span> <span class="o">=</span> <span class="p">[(</span><span class="n">timeobj</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">timeobj</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">portHistory</span> <span class="k">if</span> <span class="n">timeobj</span> <span class="o">&gt;=</span> <span class="n">start</span> <span class="ow">and</span> <span class="n">timeobj</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">datei</span> <span class="o">=</span> <span class="p">(</span><span class="n">baseDir</span> <span class="o">+</span> <span class="n">fileName</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+            <span class="c1"># richtiges Datum einsetzen</span>
+            <span class="n">datei</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">datei</span><span class="p">)</span>
+
+            <span class="c1"># Prüfen ob die Datei existiert</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">datei</span><span class="p">):</span>
+                <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">datei</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+                    <span class="c1"># Zerteilen der Zeile</span>
+                    <span class="n">lineContent</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+                    <span class="n">dateString</span> <span class="o">=</span> <span class="n">lineContent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">valueString</span> <span class="o">=</span> <span class="n">lineContent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                    <span class="c1"># Typisierung der Daten</span>
+                    <span class="n">logTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">dateString</span><span class="p">,</span> <span class="s2">&quot;%H:%M:%S:</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">totalDate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">start</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+                                                  <span class="n">minute</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">second</span><span class="p">,</span>
+                                                  <span class="n">microsecond</span><span class="o">=</span><span class="n">logTime</span><span class="o">.</span><span class="n">microsecond</span><span class="p">)</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">valueString</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">totalDate</span> <span class="ow">and</span> <span class="n">totalDate</span> <span class="o">&lt;=</span> <span class="n">end</span><span class="p">:</span>
+                        <span class="n">logData</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">totalDate</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+                <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="c1"># Einen Tag dazu zählen, da für jeden Tag eine eigene Datei existiert</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">logData</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Universität Hamburg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,22 @@
+UI\.Views\.api package
+======================
+
+Submodules
+----------
+
+UI\.Views\.api\.api module
+--------------------------
+
+.. automodule:: UI.Views.api.api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.api
+    :members:
+    :undoc-members:
+    :show-inheritance:

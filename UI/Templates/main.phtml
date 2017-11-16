@@ -28,8 +28,8 @@
             {% for port in portList %}
             <tr>
                 <td>{{ port.getName() }}</td>
-                <td class="portValue" portname="{{ port.getName() }}">{{
-                    port.getState()|string + " " + port.getUnit() }}
+                <td class="portValue" portname="{{ port.getName() }}" title="Hier klicken um Graph anzuzeigen."><span class="actualValue">{{
+                    port.getState()|string + " " + port.getUnit() }}</span> <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>
                 </td>
                 {% if port.isPortOK() %}
                 <td id="{{ port.getName() }}-isok" class="success"><span class="glyphicon glyphicon-ok"></span>
@@ -126,7 +126,7 @@
     var reloadStatusFunction = function () {
         $.getJSON("/api/currentStatus", function (data) {
             $.each(data, function (key, val) {
-                $(".portValue[portname='" + val.settings.name + "']").text(val.state + " " + val.settings.unit);
+                $(".portValue[portname='" + val.settings.name + "'] > .actualValue").text(val.state + " " + val.settings.unit);
                 if (val.portOK == true) {
                     $("#" + val.settings.name + "-isok").removeClass("danger");
                     $("#" + val.settings.name + "-isok").addClass("success");
@@ -210,6 +210,5 @@
     function redrawPortChart(startDate, endDate, dataPoints) {
         drawPortChart("", startDate, endDate, dataPoints);
     }
-
 </script>
 {% endblock %}

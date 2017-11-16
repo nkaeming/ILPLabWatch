@@ -1,0 +1,22 @@
+Ports\.UserPorts\.DHT11Humidity package
+=======================================
+
+Submodules
+----------
+
+Ports\.UserPorts\.DHT11Humidity\.DHT11Humidity module
+-----------------------------------------------------
+
+.. automodule:: Ports.UserPorts.DHT11Humidity.DHT11Humidity
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Ports.UserPorts.DHT11Humidity
+    :members:
+    :undoc-members:
+    :show-inheritance:

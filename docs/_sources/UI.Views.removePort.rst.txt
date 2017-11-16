@@ -1,0 +1,22 @@
+UI\.Views\.removePort package
+=============================
+
+Submodules
+----------
+
+UI\.Views\.removePort\.removePort module
+----------------------------------------
+
+.. automodule:: UI.Views.removePort.removePort
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI.Views.removePort
+    :members:
+    :undoc-members:
+    :show-inheritance:

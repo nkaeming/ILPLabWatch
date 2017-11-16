@@ -1,0 +1,12 @@
+<form method="{{ method|e }}" action="{{ action|e }}">
+    {% for formField in formFields %}
+        {{ formField.getHTML()|e }}
+    {% endfor %}
+    <div class="form-group">
+        <div class="well well-sm">Mit * gekennzeichnete Felder müssen ausgefüllt werden.</div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-save"></span>{{ buttonText|e }}
+        </button>
+    </div>
+</form>

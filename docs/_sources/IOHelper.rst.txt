@@ -1,0 +1,30 @@
+IOHelper package
+================
+
+Submodules
+----------
+
+IOHelper\.config module
+-----------------------
+
+.. automodule:: IOHelper.config
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+IOHelper\.log module
+--------------------
+
+.. automodule:: IOHelper.log
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: IOHelper
+    :members:
+    :undoc-members:
+    :show-inheritance:

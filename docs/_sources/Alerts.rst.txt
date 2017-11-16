@@ -1,0 +1,29 @@
+Alerts package
+==============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    Alerts.UserAlerts
+
+Submodules
+----------
+
+Alerts\.AbstractAlert module
+----------------------------
+
+.. automodule:: Alerts.AbstractAlert
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: Alerts
+    :members:
+    :undoc-members:
+    :show-inheritance:

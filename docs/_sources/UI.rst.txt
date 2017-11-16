@@ -1,0 +1,38 @@
+UI package
+==========
+
+Subpackages
+-----------
+
+.. toctree::
+
+    UI.Models
+    UI.Views
+
+Submodules
+----------
+
+UI\.AbstractView module
+-----------------------
+
+.. automodule:: UI.AbstractView
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+UI\.UIServer module
+-------------------
+
+.. automodule:: UI.UIServer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: UI
+    :members:
+    :undoc-members:
+    :show-inheritance:

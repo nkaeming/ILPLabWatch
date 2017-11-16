@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models.Observable &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../genindex.html" />
+    <link rel="search" title="Suche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für Models.Observable</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="Observable"><a class="viewcode-back" href="../../Models.html#Models.Observable.Observable">[Doku]</a><span></span><span class="k">class</span> <span class="nc">Observable</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Observable ist eine der zwei abstrakten Klassen die zur Implementation des Beobachtermusters notwendig ist.</span>
+<span class="sd">    Erbt eine Klasse von Observable, so kann sie von Observern beobachtet werden.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">observers</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Fügt einen neuen Observer (Beobachter) hinzu.</span>
+<div class="viewcode-block" id="Observable.addObserver"><a class="viewcode-back" href="../../Models.html#Models.Observable.Observable.addObserver">[Doku]</a>    <span class="k">def</span> <span class="nf">addObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fügt dem Observable einen Beobacter hinzu. Dieser wird informiert, sobald sich am Observable etwas entscheidenes ändert.</span>
+<span class="sd">        </span>
+<span class="sd">        :param observer: Das Beobachterobjekt welches beobachten soll.. </span>
+<span class="sd">        :type observer: Observer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">observer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">observers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">observers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Observable.removeObserver"><a class="viewcode-back" href="../../Models.html#Models.Observable.Observable.removeObserver">[Doku]</a>    <span class="k">def</span> <span class="nf">removeObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Entfernt einen Observer.</span>
+<span class="sd">        </span>
+<span class="sd">        :param observer: der Observer der entfernt werden soll.</span>
+<span class="sd">        :type observer: Observer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observers</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Observable.removeAllObservers"><a class="viewcode-back" href="../../Models.html#Models.Observable.Observable.removeAllObservers">[Doku]</a>    <span class="k">def</span> <span class="nf">removeAllObservers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Entfernt alle Observer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">observer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">observers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">removeObserver</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span></div>
+
+    <span class="c1"># informiert alle Observer über eine Änderung</span>
+<div class="viewcode-block" id="Observable.informObserver"><a class="viewcode-back" href="../../Models.html#Models.Observable.Observable.informObserver">[Doku]</a>    <span class="k">def</span> <span class="nf">informObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Diese Methode wird vom Kindobjekt aufgerufen, wenn sich etwas verändert hat. Es werden dann die Observer benachrichtigt.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">observer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">observers</span><span class="p">:</span>
+            <span class="n">observer</span><span class="o">.</span><span class="n">observableChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Observable.informObserverOfType"><a class="viewcode-back" href="../../Models.html#Models.Observable.Observable.informObserverOfType">[Doku]</a>    <span class="k">def</span> <span class="nf">informObserverOfType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Informiert alle Observer eines bestimmten Typs. Ist im klassischen Beobachtermuster nicht vorgesehen aber besonders in Pyton ziemlich nützlich</span>
+<span class="sd">        </span>
+<span class="sd">        :param type: der Typ der zu informierenden Observer </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">observers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="nb">object</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">type</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">observers</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">observer</span> <span class="ow">in</span> <span class="n">observers</span><span class="p">:</span>
+            <span class="n">observer</span><span class="o">.</span><span class="n">observableChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Universität Hamburg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ports.AbstractPort &#8212; ILPLabWatch  Dokumentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/translations.js"></script>
+    <link rel="index" title="Stichwortverzeichnis" href="../../genindex.html" />
+    <link rel="search" title="Suche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Quellcode für Ports.AbstractPort</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">IOHelper.config</span> <span class="k">as</span> <span class="nn">configIO</span>
+<span class="kn">import</span> <span class="nn">IOHelper.log</span> <span class="k">as</span> <span class="nn">logIO</span>
+<span class="kn">from</span> <span class="nn">Models.OptionableObject</span> <span class="k">import</span> <span class="n">OptionableObject</span>
+<span class="kn">from</span> <span class="nn">Ports.Threads.LoggingThread</span> <span class="k">import</span> <span class="n">LoggingThread</span>
+<span class="kn">from</span> <span class="nn">Ports.Threads.WatcherThread</span> <span class="k">import</span> <span class="n">WatcherThread</span>
+<span class="kn">from</span> <span class="nn">Models.Trigger</span> <span class="k">import</span> <span class="n">Trigger</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+
+<div class="viewcode-block" id="AbstractPort"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort">[Doku]</a><span class="k">class</span> <span class="nc">AbstractPort</span><span class="p">(</span><span class="n">OptionableObject</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Die Klasse AbstractPort muss von jedem Porttyp geerbt werden. Sie ist abstrakt und kann daher nicht alleine erzeugt werden.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">portID</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Die ID des Ports.&quot;&quot;&quot;</span>
+
+    <span class="n">settings</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="sd">&quot;&quot;&quot;Die Einstellungen des Ports.&quot;&quot;&quot;</span>
+
+    <span class="n">superOptions</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tab&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Portbezeichnung&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Der Name des Ports bestehend aus a-z, A-Z und 0-9. Keine Leer- oder Sonderzeichen.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;final&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="s2">&quot;[A-Za-z0-9]+&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tab&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Beschreibung&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Eine Beschreibung des Ports.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="mi">200</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;logCycle&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Logintervall&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Das Logintervall in Sekunden.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span>
+            <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;tab&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span>
+            <span class="s2">&quot;final&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;logging&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Logging&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Wenn diese Einstellung aus ist, so wird der Port nicht geloggt.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;tab&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span>
+            <span class="s2">&quot;final&quot;</span><span class="p">:</span> <span class="kc">False</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;unit&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;tab&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Einheit&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Die Einheit die der Port haben soll.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;final&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="kc">False</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Einstellungsoption die jeder Port hat. Können in der indklasse erweitert werden.&quot;&quot;&quot;</span>
+
+    <span class="n">superSettings</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="sd">&quot;&quot;&quot;Einstellungen der Abstrakten Klasse.&quot;&quot;&quot;</span>
+
+    <span class="n">lastValue</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="sd">&quot;&quot;&quot;Der letzte vom Sensor ausgelesene Wert.&quot;&quot;&quot;</span>
+
+    <span class="n">loggingThread</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Der Thread der den Port loggt.&quot;&quot;&quot;</span>
+
+    <span class="c1"># der Thread zum überwachen des Ports</span>
+    <span class="n">watcherThread</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="sd">&quot;&quot;&quot;Der Thread der bei nicht selbst aktualisierenden Ports die Sensoren ausliest und den Wert aktualisiert.&quot;&quot;&quot;</span>
+
+    <span class="n">isSelfUpdating</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="sd">&quot;&quot;&quot;Ist die Portklasse in der Lage sich selbst zu aktualisieren - z.B. durch EventListener - so kann diese Variable auf True gesetzt werden.&quot;&quot;&quot;</span>
+
+    <span class="n">minRefreshTime</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="sd">&quot;&quot;&quot;Wenn der Port in einem bestimmten Intervall überprüft werden soll, so wird hier die Aktualisierungsrate in Sekunden angegeben.&quot;&quot;&quot;</span>
+
+    <span class="n">internalPin</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="sd">&quot;&quot;&quot;Der interne Anschluss des Pins. Dies kann entweder ein Integer für den GPIO Pin sein oder aber eine Repräsentation des Anschlusses durch in beliebiges serialisierbares Objekt.&quot;&quot;&quot;</span>
+
+    <span class="n">portHistory</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="sd">&quot;&quot;&quot;Eine Liste mit den letzten 100 Portwerten seit Programmstart.&quot;&quot;&quot;</span>
+
+    <span class="n">initialized</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="sd">&quot;&quot;&quot;Ist True, wenn der Port vollständig initialisiert ist.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">childSettings</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wird vom Kindobjekt immer aufgerufen. Wird der Konstruktor nicht vom Kindobjekt aufgerufen, wird der Port nicht vollständig richtig gestartet und kann nicht ausgelesen werden.</span>
+<span class="sd">        </span>
+<span class="sd">        :param childSettings: Die Einstellungen der von User implementierten Portklasse.</span>
+<span class="sd">        :type childSettings: dict</span>
+<span class="sd">        :param id: die eindeutige ID des Ports</span>
+<span class="sd">        :type id: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">portID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">superSettings</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internalPin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputs</span><span class="p">()[</span><span class="n">childSettings</span><span class="p">[</span><span class="s2">&quot;wiring&quot;</span><span class="p">]]</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">({</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">superSettings</span><span class="p">,</span> <span class="o">**</span><span class="n">childSettings</span><span class="p">})</span>
+
+<div class="viewcode-block" id="AbstractPort.nachInit"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.nachInit">[Doku]</a>    <span class="k">def</span> <span class="nf">nachInit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Die Methode nachInit muss immer am Ende der initialisierung des Ports vom Kindobjekt aufgerufen werden. Sie startet die Überwachung der Threads und ist daher auf einen vollständig funktionsfähigen Port angewiesen. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startThreads</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="AbstractPort.startThreads"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.startThreads">[Doku]</a>    <span class="k">def</span> <span class="nf">startThreads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Startet die Threads die den Port überwachen. Ist die Variable isSelfUpdating auf True gesetzt, so wird kein WatcherThread gestartet. Ein LogingThread wird gestartet, wenn Logging auf true gesetzt wurde.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Ein Port der sich selbst updated registriert selber Veränderungen.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isSelfUpdating</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">watcherThread</span> <span class="o">=</span> <span class="n">WatcherThread</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">watcherThread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="c1"># wenn bei dem Port logging aktiviert ist, so wird hier der entsprecende Deamon gestartet.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;logging&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loggingThread</span> <span class="o">=</span> <span class="n">LoggingThread</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loggingThread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="AbstractPort.restartThreads"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.restartThreads">[Doku]</a>    <span class="k">def</span> <span class="nf">restartThreads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Startet die Portthreads zum Logging und der Überwachung neu.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopThreads</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">startThreads</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="AbstractPort.stopThreads"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.stopThreads">[Doku]</a>    <span class="k">def</span> <span class="nf">stopThreads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stoppt die Portthreads zum Logging und zur Überwachung.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loggingThread</span><span class="p">,</span> <span class="n">LoggingThread</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loggingThread</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loggingThread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watcherThread</span><span class="p">,</span> <span class="n">WatcherThread</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">watcherThread</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">watcherThread</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="AbstractPort.isPortOK"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.isPortOK">[Doku]</a>    <span class="k">def</span> <span class="nf">isPortOK</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft ob ein Port funktionsfähig ist.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: True wenn der Port funktionsfähig ist.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;logging&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loggingThread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isSelfUpdating</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">watcherThread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isPortInternalOK</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="AbstractPort.isPortInternalOK"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.isPortInternalOK">[Doku]</a>    <span class="k">def</span> <span class="nf">isPortInternalOK</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Funktion kann vom Benutzer überschrieben werden, wenn der Sensor es zulässt seine Funktionalität zu überprüfen. Z.B. ob die Verbindung klappt o.Ä.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: True, wenn der Port ordnungsgemäß funktioniert, False sonst.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="AbstractPort.log"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.log">[Doku]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Schreibt einen Eintrag von dem Port in die Log Datei.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logIO</span><span class="o">.</span><span class="n">writeLog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getState"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getState">[Doku]</a>    <span class="k">def</span> <span class="nf">getState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den aktuellen Status des Ports zurück. Dies ist der letzte Wert den der Sensor zurückgegeben hat.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Der aktuellste Messwert des Sensors.</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastValue</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getValueRange"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getValueRange">[Doku]</a>    <span class="k">def</span> <span class="nf">getValueRange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den Wertebereich des Ports zurück. Muss von der Kindklasse implementiert werden!</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Ein Tuple mit den Werten (minimalerWert, maximalerWert, Schrittweite zwisachen den einzelnen Werten)</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getPrivateState"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getPrivateState">[Doku]</a>    <span class="k">def</span> <span class="nf">getPrivateState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wird vom WatcherThread aufgerufen um den aktuellen Wert des Sensors auszulesen. Insbesonders muss diese Methode implementiert werden, wenn minRefresehTime gesetzt und ungleich -1 ist.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Den aktuellen Wert des Sensors.</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AbstractPort.portChanged"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.portChanged">[Doku]</a>    <span class="k">def</span> <span class="nf">portChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newValue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Private Methode die bei einer Änderung des Sensorwertes aufgerufen wird. Sie aktualisiert die Historie des Ports und startet den Triggeraufruf. Wird immer von einem Thread oder einem Eventlistener der den Port überwacht augerufen. </span>
+<span class="sd">        </span>
+<span class="sd">        :param newValue: Der neue von Sensor ausgelesene Wert.</span>
+<span class="sd">        :type newValue: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lastValue</span> <span class="o">=</span> <span class="n">newValue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addValueToHistory</span><span class="p">(</span><span class="n">newValue</span><span class="p">)</span>
+        <span class="c1"># informiert alle trigger.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">informObserverOfType</span><span class="p">(</span><span class="n">Trigger</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AbstractPort.getOptions"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getOptions">[Doku]</a>    <span class="k">def</span> <span class="nf">getOptions</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Statische Methode um die möglichen Optionen eines Ports zurück zu geben. Dies ist für die Oberfläche relevant.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Ein dict mit allen Optionen des Ports.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getOptions</span><span class="p">(),</span> <span class="o">**</span><span class="bp">cls</span><span class="o">.</span><span class="n">superOptions</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getType"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getType">[Doku]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den Typ des Ports zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Der Typ des Ports.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AbstractPort.getInputs"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getInputs">[Doku]</a>    <span class="k">def</span> <span class="nf">getInputs</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Anschlussmöglichkeiten des Ports zurück. Sollte überschrieben werden, wenn der Port die Anschlüsse dynamisch nachlädt.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Anschlussmöglichkeiten des Ports.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span> <span class="ow">in</span> <span class="n">configIO</span><span class="o">.</span><span class="n">loadWiring</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">configIO</span><span class="o">.</span><span class="n">loadWiring</span><span class="p">()[</span><span class="nb">str</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getMinRefreshTime"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getMinRefreshTime">[Doku]</a>    <span class="k">def</span> <span class="nf">getMinRefreshTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die minimale Wartezeit für das Aktualisieren eines Ports zurück. Dies ist für den Watcherthread wichtig.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Die minimale Zeit zwischen zwei Anfragen an den Sensor.</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">minRefreshTime</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getName"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getName">[Doku]</a>    <span class="k">def</span> <span class="nf">getName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den Namen des Ports zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: der Name des Ports</span>
+<span class="sd">        :rtype:: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getID"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getID">[Doku]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die eindeutige ID des Ports zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: die ID des Ports.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">portID</span></div>
+
+<div class="viewcode-block" id="AbstractPort.isPortLogged"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.isPortLogged">[Doku]</a>    <span class="k">def</span> <span class="nf">isPortLogged</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wenn der Port geloggt werden soll, gibt diese Methode true zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: true, wenn der Port geloggt werden soll.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;logging&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getLogCycle"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getLogCycle">[Doku]</a>    <span class="k">def</span> <span class="nf">getLogCycle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Sekunden zwischen zwei Logeinträgen zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: die Sekunden zwischen zwei Logzeiten</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;logCycle&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prüft ob zwei Ports gleich sind. Zwei Ports sind genau dann gleich, wenn ihre ID übereinstimmt. Diese Methode überschreibt ==</span>
+<span class="sd">        </span>
+<span class="sd">        :param other: Der zu vergleichende Port.</span>
+<span class="sd">        :type other: AbstractPort</span>
+<span class="sd">        :return: true, wenn die beiden Ports die gleiche ID haben.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="AbstractPort.getDescription"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getDescription">[Doku]</a>    <span class="k">def</span> <span class="nf">getDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Beschreibung eines Porttyps zurück. Diese Methode muss von der indklasse übschrieben werden.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Die Beschreibung des Ports.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getSettings"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getSettings">[Doku]</a>    <span class="k">def</span> <span class="nf">getSettings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die aktuellen Einstellungen des Ports zurück. Die Einstellungen sollten mindestens alle möglichen Options enthalten.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Ein dict mit en Einstellungen.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getUnit"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getUnit">[Doku]</a>    <span class="k">def</span> <span class="nf">getUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Einheit eines Ports zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Die Einheit des Ports.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;unit&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getCurrentInformations"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getCurrentInformations">[Doku]</a>    <span class="k">def</span> <span class="nf">getCurrentInformations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die aktuellen Informationen zurück. Die aktuellen Informationen enthalten die settings, den aktuellen Status und die Gesundheit des Ports.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Ein dict mit den aktuellen Informationen des Ports.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">informations</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">informations</span><span class="p">[</span><span class="s1">&#39;settings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSettings</span><span class="p">()</span>
+        <span class="n">informations</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span>
+        <span class="n">informations</span><span class="p">[</span><span class="s1">&#39;portOK&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">isPortOK</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">informations</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getPortBoxName"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getPortBoxName">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortBoxName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die externe Bezeichnung des Ports an. Diese steht z.B. an der Anschlussdose des Ports. er wird in der wiring-Konfigurationen des Systems festgelegt. Die Methode kann bei dynamischen Ports ggf. überschrieben werden.</span>
+<span class="sd">        </span>
+<span class="sd">        :return Die externe Bezeichnung des Ports.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSetting</span><span class="p">(</span><span class="s2">&quot;wiring&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getInternalPin"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getInternalPin">[Doku]</a>    <span class="k">def</span> <span class="nf">getInternalPin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die interne räpresentation des Ports zurück. Diese kann z.B. einfach nur ein GPIO Pin sein, oder aber eine Zeichenkette, die den Anschluss an einen AD-Wandler darstellt.</span>
+<span class="sd">        Die Kindklasse kann diese Methode nutzen um die Ansteuerung des richtigen Senors durchzuführen.</span>
+<span class="sd">        </span>
+<span class="sd">        :return Eine Repräsentation des internen Anschluss des Ports.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">internalPin</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getServiceName"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getServiceName">[Doku]</a>    <span class="k">def</span> <span class="nf">getServiceName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Der mit dem Port assozierte Service. Dies ist eine Hilfsmethode, nicht überschreiben. Sie kann bei einem Ausbau des System durch weitere Services benutzt werden.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Der Name der Serviceklasse.</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;PortService&quot;</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getStateWithUnit"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getStateWithUnit">[Doku]</a>    <span class="k">def</span> <span class="nf">getStateWithUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt den akutellen Wert mit der Einheit aus.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Der aktuelle Wert mit der Einheit</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getState</span><span class="p">())</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getUnit</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="AbstractPort.addValueToHistory"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.addValueToHistory">[Doku]</a>    <span class="k">def</span> <span class="nf">addValueToHistory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fügt der Historie einen Wert hinzu. Die Historie eines Ports dient zur bestimmten Auslösung von Triggern. So wird z.B. ein E-Mail Triger so nicht bei jedem Prüfen eines Wertes aufgerufen sondern nur beim ersten Überschreiten eines Schwellwerts.</span>
+<span class="sd">        Außerdem bietet die History die möglichkeit Messdaten im RAM schneller abzurufen.</span>
+<span class="sd">        </span>
+<span class="sd">        :param value: der Wert der zur Historie hinzugefügt werden soll.</span>
+<span class="sd">        :type value: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Die maximale Größe der Historie in byte.</span>
+        <span class="n">sizeOfHistory</span> <span class="o">=</span> <span class="mi">5000000</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">portHistory</span><span class="o">.</span><span class="n">__sizeof__</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">sizeOfHistory</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">portHistory</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">portHistory</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span> <span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="AbstractPort.getPortHistory"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.getPortHistory">[Doku]</a>    <span class="k">def</span> <span class="nf">getPortHistory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt die Historie des Ports seit Porgrammstart zurück.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Eine Liste der letzten Messwerte des Ports.</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">portHistory</span></div>
+
+<div class="viewcode-block" id="AbstractPort.isInitialized"><a class="viewcode-back" href="../../Ports.html#Ports.AbstractPort.AbstractPort.isInitialized">[Doku]</a>    <span class="k">def</span> <span class="nf">isInitialized</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gibt True zurück, wenn der Port fertig initialisiert ist.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: True wenn der Port initialisiert ist.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Modul-Quellcode</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Schnellsuche</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Los" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Universität Hamburg.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
